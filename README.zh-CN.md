@@ -18,13 +18,14 @@
 
 ## News
 
+- **2026-02-25**: Codex CLI 分支 — 新增 `codex` 分支，支持 OpenAI Codex CLI，包含 config.toml、40 个 skills、14 个 agents 和 sandbox 安全机制
 - **2026-02-23**: 新增 `setup.sh` 安装脚本 — 安全合并到已有 `~/.opencode`，自动备份 `opencode.jsonc`
 - **2026-02-22**: 在 `opencode.jsonc` 中添加 Zotero MCP 服务器 — 开箱即用支持文献管理命令（`/zotero-review`、`/zotero-notes`）
-- **2026-02-21**: OpenCode 迁移 — 将整个配置迁移到 OpenCode 格式：hooks→plugins (TypeScript)、agents→opencode.jsonc、CLAUDE.md→AGENTS.md、新增 permission 规则、保留文件式命令
 
 <details>
 <summary>查看历史更新日志</summary>
 
+- **2026-02-21**: OpenCode 迁移 — 将整个配置迁移到 OpenCode 格式：hooks→plugins (TypeScript)、agents→opencode.jsonc、CLAUDE.md→AGENTS.md、新增 permission 规则、保留文件式命令
 - **2026-02-20**: 双语配置 — 将 `CLAUDE.md` 翻译为英文以便国际用户阅读
 - **2026-02-15**: Zotero MCP 集成 — 新增 `/zotero-review` 和 `/zotero-notes` 命令
 - **2026-02-14**: Hooks 优化 — `security-guard` 重构为两层系统（Block + Confirm）

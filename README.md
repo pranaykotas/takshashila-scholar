@@ -18,13 +18,14 @@
 
 ## News
 
+- **2026-02-25**: Codex CLI branch — added `codex` branch supporting OpenAI Codex CLI with config.toml, 40 skills, 14 agents, and sandbox security
 - **2026-02-23**: Added `setup.sh` installer — safe merge into existing `~/.opencode`, auto-backup `opencode.jsonc`
 - **2026-02-22**: Added Zotero MCP server to `opencode.jsonc` — enables literature management commands (`/zotero-review`, `/zotero-notes`) out of the box
-- **2026-02-21**: OpenCode migration — ported entire configuration to OpenCode format: hooks→plugins (TypeScript), agents→opencode.jsonc, CLAUDE.md→AGENTS.md, added permission rules, file-based commands preserved
 
 <details>
 <summary>View older changelog</summary>
 
+- **2026-02-21**: OpenCode migration — ported entire configuration to OpenCode format: hooks→plugins (TypeScript), agents→opencode.jsonc, CLAUDE.md→AGENTS.md, added permission rules, file-based commands preserved
 - **2026-02-20**: Bilingual config — translated `CLAUDE.md` to English for international readability
 - **2026-02-15**: Zotero MCP integration — added `/zotero-review` and `/zotero-notes` commands, updated `research-ideation` skill with Zotero integration guide
 - **2026-02-14**: Hooks optimization — restructured `security-guard` to two-tier system (Block + Confirm), `skill-forced-eval` now groups skills into 6 categories with silent scan mode
