@@ -69,7 +69,7 @@ Claude Scholar (Codex 版) 是一个面向 [Codex CLI](https://github.com/openai
 - **Gap 分析**: 5 种类型（文献、方法论、应用、跨学科、时间）→ 识别 2-3 个研究机会
 - **研究问题**: SMART 原则 → 制定具体、可衡量的问题
 
-**命令**: `/research-init`, `/zotero-review`, `/zotero-notes`
+**触发**: "开始研究"、"文献综述"、"生成阅读笔记"
 
 #### 2. ML 项目开发
 
@@ -81,13 +81,13 @@ Claude Scholar (Codex 版) 是一个面向 [Codex CLI](https://github.com/openai
 - **调试** (`bug-detective`): Python/Bash/JS 错误模式匹配 → 堆栈跟踪分析
 - **Git**: Conventional Commits → 分支策略（master/develop/feature）→ `--no-ff` 合并
 
-**命令**: `/plan`, `/commit`, `/code-review`, `/tdd`
+**触发**: "创建计划"、"提交代码"、"审查代码"、"运行 TDD"
 
 #### 3. 实验分析
 
 **工具**: `results-analysis` skill + `data-analyst` agent
 
-**命令**: `/analyze-results <experiment_dir>`
+**触发**: "分析实验结果"
 
 #### 4. 论文写作
 
@@ -103,13 +103,13 @@ Claude Scholar (Codex 版) 是一个面向 [Codex CLI](https://github.com/openai
 
 **工具**: `review-response` skill + `rebuttal-writer` agent
 
-**命令**: `/rebuttal <review_file>`
+**触发**: "写 rebuttal"
 
 #### 7. 录用后处理
 
 **工具**: `post-acceptance` skill
 
-**命令**: `/presentation`, `/poster`, `/promote`
+**触发**: "准备演讲"、"设计海报"、"推广论文"
 
 **覆盖范围**: 90% 的学术研究生命周期（从想法到发表）
 

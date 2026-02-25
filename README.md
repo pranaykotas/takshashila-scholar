@@ -72,19 +72,19 @@ End-to-end research startup from idea generation to literature management:
 - **Research Question**: SMART principles → formulate specific, measurable questions
 - **Method Selection & Planning**: Evaluate method applicability → timeline, milestones, risk assessment
 
-**Commands**: `/research-init`, `/zotero-review`, `/zotero-notes`
+**Trigger**: "start research", "review literature", "generate reading notes"
 
 #### 2. ML Project Development
 
 **Tools**: `architecture-design` skill + `code-reviewer` agent + `git-workflow` skill
 
 **Process**:
-- **Structure**: Factory & Registry patterns → config-driven models (only `cfg` parameter) → enforced by `rules/coding-style.md`
+- **Structure**: Factory & Registry patterns → config-driven models (only `cfg` parameter) → enforced by AGENTS.md coding style rules
 - **Code Style**: 200-400 line files → type hints required → `@dataclass(frozen=True)` for configs → max 3-level nesting
 - **Debug** (`bug-detective`): Error pattern matching for Python/Bash/JS → stack trace analysis
 - **Git**: Conventional Commits (`feat/scope: message`) → branch strategy (master/develop/feature) → merge with `--no-ff`
 
-**Commands**: `/plan`, `/commit`, `/code-review`, `/tdd`
+**Trigger**: "create a plan", "commit changes", "review my code", "run TDD"
 
 #### 3. Experiment Analysis
 
@@ -95,7 +95,7 @@ End-to-end research startup from idea generation to literature management:
 - **Visualization**: matplotlib/seaborn integration → publication-ready figures
 - **Ablation Studies**: Systematic component analysis
 
-**Command**: `/analyze-results <experiment_dir>`
+**Trigger**: "analyze results in <experiment_dir>"
 
 #### 4. Paper Writing
 
@@ -117,13 +117,13 @@ End-to-end research startup from idea generation to literature management:
 
 **Tools**: `review-response` skill + `rebuttal-writer` agent
 
-**Command**: `/rebuttal <review_file>`
+**Trigger**: "write rebuttal for <review_file>"
 
 #### 7. Post-Acceptance Processing
 
 **Tools**: `post-acceptance` skill
 
-**Commands**: `/presentation`, `/poster`, `/promote`
+**Trigger**: "prepare presentation", "design poster", "promote paper"
 
 **Coverage**: 90% of academic research lifecycle (from idea to publication)
 
