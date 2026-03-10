@@ -20,9 +20,6 @@ requires_openai_auth = true
 # ============================================================
 sandbox_mode = "workspace-write"
 
-# Optional: set developer instructions if your Codex build supports this field.
-# developer_instructions = "用中文回答。专业术语保持英文。复杂任务先规划再执行，优先使用已有 skills。"
-
 # ============================================================
 # Features
 # ============================================================
