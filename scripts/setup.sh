@@ -194,13 +194,6 @@ FEATURES
     added=$((added + 1))
   fi
 
-  # Add developer_instructions if missing
-  if ! grep -q '^developer_instructions' "$target" 2>/dev/null; then
-    echo '' >> "$target"
-    echo 'developer_instructions = "用中文回答。专业术语保持英文。复杂任务先规划再执行，优先使用已有 skills。"' >> "$target"
-    added=$((added + 1))
-  fi
-
   # Add [mcp_servers.zotero] if missing
   if ! grep -q '\[mcp_servers\.zotero\]' "$target" 2>/dev/null; then
     cat >> "$target" << 'MCP'
