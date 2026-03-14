@@ -18,7 +18,7 @@
 
 ## News
 
-- **2026-02-26**: **Zotero MCP Web API mode** — remote access, import papers via DOI/arXiv ID/URL, collection management, item updates, safe deletion; config guides for [Claude Code](./MCP_SETUP.md#claude-code), [Codex CLI](./MCP_SETUP.md#codex-cli), [OpenCode](./MCP_SETUP.md#opencode)
+- **2026-02-26**: **Zotero MCP Web/write workflow** — supports remote access, paper import via DOI/arXiv ID/URL, collection management, item updates, and safe deletion; see the config guides for [Claude Code](./MCP_SETUP.md#claude-code), [Codex CLI](./MCP_SETUP.md#codex-cli), and [OpenCode](./MCP_SETUP.md#opencode)
 - **2026-02-25**: Codex CLI branch — added `codex` branch supporting OpenAI Codex CLI with config.toml, 40 skills, 14 agents, and sandbox security
 - **2026-02-23**: Added `setup.sh` installer — safe merge into existing `~/.opencode`, auto-backup `opencode.jsonc`
 - **2026-02-22**: Added Zotero MCP server to `opencode.jsonc` — enables literature management commands (`/zotero-review`, `/zotero-notes`) out of the box
@@ -381,11 +381,11 @@ cp -r /tmp/claude-scholar/commands/commit.md ~/.opencode/commands/
 For Zotero-integrated research workflows, install the MCP server:
 
 ```bash
-# Install Zotero MCP server (Web API mode — no Zotero desktop app required)
+# Install Zotero MCP server
 uv tool install git+https://github.com/Galaxy-Dawn/zotero-mcp.git
 ```
 
-Get your API key and library ID from [zotero.org/settings/keys](https://www.zotero.org/settings/keys).
+For Web/write tools, open [Zotero Settings -> Security -> Applications](https://www.zotero.org/settings/security#applications), create a private key, and use the numeric `User ID` shown on that page as `ZOTERO_LIBRARY_ID` for a personal library.
 
 The Zotero MCP server is already configured in `opencode.jsonc`. If you installed via Option 1 (Full Installation), just set the environment variables below.
 
@@ -394,7 +394,7 @@ Add to your `~/.zshrc` (or equivalent shell profile):
 ```bash
 # Zotero MCP
 export ZOTERO_API_KEY="your-api-key"
-export ZOTERO_LIBRARY_ID="your-library-id"
+export ZOTERO_LIBRARY_ID="your-user-id"
 export ZOTERO_LIBRARY_TYPE="user"
 export UNPAYWALL_EMAIL="your-email@example.com"
 export UNSAFE_OPERATIONS="all"
