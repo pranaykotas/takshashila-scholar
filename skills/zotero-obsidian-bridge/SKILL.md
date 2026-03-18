@@ -67,6 +67,7 @@ Use this skill when the user wants to:
    - item triage,
    - item -> canonical note mapping,
    - current coverage count such as `16 / 16`.
+   - use the canonical inventory path `Knowledge/Zotero-Collection-{collection-slug}-Inventory.md`.
 7. Refresh `Maps/literature.canvas`.
    - Prefer semantic filtering and edge thinning.
    - Prefer argument-map structure (`paper + claim + method + gap`) over dense all-to-all paper links.
@@ -81,7 +82,7 @@ Use this skill when the user wants to:
 
 - `Papers/*.md` - one detailed reading note per paper
 - `Knowledge/*.md` - durable literature synthesis notes when the batch yields stable knowledge
-- `Knowledge/*Collection-Inventory.md` - when the source is a concrete Zotero collection and coverage tracking matters
+- `Knowledge/Zotero-Collection-{collection-slug}-Inventory.md` - when the source is a concrete Zotero collection and coverage tracking matters
 - `Maps/literature.canvas` - default visual literature graph
 - `Maps/literature-main.canvas` - optional lightweight presentation graph after semantic filtering
 - `Writing/literature-review.md` - when the user asks for synthesis
@@ -103,6 +104,9 @@ Use this skill when the user wants to:
 Load only what is needed:
 - `references/WORKFLOW.md` - end-to-end Zotero -> Obsidian procedure
 - `references/PAPER-NOTE-SCHEMA.md` - detailed paper note fields and sections
-- `scripts/verify_paper_notes.py` - deterministic schema and zotero-key coverage check
+- `references/COLLECTION-INVENTORY-SCHEMA.md` - canonical inventory note naming and mapping contract
+- `references/LOCAL-ZOTERO-FALLBACK.md` - local fallback runbook when MCP transport fails
+- `examples/example-collection-inventory.md` - example inventory note
+- `scripts/verify_paper_notes.py` - deterministic schema, zotero-key, and inventory consistency check
 - `../obsidian-literature-workflow/references/PAPER-NOTE-SCHEMA.md` - shared note schema
 - `../obsidian-literature-workflow/references/CANVAS-WORKFLOW.md` - default literature canvas refresh rules

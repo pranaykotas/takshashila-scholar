@@ -19,55 +19,60 @@ linked_results:
 
 ## Executive Summary
 - Round 3 tested whether a subject adapter recovers the performance lost by freezing most of the encoder.
-- The adapter consistently improves WER over the frozen baseline and changes the default next-step recommendation.
-- Full fine-tuning is still strongest overall, but adapter tuning is the best next branch for efficient transfer work.
+- Across 5 seeds per condition, the adapter reduced mean WER by **3.8 absolute points** relative to the frozen encoder baseline.
+- The current evidence supports keeping the adapter branch active, while pure freezing should be deprioritized.
 
 ## Experiment Identity and Decision Context
 - Experiment line: freezing
 - Round: 3
-- Purpose: resolve whether the freezing gap is best handled by partial adaptation or by abandoning the freezing branch.
+- Purpose: resolve whether the freezing gap is best handled by lightweight adaptation or by abandoning the freezing branch.
+- Decision pressure: choose the next transfer branch before scheduling the next low-resource run block.
 
 ## Setup and Evaluation Protocol
 - Same subject pool and split as rounds 1-2.
 - 5 seeds per condition.
-- Primary metric: WER.
+- Primary metric: WER (lower is better).
 - Compared methods: Full fine-tuning, Subject Adapter, Frozen Encoder.
+- Statistical unit: seed-level final WER.
 
 ## Main Findings
-- Subject Adapter improves mean WER by 3.8 points over Frozen Encoder.
-- The gain is consistent across all seeds.
-- Adapter variance is also lower, suggesting easier optimization.
+- Subject Adapter: **27.6 ± 1.0 WER**, 95% CI **[26.4, 28.8]**.
+- Frozen Encoder: **31.4 ± 1.5 WER**, 95% CI **[29.6, 33.2]**.
+- Full fine-tuning: **25.9 ± 0.8 WER**, 95% CI **[24.9, 26.9]**.
+- Adapter beats Frozen Encoder in all 5 paired seed comparisons.
 
 ## Statistical Validation
-- Paired testing supports Adapter > Frozen Encoder after correction.
-- Full fine-tuning > Adapter remains suggestive but not conclusive at current n.
-- Current evidence is sufficient to keep the adapter branch active and deprioritize pure freezing.
+- Adapter vs Frozen Encoder: paired Wilcoxon signed-rank test, **p = 0.031**, Holm-corrected **p = 0.047**, matched-rank biserial effect size **r = 0.90**.
+- Full fine-tuning vs Adapter: paired t-test, **p = 0.11**, Cohen's **d = 0.64**.
+- Interpretation: the adapter gain over pure freezing is supported at current `n = 5`; the gap to full fine-tuning is directionally consistent but still underpowered.
+- Unsupported claim boundary: this report does **not** claim generalization beyond the current subject pool or low-resource regime.
 
 ## Figure-by-Figure Interpretation
 ### Figure 1 — Main comparison
-- Why included: this is the core performance decision figure.
-- What to notice: adapter closes most of the freezing gap while keeping tighter uncertainty.
-- Supported interpretation: lightweight subject adaptation addresses part of the transfer mismatch.
+- Why included: this is the core decision figure.
+- Evidence carried in: mean WER, 95% CI, and paired-seed comparisons.
+- Supported interpretation: lightweight subject adaptation closes most of the freezing gap.
 - Decision implication: future transfer experiments should center on adapter design, not frozen-only variants.
 
 ### Figure 2 — Training dynamics
 - Why included: to explain stability differences.
-- What to notice: the frozen baseline oscillates more after epoch 8.
-- Supported interpretation: the weaker final mean is paired with harder optimization.
-- Decision implication: instability is part of the branch weakness, not noise alone.
+- Evidence carried in: per-epoch validation traces across seeds.
+- Supported interpretation: the frozen baseline oscillates more after epoch 8, matching its wider uncertainty interval.
+- Decision implication: branch weakness is not only lower final accuracy but also worse optimization stability.
 
 ## Failure Cases / Negative Results / Limitations
-- Full fine-tuning still leads in absolute performance.
-- The evidence is limited to 5 seeds and one subject pool.
-- No low-resource subject stress test yet.
+- Full fine-tuning still leads in absolute WER.
+- The evidence is limited to one subject pool and 5 seeds.
+- No low-resource stress test or out-of-domain subject split has been run yet.
+- Adapter width was fixed in this round, so capacity trade-offs remain unresolved.
 
 ## What Changed Our Belief
-- Before round 3, it was unclear whether freezing should be abandoned entirely.
+- Before round 3, it was plausible that freezing should be abandoned entirely.
 - After round 3, the better hypothesis is that freezing alone is too rigid, but freezing plus lightweight adaptation remains viable.
 
 ## Next Actions
 - Run one low-resource robustness check for the adapter branch.
-- Add width ablation around the current best adapter size.
+- Add a width ablation around the current best adapter size.
 - Update the canonical result note for adapter-improves-transfer.
 
 ## Artifact and Reproducibility Index

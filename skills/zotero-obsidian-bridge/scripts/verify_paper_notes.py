@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify Obsidian paper-note schema and Zotero-key coverage."""
+"""Verify Obsidian paper-note schema, Zotero-key coverage, and optional inventory consistency."""
 
 from __future__ import annotations
 
@@ -17,22 +17,36 @@ REQUIRED_HEADINGS = (
     "## Relation to other papers",
 )
 
-ZOTERO_KEY_RE = re.compile(r'^zotero_key:\s*"([A-Z0-9]+)"', re.MULTILINE)
+REQUIRED_FRONTMATTER_FIELDS = (
+    "type",
+    "project",
+    "title",
+    "zotero_key",
+    "linked_knowledge",
+    "paper_relationships",
+    "updated",
+)
+
+ZOTERO_KEY_RE = re.compile(r'^zotero_key:\s*"?([A-Z0-9]+)"?', re.MULTILINE)
+FRONTMATTER_RE = re.compile(r'^---\n(.*?)\n---\n', re.DOTALL)
+FIELD_RE_TEMPLATE = r'^{}:\s*'
+INVENTORY_ROW_RE = re.compile(r'^\|\s*([A-Z0-9]+)\s*\|\s*(.*?)\|\s*(.*?)\|\s*(.*?)\|\s*$')
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Verify paper-note schema and optional Zotero-key coverage."
+        description="Verify paper-note schema and optional Zotero-key / inventory coverage."
     )
-    parser.add_argument(
-        "--papers-dir",
-        required=True,
-        help="Directory containing canonical paper notes.",
-    )
+    parser.add_argument("--papers-dir", required=True, help="Directory containing canonical paper notes.")
     parser.add_argument(
         "--expected-zotero-keys",
         default="",
         help="Comma-separated Zotero keys expected to be covered.",
+    )
+    parser.add_argument(
+        "--inventory-note",
+        default="",
+        help="Optional collection inventory note to cross-check against canonical paper notes.",
     )
     parser.add_argument(
         "--strict-missing-zotero-key",
@@ -48,6 +62,19 @@ def load_expected_keys(raw_keys: str) -> list[str]:
     return [key.strip() for key in raw_keys.split(",") if key.strip()]
 
 
+def extract_frontmatter(text: str) -> str:
+    match = FRONTMATTER_RE.match(text)
+    return match.group(1) if match else ""
+
+
+def missing_frontmatter_fields(frontmatter: str) -> list[str]:
+    missing: list[str] = []
+    for field in REQUIRED_FRONTMATTER_FIELDS:
+        if not re.search(FIELD_RE_TEMPLATE.format(re.escape(field)), frontmatter, re.MULTILINE):
+            missing.append(field)
+    return missing
+
+
 def collect_note_status(
     papers_dir: Path,
     strict_missing_zotero_key: bool,
@@ -57,7 +84,8 @@ def collect_note_status(
     skipped_without_key: list[str] = []
 
     for path in sorted(papers_dir.glob("*.md")):
-        text = path.read_text()
+        text = path.read_text(encoding="utf-8")
+        frontmatter = extract_frontmatter(text)
         match = ZOTERO_KEY_RE.search(text)
         if not match:
             skipped_without_key.append(path.name)
@@ -74,11 +102,42 @@ def collect_note_status(
 
         missing_headings = [heading for heading in REQUIRED_HEADINGS if heading not in text]
         if missing_headings:
-            issues.append(
-                f"{path.name}: missing headings -> {', '.join(missing_headings)}"
-            )
+            issues.append(f"{path.name}: missing headings -> {', '.join(missing_headings)}")
+
+        missing_fields = missing_frontmatter_fields(frontmatter)
+        if missing_fields:
+            issues.append(f"{path.name}: missing frontmatter fields -> {', '.join(missing_fields)}")
 
     return key_to_file, issues, skipped_without_key
+
+
+def parse_inventory_note(inventory_path: Path) -> tuple[dict[str, str], list[str]]:
+    text = inventory_path.read_text(encoding="utf-8")
+    mapping: dict[str, str] = {}
+    issues: list[str] = []
+    in_table = False
+
+    for line in text.splitlines():
+        if line.strip() == "## Item Mapping":
+            in_table = True
+            continue
+        if in_table and line.startswith("## "):
+            break
+        if not in_table or not line.startswith("|"):
+            continue
+        if "---" in line:
+            continue
+        match = INVENTORY_ROW_RE.match(line)
+        if not match:
+            continue
+        key, _title, note_path, _status = [part.strip() for part in match.groups()]
+        if key in mapping:
+            issues.append(f"inventory: duplicate zotero key {key}")
+        mapping[key] = note_path
+
+    if not mapping:
+        issues.append("inventory: no item mapping rows found")
+    return mapping, issues
 
 
 def main() -> int:
@@ -110,6 +169,29 @@ def main() -> int:
             issues.append(f"Missing expected keys: {', '.join(missing)}")
         if extras:
             print(f"Extra zotero_key notes: {', '.join(extras)}")
+
+    if args.inventory_note:
+        inventory_path = Path(args.inventory_note).expanduser()
+        if not inventory_path.exists():
+            issues.append(f"inventory note not found: {inventory_path}")
+        else:
+            inventory_mapping, inventory_issues = parse_inventory_note(inventory_path)
+            issues.extend(inventory_issues)
+            if inventory_mapping:
+                for key, note_path in inventory_mapping.items():
+                    expected_name = key_to_file.get(key)
+                    if expected_name is None:
+                        issues.append(f"inventory: key {key} not found in paper notes")
+                        continue
+                    if Path(note_path).name != expected_name:
+                        issues.append(
+                            f"inventory: key {key} points to {note_path}, expected file ending {expected_name}"
+                        )
+                missing_in_inventory = sorted(set(key_to_file) - set(inventory_mapping))
+                if missing_in_inventory:
+                    issues.append(
+                        f"inventory: missing keys present in paper notes -> {', '.join(missing_in_inventory)}"
+                    )
 
     if skipped_without_key:
         print("Skipped note files without zotero_key:")

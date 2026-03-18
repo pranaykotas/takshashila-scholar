@@ -136,7 +136,7 @@ For each main figure:
 
 Read `references/figure-interpretation.md` and `references/statistical-completeness.md` as needed.
 
-### 5. Write back to Obsidian when the repo is bound
+### 5. Choose the write target explicitly
 
 If the current repo is bound to an Obsidian project knowledge base:
 - create or update `Results/Reports/{report-name}.md`,
@@ -145,7 +145,12 @@ If the current repo is bound to an Obsidian project knowledge base:
 - append a short trace to today's `Daily/` note,
 - update `.claude/project-memory/<project_id>.md`.
 
-Use `obsidian-project-memory` conventions. Internal experiment reports belong in `Results/Reports/`, not `Writing/`.
+If the repo is **not** bound:
+- write the report as a local markdown artifact in the requested output location or next to the analysis bundle,
+- keep the same filename contract,
+- explicitly say that no Obsidian write-back was attempted.
+
+Use `obsidian-project-memory` conventions only for bound repos. Internal experiment reports belong in `Results/Reports/`, not `Writing/`.
 
 ### 6. End with explicit next actions
 
@@ -171,4 +176,5 @@ Load only what is needed:
 - `references/figure-interpretation.md`
 - `references/statistical-completeness.md`
 - `references/decision-oriented-analysis.md`
+- `references/EVIDENCE-PROPAGATION.md`
 - `examples/example-results-report.md`
