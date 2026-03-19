@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-**Codex Scholar** - 面向学术研究和软件开发的个人 Codex CLI 配置系统
+**Codex Scholar** - 面向学术研究和软件开发的 semi-automated research assistant（Codex CLI 版）
 
 **配置路径**:
 - 主配置：`~/.codex/config.toml`
@@ -70,29 +70,38 @@
 构思 → ML开发 → 实验分析 → 论文写作 → 自审 → 投稿/Rebuttal → 录用后处理
 ```
 
-| 阶段 | 核心工具 | 命令 |
-|------|---------|------|
-| 1. 研究构思 | `research-ideation` skill + `literature-reviewer` agent | `/research-init`, `/zotero-review`, `/zotero-notes` |
-| 2. ML 项目开发 | `architecture-design` skill + `code-reviewer` agent | `/plan`, `/commit`, `/tdd` |
-| 3. 实验分析 | `results-analysis` skill + `data-analyst` agent | `/analyze-results` |
-| 4. 论文写作 | `ml-paper-writing` skill + `paper-miner` agent | - |
-| 5. 论文自审 | `paper-self-review` skill | - |
-| 6. 投稿与 Rebuttal | `review-response` skill + `rebuttal-writer` agent | `/rebuttal` |
-| 7. 录用后处理 | `post-acceptance` skill | `/presentation`, `/poster`, `/promote` |
+| 阶段 | 核心工具 | 自然语言入口示例 |
+|------|---------|------------------|
+| 1. 研究构思 | `research-ideation` skill + `literature-reviewer` agent | “start research on ...”, “review this Zotero collection” |
+| 2. ML 项目开发 | `architecture-design` skill + `code-reviewer` agent | “create a plan”, “review my code”, “run TDD” |
+| 3. 实验分析 | `results-analysis` skill + `results-report` skill | “analyze results in ...”, “write a results report for this experiment” |
+| 4. 论文写作 | `ml-paper-writing` skill + `paper-miner` agent | “draft the paper”, “mine writing patterns from this paper” |
+| 5. 论文自审 | `paper-self-review` skill | “self-review this draft” |
+| 6. 投稿与 Rebuttal | `review-response` skill + `rebuttal-writer` agent | “write rebuttal for these reviews” |
+| 7. 录用后处理 | `post-acceptance` skill | “prepare slides”, “design poster”, “promote this paper” |
 
 ### 支撑工作流
 
 - **Zotero 集成**: 通过 Zotero MCP 服务器实现论文自动导入、集合管理、全文阅读和准确引用导出
-- **知识提取**: `paper-miner` 和 `kaggle-miner` agent 持续从论文和竞赛中提取知识
+- **知识提取**: `paper-miner` 将论文中的可复用写作模式沉淀到一份全局 canonical writing memory；`kaggle-miner` 持续从竞赛方案中提取工程知识
+- **Obsidian 知识库**: 已内置 filesystem-first 项目知识库工作流；当仓库已绑定 project memory 时，应默认把 Obsidian 视为该科研项目的 durable knowledge sink
 - **技能进化**: `skill-development` → `skill-quality-reviewer` → `skill-improver` 三步改进循环
+
+### Obsidian 项目知识库规则
+
+- 若当前仓库包含 `.codex/project-memory/registry.yaml`，默认启用 `obsidian-project-memory`，把 Obsidian 作为该项目的默认知识库。
+- 若仓库尚未绑定但明显像科研项目，则默认启用 `obsidian-project-bootstrap`。
+- 对于实质性的科研回合，至少维护当天 `Daily/` 与 repo-local project memory；只有项目顶层状态变化时才更新 `00-Hub.md`。
+- Obsidian 工作流不依赖 MCP，也不要求额外 API key。
 
 ---
 
-## 技能目录（32 skills）
+## 技能目录（55 skills）
 
-### 研究与分析 (4)
+### 研究与分析 (5)
 - **research-ideation**: 研究构思启动
-- **results-analysis**: 实验结果分析
+- **results-analysis**: 严格实验分析
+- **results-report**: 实验后完整总结报告
 - **citation-verification**: 引文验证
 - **daily-paper-generator**: 每日论文生成器
 
@@ -120,11 +129,26 @@
 - **hook-development**: Hook 开发
 - **mcp-integration**: MCP 服务器集成
 
-### 工具与实用 (4)
+### 工具与实用 (5)
 - **planning-with-files**: Markdown 规划
 - **uv-package-manager**: uv 包管理器
 - **webapp-testing**: Web 应用测试
 - **kaggle-learner**: Kaggle 竞赛学习
+- **codex-hook-emulation**: 用 AGENTS + helper script 近似 Claude Code hooks
+
+### Obsidian 知识库 (12)
+- **obsidian-project-memory**: 默认项目知识库总控
+- **obsidian-project-bootstrap**: 新项目/旧项目导入
+- **obsidian-research-log**: daily、plan、hub 与稳定进展路由
+- **obsidian-experiment-log**: 实验与结果日志
+- **obsidian-project-lifecycle**: detach / archive / purge / note lifecycle
+- **obsidian-literature-workflow**: paper notes 与文献综合工作流
+- **zotero-obsidian-bridge**: Zotero -> Obsidian durable paper notes
+- **obsidian-link-graph**: legacy link repair helper
+- **obsidian-synthesis-map**: legacy synthesis helper
+- **obsidian-markdown**: vendored 官方 Obsidian Markdown skill
+- **obsidian-cli**: vendored 官方 Obsidian CLI skill
+- **obsidian-bases / json-canvas / defuddle**: vendored 官方可选辅助
 
 ### 网页设计 (3)
 - **frontend-design**: 前端界面设计
@@ -287,10 +311,35 @@ For complex problems, use split-role sub-agents:
 ## Session Start Protocol
 
 When starting a new session, ALWAYS:
-1. Check git status and display current branch + uncommitted changes
-2. List available skills relevant to the current project context
-3. Show recent TODOs if any exist
-4. Display a brief summary of the project state
+1. Run `python3 scripts/codex_hook_emulation.py session-start --cwd "$PWD"` when inside a repo that contains the helper script
+2. Check git status and display current branch + uncommitted changes
+3. List available skills relevant to the current project context
+4. Show recent TODOs if any exist
+5. Display a brief summary of the project state
+
+---
+
+## Codex Hook Emulation Protocol
+
+Because Codex does not expose native Claude Code hooks, emulate the highest-value hook behavior through `codex-hook-emulation` plus AGENTS discipline:
+
+1. **SessionStart surrogate**
+   - Use `scripts/codex_hook_emulation.py session-start --cwd "$PWD"` at the first substantive repo turn.
+2. **PreToolUse surrogate**
+   - Before dangerous or irreversible operations, run:
+     - `python3 scripts/codex_hook_emulation.py preflight "<command>"`
+   - Interpret exit codes:
+     - `0` allow
+     - `3` confirm with user first
+     - `2` block by default
+3. **PostToolUse surrogate**
+   - After meaningful edits, run:
+     - `python3 scripts/codex_hook_emulation.py post-edit --cwd "$PWD"`
+   - Use the output to decide verification and minimum Obsidian write-back.
+4. **Stop / SessionEnd surrogate**
+   - Before closeout, run:
+     - `python3 scripts/codex_hook_emulation.py session-end --cwd "$PWD"`
+   - Then apply `session-wrap-up`.
 
 ---
 
@@ -305,10 +354,11 @@ If you think there is even a 1% chance a skill might apply, you MUST check it. D
 ## Session Wrap-Up Protocol
 
 When the user says "wrap up", "总结", "session end", or similar:
-1. Generate a work log summarizing what was accomplished
-2. Check if AGENTS.md needs updates based on changes made
-3. Remind about any temporary files that should be cleaned up
-4. Show git status for uncommitted changes
+1. Run `python3 scripts/codex_hook_emulation.py session-end --cwd "$PWD"` when available
+2. Generate a work log summarizing what was accomplished
+3. Check if AGENTS.md needs updates based on changes made
+4. Remind about any temporary files that should be cleaned up
+5. Show git status for uncommitted changes
 
 ---
 
@@ -326,3 +376,4 @@ Two layers of protection:
 - WARN before: `git push --force`, `git reset --hard`, `chmod 777`, `DROP DATABASE/TABLE`
 - NEVER write to system paths: `/etc/`, `/usr/bin/`, `/sbin/`, `/System/`
 - NEVER commit sensitive files: `.env`, `*.pem`, `*.key`, `credentials.json`, `settings.json`
+- Prefer `python3 scripts/codex_hook_emulation.py preflight "<command>"` before high-risk shell actions

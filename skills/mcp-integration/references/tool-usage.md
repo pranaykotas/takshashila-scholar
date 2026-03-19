@@ -1,5 +1,7 @@
 # Using MCP Tools in Commands and Agents
 
+> **Scope note**: The tool prefixing and plugin examples below describe Claude Code plugin behavior. Codex CLI uses repo/home configuration instead of plugin manifests.
+
 Complete guide to using MCP tools effectively in Claude Code plugin commands and agents.
 
 ## Overview

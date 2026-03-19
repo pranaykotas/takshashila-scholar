@@ -6,6 +6,8 @@ version: 0.1.0
 
 # MCP Integration for Claude Code Plugins
 
+> **Scope note**: This skill mainly documents **Claude Code plugin MCP integration**, not a Codex-native plugin system. In Codex CLI, MCP is configured through `~/.codex/config.toml` under `[mcp_servers]`.
+
 ## Overview
 
 Model Context Protocol (MCP) enables Claude Code plugins to integrate with external services and APIs by providing structured tool access. Use MCP integration to expose external service capabilities as tools within Claude Code.

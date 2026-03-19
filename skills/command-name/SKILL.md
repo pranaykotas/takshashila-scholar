@@ -6,6 +6,8 @@ version: 0.1.0
 
 # Plugin Structure for Claude Code
 
+> **Scope note**: This skill is a **Claude Code plugin reference**, not a Codex-native workflow. Codex CLI does not use a native `.claude-plugin` plugin system.
+
 ## Overview
 
 Claude Code plugins follow a standardized directory structure with automatic component discovery. Understanding this structure enables creating well-organized, maintainable plugins that integrate seamlessly with Claude Code.

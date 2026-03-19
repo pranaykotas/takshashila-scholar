@@ -6,6 +6,8 @@ Complete reference for `plugin.json` configuration.
 
 **Required path**: `.claude-plugin/plugin.json`
 
+> **Scope note**: This reference describes the Claude Code plugin manifest layout, not a Codex-native manifest system.
+
 The manifest MUST be in the `.claude-plugin/` directory at the plugin root. Claude Code will not recognize plugins without this file in the correct location.
 
 ## Complete Field Reference

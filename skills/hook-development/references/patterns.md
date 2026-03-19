@@ -303,7 +303,7 @@ Use JSON configuration to control hook behavior:
 
 ```bash
 #!/bin/bash
-CONFIG_FILE="$CLAUDE_PROJECT_DIR/.claude/my-plugin.local.json"
+CONFIG_FILE="$CLAUDE_PROJECT_DIR/.codex/my-plugin.local.json"
 
 # Read configuration
 if [ -f "$CONFIG_FILE" ]; then
@@ -330,7 +330,7 @@ if [ "$file_size" -gt "$max_file_size" ]; then
 fi
 ```
 
-**Configuration file (.claude/my-plugin.local.json):**
+**Configuration file (.codex/my-plugin.local.json):**
 ```json
 {
   "strictMode": true,
