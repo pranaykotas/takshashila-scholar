@@ -2,7 +2,7 @@
 
 ## 项目概述
 
-**Codex Scholar** - 面向学术研究和软件开发的个人 Codex CLI 配置系统
+**Codex Scholar** - 面向学术研究和软件开发的 semi-automated research assistant（Codex CLI 版）
 
 **配置路径**:
 - 主配置：`~/.codex/config.toml`
@@ -70,29 +70,30 @@
 构思 → ML开发 → 实验分析 → 论文写作 → 自审 → 投稿/Rebuttal → 录用后处理
 ```
 
-| 阶段 | 核心工具 | 命令 |
-|------|---------|------|
-| 1. 研究构思 | `research-ideation` skill + `literature-reviewer` agent | `/research-init`, `/zotero-review`, `/zotero-notes` |
-| 2. ML 项目开发 | `architecture-design` skill + `code-reviewer` agent | `/plan`, `/commit`, `/tdd` |
-| 3. 实验分析 | `results-analysis` skill + `data-analyst` agent | `/analyze-results` |
-| 4. 论文写作 | `ml-paper-writing` skill + `paper-miner` agent | - |
-| 5. 论文自审 | `paper-self-review` skill | - |
-| 6. 投稿与 Rebuttal | `review-response` skill + `rebuttal-writer` agent | `/rebuttal` |
-| 7. 录用后处理 | `post-acceptance` skill | `/presentation`, `/poster`, `/promote` |
+| 阶段 | 核心工具 | 自然语言入口示例 |
+|------|---------|------------------|
+| 1. 研究构思 | `research-ideation` skill + `literature-reviewer` agent | “start research on ...”, “review this Zotero collection” |
+| 2. ML 项目开发 | `architecture-design` skill + `code-reviewer` agent | “create a plan”, “review my code”, “run TDD” |
+| 3. 实验分析 | `results-analysis` skill + `results-report` skill | “analyze results in ...”, “write a results report for this experiment” |
+| 4. 论文写作 | `ml-paper-writing` skill + `paper-miner` agent | “draft the paper”, “mine writing patterns from this paper” |
+| 5. 论文自审 | `paper-self-review` skill | “self-review this draft” |
+| 6. 投稿与 Rebuttal | `review-response` skill + `rebuttal-writer` agent | “write rebuttal for these reviews” |
+| 7. 录用后处理 | `post-acceptance` skill | “prepare slides”, “design poster”, “promote this paper” |
 
 ### 支撑工作流
 
 - **Zotero 集成**: 通过 Zotero MCP 服务器实现论文自动导入、集合管理、全文阅读和准确引用导出
-- **知识提取**: `paper-miner` 和 `kaggle-miner` agent 持续从论文和竞赛中提取知识
+- **知识提取**: `paper-miner` 将论文中的可复用写作模式沉淀到一份全局 canonical writing memory；`kaggle-miner` 持续从竞赛方案中提取工程知识
 - **技能进化**: `skill-development` → `skill-quality-reviewer` → `skill-improver` 三步改进循环
 
 ---
 
-## 技能目录（32 skills）
+## 技能目录（43 skills）
 
 ### 研究与分析 (4)
 - **research-ideation**: 研究构思启动
-- **results-analysis**: 实验结果分析
+- **results-analysis**: 严格实验分析
+- **results-report**: 实验后完整总结报告
 - **citation-verification**: 引文验证
 - **daily-paper-generator**: 每日论文生成器
 

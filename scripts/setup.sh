@@ -3,13 +3,20 @@
 # Claude Scholar — Codex CLI Installer
 # ============================================================
 # Usage: bash scripts/setup.sh
-# Supports fresh install and incremental merge with existing config.
+# Supports fresh install and safer incremental updates.
 
 set -euo pipefail
 
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SRC_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+BACKUP_ROOT="$CODEX_HOME/.codex-scholar-backups"
+BACKUP_STAMP="$(date +%Y%m%d-%H%M%S)"
+BACKUP_DIR="$BACKUP_ROOT/$BACKUP_STAMP"
+BACKUP_READY=0
+BACKUP_COUNT=0
+UPDATED_COUNT=0
+SKIPPED_COUNT=0
 
 # --- State flags ---
 SKIP_PROVIDER=false
@@ -32,35 +39,104 @@ error()  { echo -e "\033[1;31m[ERROR]\033[0m $*"; exit 1; }
 declare -a PRESET_NAMES=("openai" "custom")
 declare -a PRESET_LABELS=("OpenAI (official)" "Custom provider")
 declare -a PRESET_URLS=("https://api.openai.com/v1" "")
-declare -a PRESET_MODELS=("gpt-5.2" "")
+declare -a PRESET_MODELS=("gpt-5.4" "")
 
-# ============================================================
-# Step 1: Check prerequisites
-# ============================================================
+ensure_backup_dir() {
+  if [ "$BACKUP_READY" -eq 0 ]; then
+    mkdir -p "$BACKUP_DIR"
+    BACKUP_READY=1
+    info "Backup directory: $BACKUP_DIR"
+  fi
+}
+
+backup_path() {
+  local target="$1"
+  [ -e "$target" ] || return 0
+
+  ensure_backup_dir
+
+  local rel="${target#$CODEX_HOME/}"
+  if [ "$rel" = "$target" ]; then
+    rel="$(basename "$target")"
+  fi
+
+  mkdir -p "$BACKUP_DIR/$(dirname "$rel")"
+  if [ -d "$target" ]; then
+    cp -R "$target" "$BACKUP_DIR/$rel"
+  else
+    cp -p "$target" "$BACKUP_DIR/$rel"
+  fi
+  BACKUP_COUNT=$((BACKUP_COUNT + 1))
+}
+
+ensure_parent_dir() {
+  local target_path="$1"
+  local parent_dir
+  parent_dir="$(dirname "$target_path")"
+
+  if [ -e "$parent_dir" ] && [ ! -d "$parent_dir" ]; then
+    backup_path "$parent_dir"
+    rm -f "$parent_dir"
+  fi
+
+  mkdir -p "$parent_dir"
+}
+
+copy_file_safely() {
+  local src_file="$1"
+  local target_file="$2"
+
+  ensure_parent_dir "$target_file"
+
+  if [ -f "$target_file" ] && cmp -s "$src_file" "$target_file"; then
+    SKIPPED_COUNT=$((SKIPPED_COUNT + 1))
+    return 0
+  fi
+
+  if [ -e "$target_file" ]; then
+    backup_path "$target_file"
+    [ -d "$target_file" ] && rm -rf "$target_file"
+  fi
+
+  cp -p "$src_file" "$target_file"
+  UPDATED_COUNT=$((UPDATED_COUNT + 1))
+}
+
+copy_dir_safely() {
+  local src_dir="$1"
+  local target_dir="$2"
+
+  if [ -e "$target_dir" ] && [ ! -d "$target_dir" ]; then
+    backup_path "$target_dir"
+    rm -f "$target_dir"
+  fi
+  ensure_parent_dir "$target_dir/.dir"
+  mkdir -p "$target_dir"
+
+  while IFS= read -r -d '' src_file; do
+    local rel="${src_file#$src_dir/}"
+    local target_file="$target_dir/$rel"
+    copy_file_safely "$src_file" "$target_file"
+  done < <(find "$src_dir" -type f -print0)
+}
+
 check_deps() {
   command -v git >/dev/null || error "Git is required."
+  command -v python3 >/dev/null || error "Python 3 is required."
   if ! command -v codex >/dev/null; then
     warn "Codex CLI not found. Install: npm i -g @openai/codex"
   fi
 }
 
-# ============================================================
-# Step 2: Detect existing configuration
-# ============================================================
 detect_existing() {
   echo ""
   if [ -f "$CODEX_HOME/config.toml" ]; then
     info "Existing config.toml found at $CODEX_HOME/config.toml"
-    # Extract current model and provider
     local cur_model cur_provider
     cur_model=$(grep '^model ' "$CODEX_HOME/config.toml" 2>/dev/null | head -1 | sed 's/.*= *"//;s/".*//' || true)
     cur_provider=$(grep '^model_provider ' "$CODEX_HOME/config.toml" 2>/dev/null | head -1 | sed 's/.*= *"//;s/".*//' || true)
-    if [ -n "$cur_model" ]; then
-      info "  Current model: $cur_model"
-    fi
-    if [ -n "$cur_provider" ]; then
-      info "  Current provider: $cur_provider"
-    fi
+    [ -n "$cur_model" ] && info "  Current model: $cur_model"
+    [ -n "$cur_provider" ] && info "  Current provider: $cur_provider"
     echo ""
     read -rp "Keep existing provider/model config? [Y/n]: " keep_config
     if [ "$keep_config" != "n" ] && [ "$keep_config" != "N" ]; then
@@ -84,9 +160,6 @@ detect_existing() {
   fi
 }
 
-# ============================================================
-# Step 3: Choose provider (skipped if existing config kept)
-# ============================================================
 choose_provider() {
   if [ "$SKIP_PROVIDER" = true ]; then
     return
@@ -126,9 +199,6 @@ choose_provider() {
   info "Provider: $PROVIDER_NAME | URL: $PROVIDER_URL | Model: $MODEL"
 }
 
-# ============================================================
-# Step 4: Configure API key (skipped if existing key kept)
-# ============================================================
 configure_api_key() {
   if [ "$SKIP_AUTH" = true ]; then
     return
@@ -142,93 +212,91 @@ configure_api_key() {
   fi
 }
 
-# ============================================================
-# Step 5: Generate or merge config.toml
-# ============================================================
+generate_fresh_config() {
+  local template="$1"
+  local target="$2"
+
+  sed -e "s|__MODEL__|$MODEL|g" \
+      -e "s|__PROVIDER_NAME__|$PROVIDER_NAME|g" \
+      -e "s|__PROVIDER_URL__|$PROVIDER_URL|g" \
+      "$template" > "$target"
+  info "Generated config.toml (model=$MODEL, provider=$PROVIDER_NAME)"
+}
+
+merge_scholar_config() {
+  local target="$1"
+  local template="$2"
+
+  TARGET_PATH="$target" TEMPLATE_PATH="$template" python3 <<'PY'
+import os
+import pathlib
+import re
+
+
+def read(path: str) -> str:
+    return pathlib.Path(path).read_text()
+
+
+def extract_section_block(text: str, header: str) -> str:
+    pattern = rf"(^\[{re.escape(header)}\]\n(?:.*\n)*?)(?=^\[|\Z)"
+    m = re.search(pattern, text, flags=re.M)
+    return m.group(1).rstrip() if m else ""
+
+
+def extract_agent_sections(text: str):
+    pattern = r"(^\[agents\.[^\]]+\]\n(?:.*\n)*?)(?=^\[|\Z)"
+    return re.findall(pattern, text, flags=re.M)
+
+
+target_path = os.environ['TARGET_PATH']
+template_path = os.environ['TEMPLATE_PATH']
+target = read(target_path)
+template = read(template_path)
+added = []
+
+for section in ['features', 'mcp_servers.zotero', 'mcp_servers.zotero.env']:
+    if f'[{section}]' not in target:
+        block = extract_section_block(template, section)
+        if block:
+            target += '\n\n' + block + '\n'
+            added.append(section)
+
+for block in extract_agent_sections(template):
+    header = re.search(r'^\[(agents\.[^\]]+)\]$', block, flags=re.M).group(1)
+    if f'[{header}]' not in target:
+        target += '\n\n' + block.rstrip() + '\n'
+        added.append(header)
+
+pathlib.Path(target_path).write_text(target.rstrip() + '\n')
+print(','.join(added))
+PY
+}
+
 generate_config() {
   local template="$SRC_DIR/config.toml"
   local target="$CODEX_HOME/config.toml"
 
   [ -f "$template" ] || error "Template config.toml not found at $template"
 
+  if [ -f "$target" ]; then
+    backup_path "$target"
+    cp "$target" "${target}.bak"
+    info "Backed up config.toml → config.toml.bak"
+  fi
+
   if [ "$SKIP_PROVIDER" = true ]; then
-    # Merge mode: keep existing config, only add missing Scholar sections
-    merge_scholar_config "$target" "$template"
-  else
-    # Fresh mode: generate from template
-    if [ -f "$target" ]; then
-      cp "$target" "${target}.bak"
-      info "Backed up config.toml → config.toml.bak"
+    local added
+    added=$(merge_scholar_config "$target" "$template")
+    if [ -n "$added" ]; then
+      info "Merged Scholar sections into existing config.toml: $added"
+    else
+      info "Config already had the required Scholar sections"
     fi
-    sed -e "s|__MODEL__|$MODEL|g" \
-        -e "s|__PROVIDER_NAME__|$PROVIDER_NAME|g" \
-        -e "s|__PROVIDER_URL__|$PROVIDER_URL|g" \
-        "$template" > "$target"
-    info "Generated config.toml (model=$MODEL, provider=$PROVIDER_NAME)"
-  fi
-}
-
-# ============================================================
-# Merge Scholar-specific sections into existing config
-# ============================================================
-merge_scholar_config() {
-  local target="$1"
-  local template="$2"
-  local added=0
-
-  cp "$target" "${target}.bak"
-  info "Backed up config.toml → config.toml.bak"
-
-  # Add [features] if missing
-  if ! grep -q '^\[features\]' "$target" 2>/dev/null; then
-    cat >> "$target" << 'FEATURES'
-
-# ============================================================
-# Features (added by Claude Scholar)
-# ============================================================
-[features]
-multi_agent = true
-memories = true
-skill_approval = true
-FEATURES
-    added=$((added + 1))
-  fi
-
-  # Add [mcp_servers.zotero] if missing
-  if ! grep -q '\[mcp_servers\.zotero\]' "$target" 2>/dev/null; then
-    cat >> "$target" << 'MCP'
-
-# ============================================================
-# MCP Servers (added by Claude Scholar)
-# ============================================================
-[mcp_servers.zotero]
-command = "zotero-mcp"
-args = ["serve"]
-enabled = false
-[mcp_servers.zotero.env]
-ZOTERO_LOCAL = "true"
-NO_PROXY = "localhost,127.0.0.1"
-MCP
-    added=$((added + 1))
-  fi
-
-  # Add agent definitions if missing
-  if ! grep -q '\[agents\.' "$target" 2>/dev/null; then
-    # Extract agents block from template (lines starting with [agents. or belonging to agent sections)
-    sed -n '/^# --- Research Workflow/,$ p' "$template" >> "$target"
-    added=$((added + 1))
-  fi
-
-  if [ "$added" -gt 0 ]; then
-    info "Merged $added Scholar section(s) into existing config.toml"
   else
-    info "Config already has all Scholar sections, no changes needed"
+    generate_fresh_config "$template" "$target"
   fi
 }
 
-# ============================================================
-# Step 6: Write auth.json (skipped if existing key kept)
-# ============================================================
 write_auth() {
   if [ "$SKIP_AUTH" = true ]; then
     return
@@ -236,9 +304,11 @@ write_auth() {
 
   local target="$CODEX_HOME/auth.json"
   if [ -f "$target" ]; then
+    backup_path "$target"
     cp "$target" "${target}.bak"
+    info "Backed up auth.json → auth.json.bak"
   fi
-  cat > "$target" << EOF
+  cat > "$target" <<EOF
 {
   "OPENAI_API_KEY": "$API_KEY"
 }
@@ -247,58 +317,32 @@ EOF
   info "Wrote auth.json (permissions: 600)"
 }
 
-# ============================================================
-# Step 7: Copy components to ~/.codex/ (additive merge)
-# ============================================================
 copy_components() {
-  # Skills (additive - cp -r merges directories)
   if [ -d "$SRC_DIR/skills" ]; then
-    mkdir -p "$CODEX_HOME/skills"
-    cp -r "$SRC_DIR/skills/." "$CODEX_HOME/skills/"
-    local count
-    count=$(ls -d "$CODEX_HOME/skills"/*/ 2>/dev/null | wc -l | tr -d ' ')
-    info "Synced skills: $count total"
+    copy_dir_safely "$SRC_DIR/skills" "$CODEX_HOME/skills"
   fi
-
-  # Agents
   if [ -d "$SRC_DIR/agents" ]; then
-    mkdir -p "$CODEX_HOME/agents"
-    cp -r "$SRC_DIR/agents/." "$CODEX_HOME/agents/"
-    local count
-    count=$(ls -d "$CODEX_HOME/agents"/*/ 2>/dev/null | wc -l | tr -d ' ')
-    info "Synced agents: $count total"
+    copy_dir_safely "$SRC_DIR/agents" "$CODEX_HOME/agents"
   fi
-
-  # AGENTS.md
   if [ -f "$SRC_DIR/AGENTS.md" ]; then
-    if [ -f "$CODEX_HOME/AGENTS.md" ]; then
-      cp "$CODEX_HOME/AGENTS.md" "$CODEX_HOME/AGENTS.md.bak"
-    fi
-    cp "$SRC_DIR/AGENTS.md" "$CODEX_HOME/AGENTS.md"
-    info "Synced AGENTS.md"
+    copy_file_safely "$SRC_DIR/AGENTS.md" "$CODEX_HOME/AGENTS.md"
   fi
-
-  # Scripts
   if [ -d "$SRC_DIR/scripts" ]; then
-    mkdir -p "$CODEX_HOME/scripts"
-    cp -r "$SRC_DIR/scripts/." "$CODEX_HOME/scripts/"
-    info "Synced scripts/"
+    copy_dir_safely "$SRC_DIR/scripts" "$CODEX_HOME/scripts"
+  fi
+  if [ -d "$SRC_DIR/utils" ]; then
+    copy_dir_safely "$SRC_DIR/utils" "$CODEX_HOME/utils"
   fi
 
-  # Utils
-  if [ -d "$SRC_DIR/utils" ]; then
-    mkdir -p "$CODEX_HOME/utils"
-    cp -r "$SRC_DIR/utils/." "$CODEX_HOME/utils/"
-    info "Synced utils/"
-  fi
+  info "Synced repo-managed Codex components"
 }
 
-# ============================================================
-# Step 8: Optional - Enable Zotero MCP
-# ============================================================
 configure_mcp() {
-  # Skip if already enabled in config
-  if grep -q 'enabled = true' "$CODEX_HOME/config.toml" 2>/dev/null; then
+  if ! grep -q '\[mcp_servers\.zotero\]' "$CODEX_HOME/config.toml" 2>/dev/null; then
+    return
+  fi
+
+  if awk '/\[mcp_servers\.zotero\]/{flag=1;next}/^\[/{flag=0}flag && /enabled = true/{found=1}END{exit(found?0:1)}' "$CODEX_HOME/config.toml"; then
     info "Zotero MCP already enabled"
     return
   fi
@@ -306,18 +350,22 @@ configure_mcp() {
   echo ""
   read -rp "Enable Zotero MCP server? [y/N]: " enable_zotero
   if [ "$enable_zotero" = "y" ] || [ "$enable_zotero" = "Y" ]; then
-    sed -i.tmp 's/enabled = false/enabled = true/' "$CODEX_HOME/config.toml"
-    rm -f "$CODEX_HOME/config.toml.tmp"
+    python3 - "$CODEX_HOME/config.toml" <<'PY'
+import pathlib
+import re
+import sys
+path = pathlib.Path(sys.argv[1])
+text = path.read_text()
+text = re.sub(r'(\[mcp_servers\.zotero\]\n(?:.*\n)*?enabled = )false', r'\1true', text, count=1)
+path.write_text(text)
+PY
     info "Zotero MCP enabled"
     if ! command -v zotero-mcp >/dev/null 2>&1; then
-      warn "zotero-mcp not found. Install: uv tool install git+https://github.com/Galaxy-Dawn/zotero-mcp.git"
+      warn "zotero-mcp not found. Install latest with: uv tool install --reinstall git+https://github.com/Galaxy-Dawn/zotero-mcp.git"
     fi
   fi
 }
 
-# ============================================================
-# Main
-# ============================================================
 main() {
   echo ""
   echo "╔══════════════════════════════════════╗"
@@ -342,12 +390,17 @@ main() {
   echo ""
   echo "============================================================"
   info "Installation complete!"
+  info "Updated files: $UPDATED_COUNT | Unchanged files skipped: $SKIPPED_COUNT | Backups created: $BACKUP_COUNT"
+  if [ "$BACKUP_READY" -eq 1 ]; then
+    info "Recover previous files from: $BACKUP_DIR"
+  fi
   echo ""
   echo "  Config:  $CODEX_HOME/config.toml"
   echo "  Auth:    $CODEX_HOME/auth.json"
   echo "  Skills:  $CODEX_HOME/skills/"
   echo "  Agents:  $CODEX_HOME/agents/"
   echo ""
+  info "Existing model/provider/API key settings are preserved when you choose the incremental update path."
   echo "  Run $(bold 'codex') to start."
   echo "============================================================"
 }

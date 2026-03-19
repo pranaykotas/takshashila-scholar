@@ -1,3 +1,0 @@
-# Agent: data-analyst
-# Model inherits from main config.toml (no override)
-sandbox_mode = "workspace-write"

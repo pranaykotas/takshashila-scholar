@@ -14,15 +14,16 @@
   <strong>语言</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a>
 </div>
 
-> 面向学术研究和软件开发的个人 [Codex CLI](https://github.com/openai/codex) 配置仓库 — 覆盖从构思到发表的完整研究生命周期。
+> 面向学术研究和软件开发的 semi-automated research assistant（Codex CLI 版），覆盖构思、文献综述、实验、分析、报告、写作与发表。
 
 > **注意**: 这是 Claude Scholar 的 **Codex CLI 版本**。Claude Code CLI 版本请查看 [`main` 分支](https://github.com/Galaxy-Dawn/claude-scholar/tree/main)。OpenCode 版本请查看 [`opencode` 分支](https://github.com/Galaxy-Dawn/claude-scholar/tree/opencode)。
 
 ## News
 
+- **2026-03-18**: 实验结果报告、写作记忆与工作流整理 —— Codex 版现已加入 `results-report`，并把 `results-analysis` 升级为 strict analysis bundle 工作流（`analysis-report.md`、`stats-appendix.md`、`figure-catalog.md`、`figures/`）；同时移除了遗留的 `data-analyst` 入口，把 `paper-miner` 统一到一份全局 canonical writing memory，并把安装脚本改成更安全的增量更新方式。
 - **2026-02-26**: Zotero MCP Web/写操作工作流 — 支持远程访问，可通过 DOI/arXiv ID/URL 导入论文，进行集合管理、条目更新和安全删除；详见 `MCP_SETUP.md` 配置指南
 - **2026-02-25**: Codex CLI 迁移 — 从 OpenCode 迁移到 Codex CLI 格式：TOML 配置、独立 agent 目录、commands 合并入 skills（32→40）、hooks 替换为 AGENTS.md 指令 + sandbox、交互式 `setup.sh` 支持增量合并
-- **2026-02-23**: 新增 `setup.sh` 安装脚本 — 安全合并到已有配置，自动备份
+- **2026-02-23**: 新增 `setup.sh` 安装脚本 — 更安全的增量更新与自动备份
 
 <details>
 <summary>查看历史更新日志</summary>
@@ -37,10 +38,10 @@
 
 ## 简介
 
-Claude Scholar (Codex 版) 是一个面向 [Codex CLI](https://github.com/openai/codex) 的配置系统，提供丰富的技能、代理和 MCP 集成，针对以下场景优化：
-- **学术研究** - 完整的研究生命周期：想法生成 → 实验 → 结果分析 → 论文写作 → 审稿回复 → 会议准备
+Claude Scholar（Codex 版）是一个面向 [Codex CLI](https://github.com/openai/codex) 的 **semi-automated research assistant**。它强调“研究者负责关键判断，系统负责加速结构化流程”：
+- **学术研究** - 构思、文献综述、实验分析、实验后总结、论文写作、rebuttal 与会议准备
 - **软件开发** - Git 工作流、代码审查、测试驱动开发、ML 项目架构
-- **项目管理** - 规划文档、代码规范、通过 AGENTS.md 指令驱动的自动化工作流
+- **项目管理** - 规划文档、代码规范，以及通过 `AGENTS.md` 组织起来的可复用技能/代理工作流
 
 ## 快速导航
 
@@ -86,13 +87,25 @@ Claude Scholar (Codex 版) 是一个面向 [Codex CLI](https://github.com/openai
 
 #### 3. 实验分析
 
-**工具**: `results-analysis` skill + `data-analyst` agent
+**工具**: `results-analysis` skill + `results-report` skill
 
-**触发**: "分析实验结果"
+**流程**:
+- **Strict analysis bundle**：生成 `analysis-report.md`、`stats-appendix.md`、`figure-catalog.md` 与真实科研图
+- **统计验证**：报告 descriptive statistics、置信区间、effect size 与合理的 significance tests
+- **图表解释**：每张主图都要说明用途、caption 要点与 interpretation checklist
+- **实验总结报告**：再交给 `results-report` 生成完整复盘，明确结论、限制与下一步
+
+**触发**: "分析实验结果"、"给这个实验写结果报告"
 
 #### 4. 论文写作
 
 **工具**: `ml-paper-writing` skill + `paper-miner` agent + `latex-conference-template-organizer` skill
+
+**流程**:
+- **模板准备**：整理会议模板，清理成可写作结构
+- **引文验证**：以程序化 citation workflow 为主，避免幻觉引用
+- **全局写作记忆**：`paper-miner` 把可复用的写作模式、结构信号与 venue phrasing 写入 `~/.codex/skills/ml-paper-writing/references/knowledge/` 下的一份 canonical memory
+- **系统写作**：基于 repo、结果和写作记忆开展分节写作与修改
 
 **会议**: NeurIPS, ICML, ICLR, ACL, AAAI, COLM, Nature, Science, Cell, PNAS
 
@@ -126,7 +139,7 @@ Claude Scholar (Codex 版) 是一个面向 [Codex CLI](https://github.com/openai
 
 #### 知识提取工作流
 
-- **paper-miner** (agent): 分析研究论文 → 提取写作模式、结构见解、会议要求
+- **paper-miner** (agent): 分析研究论文 → 把可复用的写作模式、短语和 venue 信号写入一份全局 writing memory
 - **kaggle-miner** (agent): 研究 Kaggle 获胜方案 → 提取技术分析、代码模板
 
 #### 技能进化系统
@@ -137,11 +150,12 @@ skill-development → skill-quality-reviewer → skill-improver
 
 ## 功能亮点
 
-### 技能（40 个）
+### 技能（43 个）
 
 **研究工作流：**
 - `research-ideation` - 研究构思启动：5W1H、文献综述、Gap 分析
-- `results-analysis` - 实验分析：统计检验、可视化、消融实验
+- `results-analysis` - 严格实验分析：严谨统计、真实科研图和分析产物
+- `results-report` - 面向决策的实验后完整总结报告
 - `citation-verification` - 多层引文验证
 - `daily-paper-generator` - 每日论文生成器
 
@@ -191,29 +205,28 @@ skill-development → skill-quality-reviewer → skill-improver
 
 ### 自然语言触发
 
-Codex CLI 没有斜杠命令。所有原命令已合并入 skills，通过自然语言触发：
+Codex CLI 没有斜杠命令。Codex 版主要依靠 skills、agents 与自然语言触发：
 
-| 这样说... | 触发的技能 |
-|-----------|-----------|
+| 这样说... | 会调用 |
+|-----------|--------|
 | "提交代码" | `git-commit` |
 | "推送到 GitHub" | `git-push` |
 | "审查代码" | `code-review-excellence` |
-| "开始研究" | `research-ideation` |
-| "写 rebuttal" | `review-response` |
-| "分析结果" | `results-analysis` |
-| "创建计划" | `planning-with-files` |
-| "修复构建错误" | `build-fixer` |
+| "开始研究" | `research-ideation` + `literature-reviewer` |
+| "分析 results/run_a 里的实验结果" | `results-analysis` |
+| "给这个实验写结果报告" | `results-report` |
+| "从这篇论文里挖掘写作模式" | `paper-miner` |
+| "写 rebuttal" | `review-response` + `rebuttal-writer` |
 | "总结会话" | `session-wrap-up` |
 
-### 代理（14 个专业）
+### 代理（13 个专业）
 
 每个代理在 `~/.codex/agents/<name>/` 下有独立目录，包含 `config.toml` 和 `AGENTS.md`（系统提示词）。代理在主 `config.toml` 中注册，可自动或按需调用。
 
 **研究代理：**
 - **literature-reviewer** - 文献搜索、分类和趋势分析
-- **data-analyst** - 自动化数据分析和可视化
 - **rebuttal-writer** - 系统化 rebuttal 写作
-- **paper-miner** - 从成功论文中提取写作知识
+- **paper-miner** - 把可复用写作知识沉淀到一份全局 canonical writing memory
 
 **开发代理：**
 - **architect** - 系统架构设计
@@ -239,7 +252,7 @@ claude-scholar/                  # Codex CLI 版
 ├── config.toml                  # 核心配置：模型、代理、MCP、功能
 ├── AGENTS.md                    # 项目上下文 + 工作流指令
 │
-├── agents/                      # 14 个专业代理
+├── agents/                      # 13 个专业代理
 │   ├── code-reviewer/
 │   │   ├── config.toml          # 代理专属设置
 │   │   └── AGENTS.md            # 代理系统提示词
@@ -247,7 +260,7 @@ claude-scholar/                  # Codex CLI 版
 │   ├── literature-reviewer/
 │   └── ... (11 more agents)
 │
-├── skills/                      # 40 个技能（32 原有 + 8 迁移）
+├── skills/                      # 43 个技能
 │   ├── ml-paper-writing/
 │   │   └── SKILL.md
 │   ├── git-commit/              # 新增：从 /commit 命令迁移
@@ -285,7 +298,7 @@ bash /tmp/claude-scholar/scripts/setup.sh
 - 将 Scholar 特有部分（features、agents、MCP）合并到已有配置
 - 将 skills、agents、scripts、utils 复制到 `~/.codex/`
 
-**包含**：所有 40 个技能、14 个代理、Zotero MCP 配置和 AGENTS.md。
+**包含**：所有 43 个技能、13 个代理、Zotero MCP 配置和 AGENTS.md。
 
 #### 选项 2：手动安装
 
@@ -358,7 +371,7 @@ UNSAFE_OPERATIONS = "all"
 | 钩子/插件 | TypeScript 插件 (`plugins/*.ts`) | 无 — 由 AGENTS.md 指令 + sandbox 替代 |
 | 代理 | JSON 配置在 `opencode.jsonc` | 独立目录 (`agents/<name>/config.toml + AGENTS.md`) |
 | 命令 | 文件式 `.md`（50+） | 合并入 skills（自然语言触发） |
-| 技能 | 32 个 | 40 个（8 个从命令迁移） |
+| 技能 | 32 个 | 43 个 |
 | 安全 | `security-guard.ts` 插件 | `sandbox_mode = "workspace-write"` + AGENTS.md 规则 |
 | MCP | `opencode.jsonc` mcp 部分 | `config.toml` `[mcp_servers]` 部分 |
 | 依赖 | `package.json`（npm） | 无 — 无 npm 依赖 |

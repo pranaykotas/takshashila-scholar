@@ -52,10 +52,6 @@ UNSAFE_OPERATIONS = "all"
 description = "Literature search, classification, and trend analysis with Zotero MCP integration"
 config_file = "~/.codex/agents/literature-reviewer/config.toml"
 
-[agents.data-analyst]
-description = "Automated data analysis and visualization"
-config_file = "~/.codex/agents/data-analyst/config.toml"
-
 [agents.rebuttal-writer]
 description = "Systematic rebuttal writing with tone optimization"
 config_file = "~/.codex/agents/rebuttal-writer/config.toml"

@@ -1,13 +1,13 @@
 # Codex CLI Installation Guide
 
-Claude Scholar 的 Codex CLI 版本安装指南。
+Claude Scholar 的 Codex CLI 版本安装指南（更新到 results-report / global writing memory / safer incremental setup 之后的版本）。
 
 ## Prerequisites
 
 - [Codex CLI](https://github.com/openai/codex) (OpenAI 官方 CLI)
 - Git
 - (Optional) Python + [uv](https://docs.astral.sh/uv/) for Python development
-- (Optional) [Zotero](https://www.zotero.org/) + [zotero-mcp-server](https://pypi.org/project/zotero-mcp-server/) for literature management
+- (Optional) [Zotero](https://www.zotero.org/) + [Galaxy-Dawn/zotero-mcp](https://github.com/Galaxy-Dawn/zotero-mcp) for literature management
 
 ## Quick Start
 
@@ -37,14 +37,14 @@ mkdir -p /tmp/claude-scholar/skills
 mkdir -p ~/.codex
 
 # Copy main config
-cp /tmp/claude-scholar/codex/config.toml ~/.codex/config.toml
+cp /tmp/claude-scholar/config.toml ~/.codex/config.toml
 ```
 
 ### 4. Install Agents
 
 ```bash
 # Copy agent directories
-cp -r /tmp/claude-scholar/codex/agents ~/.codex/
+cp -r /tmp/claude-scholar/agents ~/.codex/
 ```
 
 ### 5. Setup AGENTS.md
@@ -62,7 +62,7 @@ ls /tmp/claude-scholar/AGENTS.md
 
 ```bash
 # Install Zotero MCP server
-uv tool install zotero-mcp-server
+uv tool install --reinstall git+https://github.com/Galaxy-Dawn/zotero-mcp.git
 
 # Enable Local API in Zotero desktop app:
 # Edit → Settings → Advanced → Check "Allow other applications
@@ -77,7 +77,9 @@ command = "zotero-mcp"
 args = ["serve"]
 enabled = true
 [mcp_servers.zotero.env]
-ZOTERO_LOCAL = "true"
+ZOTERO_API_KEY = "your-api-key"
+ZOTERO_LIBRARY_ID = "your-user-id"
+ZOTERO_LIBRARY_TYPE = "user"
 ```
 
 ## Directory Structure
@@ -85,14 +87,13 @@ ZOTERO_LOCAL = "true"
 ```
 ~/.codex/
 ├── config.toml              # Main config (model, sandbox, skills, agents, MCP)
-└── agents/                  # 14 agent directories
+└── agents/                  # 13 agent directories
     ├── architect/
     │   ├── config.toml      # Agent-specific settings
     │   └── AGENTS.md        # Agent system prompt
     ├── code-reviewer/
     ├── bug-analyzer/
     ├── build-error-resolver/
-    ├── data-analyst/
     ├── dev-planner/
     ├── kaggle-miner/
     ├── literature-reviewer/
@@ -105,7 +106,7 @@ ZOTERO_LOCAL = "true"
 
 /tmp/claude-scholar/         # Project root (codex branch)
 ├── AGENTS.md                # Project instructions (auto-read by Codex)
-├── skills/                  # 40 skills (SKILL.md format)
+├── skills/                  # 43 skills (SKILL.md format)
 │   ├── ml-paper-writing/
 │   ├── research-ideation/
 │   ├── git-commit/          # New (from command)
@@ -146,8 +147,8 @@ done
 # Test Zotero MCP manually
 zotero-mcp serve
 
-# Check Zotero Local API is enabled
-curl http://localhost:23119/api
+# Check your Zotero MCP installation and config
+zotero-mcp serve
 ```
 
 ### Agent not found

@@ -14,15 +14,16 @@
   <strong>Language</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a>
 </div>
 
-> Personal [Codex CLI](https://github.com/openai/codex) configuration for academic research and software development — covering the full research lifecycle from ideation to publication.
+> Semi-automated research assistant for academic research and software development, adapted for [Codex CLI](https://github.com/openai/codex) across ideation, literature review, experiments, reporting, writing, and publication.
 
 > **Note**: This is the **Codex CLI edition** of Claude Scholar. For the Claude Code CLI version, see the [`main` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/main). For the **OpenCode** version, see the [`opencode` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/opencode).
 
 ## News
 
+- **2026-03-18**: Results reporting, writing memory, and workflow cleanup — added `results-report`, upgraded `results-analysis` to a strict analysis bundle workflow (`analysis-report.md`, `stats-appendix.md`, `figure-catalog.md`, `figures/`), removed the legacy `data-analyst` entrypoint from the Codex edition, migrated `paper-miner` to one canonical global writing memory, and refreshed the Codex installer to be safer for incremental updates.
 - **2026-02-26**: Zotero MCP Web/write workflow — supports remote access, paper import via DOI/arXiv ID/URL, collection management, item updates, and safe deletion; see `MCP_SETUP.md` for setup details
 - **2026-02-25**: Codex CLI migration — ported from OpenCode to Codex CLI format: TOML config, independent agent directories, commands merged into skills (32→40), hooks replaced by AGENTS.md instructions + sandbox, interactive `setup.sh` with merge support
-- **2026-02-23**: Added `setup.sh` installer — safe merge into existing config, auto-backup
+- **2026-02-23**: Added `setup.sh` installer — safer incremental updates with backups and config preservation
 
 <details>
 <summary>View older changelog</summary>
@@ -37,10 +38,10 @@
 
 ## Introduction
 
-Claude Scholar (Codex Edition) is a configuration system for [Codex CLI](https://github.com/openai/codex), providing rich skills, agents, and MCP integrations optimized for:
-- **Academic Research** - Complete research lifecycle: idea generation → experimentation → results analysis → paper writing → review response → conference preparation
+Claude Scholar (Codex Edition) is a **semi-automated research assistant** for [Codex CLI](https://github.com/openai/codex). It keeps the researcher in charge while accelerating the structured parts of the workflow:
+- **Academic Research** - ideation, literature review, experiment analysis, post-experiment reporting, paper writing, rebuttal, and conference preparation
 - **Software Development** - Git workflows, code review, test-driven development, ML project architecture
-- **Project Management** - Planning documents, code standards, automated workflows via AGENTS.md instructions
+- **Project Management** - planning documents, code standards, and reusable agent/skill workflows via `AGENTS.md`
 
 ## Quick Navigation
 
@@ -89,14 +90,15 @@ End-to-end research startup from idea generation to literature management:
 
 #### 3. Experiment Analysis
 
-**Tools**: `results-analysis` skill + `data-analyst` agent
+**Tools**: `results-analysis` skill + `results-report` skill
 
 **Process**:
-- **Statistical Testing**: t-test, ANOVA, Wilcoxon signed-rank → validate significance
-- **Visualization**: matplotlib/seaborn integration → publication-ready figures
-- **Ablation Studies**: Systematic component analysis
+- **Strict Analysis Bundle**: produce `analysis-report.md`, `stats-appendix.md`, `figure-catalog.md`, and real scientific figures
+- **Statistical Validation**: report descriptive statistics, confidence intervals, effect sizes, and justified significance tests
+- **Figure Interpretation**: every main figure must include its purpose, caption requirements, and interpretation checklist
+- **Post-Experiment Reporting**: hand off to `results-report` for a full retrospective with conclusions, limitations, and next actions
 
-**Trigger**: "analyze results in <experiment_dir>"
+**Trigger**: "analyze results in <experiment_dir>", "write a results report for this experiment"
 
 #### 4. Paper Writing
 
@@ -105,7 +107,8 @@ End-to-end research startup from idea generation to literature management:
 **Process**:
 - **Template Preparation**: Download conference .zip → extract main files → clean Overleaf-ready structure
 - **Citation Verification** (`citation-verification`): Multi-layer validation (Format → API → Information → Content)
-- **Systematic Writing**: Narrative framing → 5-sentence abstract formula → section-by-section drafting
+- **Global Writing Memory** (`paper-miner`): mine reusable writing patterns, structure signals, and venue-specific phrasing into one canonical memory under `~/.codex/skills/ml-paper-writing/references/knowledge/`
+- **Systematic Writing**: Narrative framing → section-by-section drafting → revision with explicit citation authority
 - **Anti-AI Processing** (`writing-anti-ai`): Remove inflated symbolism, promotional language → add human voice
 
 **Venues**: NeurIPS, ICML, ICLR, ACL, AAAI, COLM, Nature, Science, Cell, PNAS
@@ -140,7 +143,7 @@ In the Codex edition, automated workflows are handled through:
 
 #### Knowledge Extraction Workflow
 
-- **paper-miner** (agent): Analyze research papers → extract writing patterns, structure insights, venue requirements
+- **paper-miner** (agent): Analyze research papers → update one global writing memory with reusable patterns, phrasing, and venue-specific signals
 - **kaggle-miner** (agent): Study winning Kaggle solutions → extract technical analysis, code templates, best practices
 
 #### Skill Evolution System
@@ -151,11 +154,12 @@ skill-development → skill-quality-reviewer → skill-improver
 
 ## What's Included
 
-### Skills (40 total)
+### Skills (43 total)
 
 **Research Workflow:**
 - `research-ideation` - Research startup: 5W1H brainstorming, literature review, gap analysis
-- `results-analysis` - Experiment analysis: statistical testing, visualization, ablation studies
+- `results-analysis` - Strict experiment analysis: rigorous statistics, scientific figures, and analysis artifacts
+- `results-report` - Decision-oriented post-experiment summary reporting
 - `citation-verification` - Multi-layer citation validation
 - `daily-paper-generator` - Automated daily paper generation for research tracking
 
@@ -205,29 +209,28 @@ skill-development → skill-quality-reviewer → skill-improver
 
 ### Natural Language Triggers
 
-Codex CLI does not have slash commands. Instead, all former commands have been merged into skills and are triggered via natural language. For example:
+Codex CLI does not have slash commands. Instead, the Codex edition relies on skills, agents, and natural-language prompting. For example:
 
-| Say this... | Triggers skill |
-|-------------|---------------|
+| Say this... | Uses |
+|-------------|------|
 | "commit changes" | `git-commit` |
 | "push to GitHub" | `git-push` |
 | "review my code" | `code-review-excellence` |
-| "start research" | `research-ideation` |
-| "write rebuttal" | `review-response` |
-| "analyze results" | `results-analysis` |
-| "create a plan" | `planning-with-files` |
-| "fix build errors" | `build-fixer` |
+| "start research" | `research-ideation` + `literature-reviewer` |
+| "analyze results in results/run_a" | `results-analysis` |
+| "write a results report for this experiment" | `results-report` |
+| "mine writing patterns from this paper" | `paper-miner` |
+| "write rebuttal" | `review-response` + `rebuttal-writer` |
 | "wrap up session" | `session-wrap-up` |
 
-### Agents (14 specialized)
+### Agents (13 specialized)
 
 Each agent has its own directory under `~/.codex/agents/<name>/` with a `config.toml` and `AGENTS.md` (system prompt). Agents are registered in the main `config.toml` and invoked automatically or on demand.
 
 **Research Agents:**
 - **literature-reviewer** - Literature search, classification, and trend analysis
-- **data-analyst** - Automated data analysis and visualization
 - **rebuttal-writer** - Systematic rebuttal writing with tone optimization
-- **paper-miner** - Extract paper writing knowledge from successful publications
+- **paper-miner** - Extract reusable writing knowledge into one canonical global writing memory
 
 **Development Agents:**
 - **architect** - System architecture design
@@ -253,7 +256,7 @@ claude-scholar/                  # Codex CLI edition
 ├── config.toml                  # Core config: model, agents, MCP, features
 ├── AGENTS.md                    # Project context + workflow instructions
 │
-├── agents/                      # 14 specialized agents
+├── agents/                      # 13 specialized agents
 │   ├── code-reviewer/
 │   │   ├── config.toml          # Agent-specific settings
 │   │   └── AGENTS.md            # Agent system prompt
@@ -261,7 +264,7 @@ claude-scholar/                  # Codex CLI edition
 │   ├── literature-reviewer/
 │   └── ... (11 more agents)
 │
-├── skills/                      # 40 skills (32 original + 8 migrated)
+├── skills/                      # 43 skills
 │   ├── ml-paper-writing/
 │   │   └── SKILL.md
 │   ├── git-commit/              # New: migrated from /commit command
@@ -302,7 +305,7 @@ The script will:
 - Merge Scholar-specific sections (features, agents, MCP) into existing config
 - Copy skills, agents, scripts, and utils to `~/.codex/`
 
-**Includes**: All 40 skills, 14 agents, Zotero MCP config, and AGENTS.md.
+**Includes**: All 43 skills, 13 agents, Zotero MCP config, and AGENTS.md.
 
 #### Option 2: Manual Installation
 
@@ -375,7 +378,7 @@ After installation, run `codex` to start. The Codex CLI will:
 | Hooks/Plugins | TypeScript plugins (`plugins/*.ts`) | None — replaced by AGENTS.md instructions + sandbox |
 | Agents | JSON config in `opencode.jsonc` | Individual directories (`agents/<name>/config.toml + AGENTS.md`) |
 | Commands | File-based `.md` (50+) | Merged into skills (natural language triggers) |
-| Skills | 32 skills | 40 skills (8 migrated from commands) |
+| Skills | 32 skills | 43 skills |
 | Security | `security-guard.ts` plugin | `sandbox_mode = "workspace-write"` + AGENTS.md rules |
 | MCP | `opencode.jsonc` mcp section | `config.toml` `[mcp_servers]` section |
 | Dependencies | `package.json` (npm) | None — no npm dependencies |
