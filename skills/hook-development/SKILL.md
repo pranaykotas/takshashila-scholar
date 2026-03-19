@@ -6,6 +6,8 @@ version: 0.1.0
 
 # Hook Development for Claude Code Plugins
 
+> **Scope note**: This skill is a **Claude Code hook reference**, not a Codex-native capability. Codex CLI does not expose the Claude Code hook system.
+
 ## Overview
 
 Hooks are event-driven automation scripts that execute in response to Claude Code events. Use hooks to validate operations, enforce policies, add context, and integrate external tools into workflows.
@@ -547,7 +549,7 @@ input=$(cat)
 ```bash
 #!/bin/bash
 # Check configuration for activation
-CONFIG_FILE="$CLAUDE_PROJECT_DIR/.claude/plugin-config.json"
+CONFIG_FILE="$CLAUDE_PROJECT_DIR/.codex/plugin-config.json"
 
 if [ -f "$CONFIG_FILE" ]; then
   enabled=$(jq -r '.strictMode // false' "$CONFIG_FILE")
