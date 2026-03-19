@@ -52,6 +52,10 @@ UNSAFE_OPERATIONS = "all"
 description = "Literature search, classification, and trend analysis with Zotero MCP integration"
 config_file = "~/.codex/agents/literature-reviewer/config.toml"
 
+[agents.literature-reviewer-obsidian]
+description = "Obsidian literature review specialist for project-linked paper notes and synthesis"
+config_file = "~/.codex/agents/literature-reviewer-obsidian/config.toml"
+
 [agents.rebuttal-writer]
 description = "Systematic rebuttal writing with tone optimization"
 config_file = "~/.codex/agents/rebuttal-writer/config.toml"
@@ -63,6 +67,10 @@ config_file = "~/.codex/agents/paper-miner/config.toml"
 [agents.kaggle-miner]
 description = "Extract engineering practices from Kaggle solutions"
 config_file = "~/.codex/agents/kaggle-miner/config.toml"
+
+[agents.research-knowledge-curator-obsidian]
+description = "Default Obsidian knowledge curator for bound research repositories"
+config_file = "~/.codex/agents/research-knowledge-curator-obsidian/config.toml"
 
 # --- Development Workflow ---
 

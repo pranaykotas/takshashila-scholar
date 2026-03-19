@@ -84,13 +84,21 @@
 
 - **Zotero 集成**: 通过 Zotero MCP 服务器实现论文自动导入、集合管理、全文阅读和准确引用导出
 - **知识提取**: `paper-miner` 将论文中的可复用写作模式沉淀到一份全局 canonical writing memory；`kaggle-miner` 持续从竞赛方案中提取工程知识
+- **Obsidian 知识库**: 已内置 filesystem-first 项目知识库工作流；当仓库已绑定 project memory 时，应默认把 Obsidian 视为该科研项目的 durable knowledge sink
 - **技能进化**: `skill-development` → `skill-quality-reviewer` → `skill-improver` 三步改进循环
+
+### Obsidian 项目知识库规则
+
+- 若当前仓库包含 `.claude/project-memory/registry.yaml`，默认启用 `obsidian-project-memory`，把 Obsidian 作为该项目的默认知识库。
+- 若仓库尚未绑定但明显像科研项目，则默认启用 `obsidian-project-bootstrap`。
+- 对于实质性的科研回合，至少维护当天 `Daily/` 与 repo-local project memory；只有项目顶层状态变化时才更新 `00-Hub.md`。
+- Obsidian 工作流不依赖 MCP，也不要求额外 API key。
 
 ---
 
-## 技能目录（43 skills）
+## 技能目录（55 skills）
 
-### 研究与分析 (4)
+### 研究与分析 (5)
 - **research-ideation**: 研究构思启动
 - **results-analysis**: 严格实验分析
 - **results-report**: 实验后完整总结报告
@@ -126,6 +134,20 @@
 - **uv-package-manager**: uv 包管理器
 - **webapp-testing**: Web 应用测试
 - **kaggle-learner**: Kaggle 竞赛学习
+
+### Obsidian 知识库 (12)
+- **obsidian-project-memory**: 默认项目知识库总控
+- **obsidian-project-bootstrap**: 新项目/旧项目导入
+- **obsidian-research-log**: daily、plan、hub 与稳定进展路由
+- **obsidian-experiment-log**: 实验与结果日志
+- **obsidian-project-lifecycle**: detach / archive / purge / note lifecycle
+- **obsidian-literature-workflow**: paper notes 与文献综合工作流
+- **zotero-obsidian-bridge**: Zotero -> Obsidian durable paper notes
+- **obsidian-link-graph**: legacy link repair helper
+- **obsidian-synthesis-map**: legacy synthesis helper
+- **obsidian-markdown**: vendored 官方 Obsidian Markdown skill
+- **obsidian-cli**: vendored 官方 Obsidian CLI skill
+- **obsidian-bases / json-canvas / defuddle**: vendored 官方可选辅助
 
 ### 网页设计 (3)
 - **frontend-design**: 前端界面设计

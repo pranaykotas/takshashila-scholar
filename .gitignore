@@ -1,16 +1,13 @@
-# OpenCode Configuration Git Ignore
+# Claude Configuration Git Ignore
 
 # System files
 .DS_Store
 Thumbs.db
 
-# Dependencies
-node_modules/
-bun.lock
-
 # Sensitive and local configuration
 .env
 .env.local
+.mcp.json
 settings*.json
 settings*.json.bak
 *.backup
@@ -22,6 +19,10 @@ shell-snapshots/
 file-history/
 
 # Cache and temporary files
+# Python cache
+__pycache__/
+*.pyc
+
 cache/
 debug/
 downloads/
@@ -41,3 +42,5 @@ plan/
 plans/
 projects/
 temp/
+tasks/
+teams/

@@ -18,45 +18,93 @@
 
 > **Note**: This is the **Codex CLI edition** of Claude Scholar. For the Claude Code CLI version, see the [`main` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/main). For the **OpenCode** version, see the [`opencode` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/opencode).
 
-## News
+## Recent News
 
-- **2026-03-18**: Results reporting, writing memory, and workflow cleanup — added `results-report`, upgraded `results-analysis` to a strict analysis bundle workflow (`analysis-report.md`, `stats-appendix.md`, `figure-catalog.md`, `figures/`), removed the legacy `data-analyst` entrypoint from the Codex edition, migrated `paper-miner` to one canonical global writing memory, and refreshed the Codex installer to be safer for incremental updates.
-- **2026-02-26**: Zotero MCP Web/write workflow — supports remote access, paper import via DOI/arXiv ID/URL, collection management, item updates, and safe deletion; see `MCP_SETUP.md` for setup details
-- **2026-02-25**: Codex CLI migration — ported from OpenCode to Codex CLI format: TOML config, independent agent directories, commands merged into skills (32→40), hooks replaced by AGENTS.md instructions + sandbox, interactive `setup.sh` with merge support
-- **2026-02-23**: Added `setup.sh` installer — safer incremental updates with backups and config preservation
+- **2026-03-18**: **Results reporting, writing memory, and workflow cleanup** — split post-experiment work in the Codex edition into `results-analysis` for strict statistics, real scientific figures, `analysis-report.md` / `stats-appendix.md` / `figure-catalog.md`, and `results-report` for decision-oriented post-experiment reports with Obsidian write-back; removed the redundant `data-analyst` entrypoint, made the default Codex path a natural-language one-shot analysis + report workflow, introduced a global `paper-miner` writing memory, wired `ml-paper-writing` and `review-response` to read that shared memory, refreshed the README around human-centered semi-automation, and updated the project logo.
+- **2026-03-17**: **Obsidian project knowledge base** — ported the filesystem-first Obsidian workflow into the Codex edition with project import, repo-bound auto-sync, `Papers / Knowledge / Experiments / Results / Results/Reports / Writing` routing, default `Maps/literature.canvas`, and no MCP requirement for the Obsidian side.
+- **2026-02-26**: **Zotero MCP Web/write workflow** — supports remote access, paper import via DOI/arXiv ID/URL, collection management, item updates, and safe deletion; see `MCP_SETUP.md` for setup details.
+- **2026-02-25**: **Codex CLI migration** — ported from OpenCode to Codex CLI format: TOML config, independent agent directories, commands merged into skills, hooks replaced by AGENTS.md instructions + sandbox, and an interactive `setup.sh` with merge support.
+- **2026-02-23**: Added `setup.sh` installer — backup-aware incremental updates for existing `~/.codex` with config preservation.
 
 <details>
 <summary>View older changelog</summary>
 
 - **2026-02-22**: Added Zotero MCP server — enables literature management out of the box
 - **2026-02-21**: OpenCode migration — hooks→plugins (TypeScript), agents→opencode.jsonc, CLAUDE.md→AGENTS.md
-- **2026-02-15**: Zotero MCP integration — added `/zotero-review` and `/zotero-notes` commands
+- **2026-02-15**: Zotero MCP integration — added `/zotero-review` and `/zotero-notes` commands in the Claude Code branch
 - **2026-02-11**: Major update — added 10 new skills, 7 new agents, 8 research workflow commands; 89 files changed
 - **2026-01-25**: Project open-sourced, v1.0.0 released
 
 </details>
 
-## Introduction
+## Why Claude Scholar
 
-Claude Scholar (Codex Edition) is a **semi-automated research assistant** for [Codex CLI](https://github.com/openai/codex). It keeps the researcher in charge while accelerating the structured parts of the workflow:
-- **Academic Research** - ideation, literature review, experiment analysis, post-experiment reporting, paper writing, rebuttal, and conference preparation
-- **Software Development** - Git workflows, code review, test-driven development, ML project architecture
-- **Project Management** - planning documents, code standards, and reusable agent/skill workflows via `AGENTS.md`
+Claude Scholar is **not** an end-to-end autonomous research system that tries to replace the researcher.
+
+Its core idea is simple:
+
+> **human decision-making stays at the center; the assistant accelerates the workflow around it.**
+
+That means the Codex edition is designed to help with the heavy, repetitive, and structure-sensitive parts of research — literature organization, note-taking, experiment analysis, reporting, and writing support — while still keeping the key judgments in human hands:
+
+- which problem is worth pursuing,
+- which papers actually matter,
+- which hypotheses are worth testing,
+- which results are convincing,
+- and what should be written, submitted, or abandoned.
+
+In other words, Claude Scholar is a **semi-automated research assistant**, not a fully automated scientist.
+
+## Core Workflow
+
+- **Ideation**: turn a vague topic into concrete questions, research gaps, and an initial plan.
+- **Literature**: search, import, organize, and read papers through Zotero collections.
+- **Paper notes**: convert papers into structured reading notes and reusable claims.
+- **Knowledge base**: route durable knowledge into Obsidian across `Papers / Knowledge / Experiments / Results / Results/Reports / Writing`.
+- **Experiments**: track hypotheses, experiment lines, run history, findings, and next actions.
+- **Analysis**: generate strict statistics, real scientific figures, and analysis artifacts with `results-analysis`.
+- **Reporting**: produce a complete post-experiment report with `results-report`, then write it back into Obsidian.
+- **Writing and publication**: carry stable findings into literature reviews, papers, rebuttals, slides, posters, and promotion.
 
 ## Quick Navigation
 
-| Topic | Description |
-|-------|-------------|
-| [Quick Start](#quick-start) | Get up and running with setup.sh |
-| [Core Workflows](#core-workflows) | Paper writing, code organization, skill evolution |
-| [What's Included](#whats-included) | Skills, agents overview |
-| [Installation Guide](#installation-options) | Full install or manual setup |
-| [MCP Setup](#mcp-server-setup) | Zotero MCP for research workflows |
-| [Migration Notes](#key-differences-from-opencode-version) | What changed from OpenCode edition |
+| Section | What it helps with |
+|---|---|
+| [Why Claude Scholar](#why-claude-scholar) | Understand the human-centered positioning of the project. |
+| [Core Workflow](#core-workflow) | See the end-to-end research pipeline from ideation to publication. |
+| [Quick Start](#quick-start) | Install Claude Scholar safely into an existing `~/.codex` setup. |
+| [Integrations](#integrations) | Learn how Zotero and Obsidian fit into the Codex workflow. |
+| [Primary Workflows](#primary-workflows) | Browse the main research and development workflows. |
+| [Supporting Workflows](#supporting-workflows) | See the background systems that strengthen the main workflow. |
+| [Documentation](#documentation) | Jump to setup docs, configuration, and installation guides. |
+| [Citation](#citation) | Cite Claude Scholar in papers, reports, or project docs. |
 
-## Core Workflows
+## Integrations
 
-### Primary Workflows
+### Zotero
+
+Use Zotero when you want Claude Scholar to help with:
+- paper import via DOI / arXiv / URL,
+- collection-based reading workflows,
+- full-text access through Zotero MCP,
+- detailed paper notes and literature synthesis.
+
+See [MCP_SETUP.md](./MCP_SETUP.md).
+
+### Obsidian
+
+Use Obsidian when you want Claude Scholar to maintain a filesystem-first research knowledge base:
+- `Papers/`
+- `Knowledge/`
+- `Experiments/`
+- `Results/`
+- `Results/Reports/`
+- `Writing/`
+- `Daily/`
+
+See [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md).
+
+## Primary Workflows
 
 Complete academic research lifecycle - 7 stages from idea to publication.
 
@@ -74,7 +122,7 @@ End-to-end research startup from idea generation to literature management:
 - **Research Question**: SMART principles → formulate specific, measurable questions
 - **Method Selection & Planning**: Evaluate method applicability → timeline, milestones, risk assessment
 
-**Trigger**: "start research", "review literature", "generate reading notes"
+**Trigger**: "start research", "review this Zotero collection", "generate reading notes"
 
 #### 2. ML Project Development
 
@@ -98,7 +146,7 @@ End-to-end research startup from idea generation to literature management:
 - **Figure Interpretation**: every main figure must include its purpose, caption requirements, and interpretation checklist
 - **Post-Experiment Reporting**: hand off to `results-report` for a full retrospective with conclusions, limitations, and next actions
 
-**Trigger**: "analyze results in <experiment_dir>", "write a results report for this experiment"
+**Trigger**: "analyze results in <experiment_dir> and prepare the final report" or "write a results report for this experiment"
 
 #### 4. Paper Writing
 
@@ -112,6 +160,8 @@ End-to-end research startup from idea generation to literature management:
 - **Anti-AI Processing** (`writing-anti-ai`): Remove inflated symbolism, promotional language → add human voice
 
 **Venues**: NeurIPS, ICML, ICLR, ACL, AAAI, COLM, Nature, Science, Cell, PNAS
+
+**Trigger**: "draft the paper", "mine writing patterns from this paper"
 
 #### 5. Paper Self-Review
 
@@ -131,7 +181,19 @@ End-to-end research startup from idea generation to literature management:
 
 **Coverage**: 90% of academic research lifecycle (from idea to publication)
 
-### Supporting Workflows
+## Supporting Workflows
+
+#### Obsidian Project Knowledge Base
+
+The Codex edition now includes the filesystem-first Obsidian workflow from the main branch:
+
+- `obsidian-project-memory` for repo-bound project memory and canonical note routing
+- `obsidian-project-bootstrap` for detecting or importing research repositories into a vault
+- `obsidian-research-log` and `obsidian-experiment-log` for daily notes, plans, experiments, and results
+- `obsidian-literature-workflow` and `zotero-obsidian-bridge` for moving paper notes into project knowledge and refreshing `Maps/literature.canvas`
+- no MCP or API key required for the Obsidian side
+
+See [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md).
 
 #### Workflow Automation
 
@@ -154,7 +216,7 @@ skill-development → skill-quality-reviewer → skill-improver
 
 ## What's Included
 
-### Skills (43 total)
+### Skills (55 total)
 
 **Research Workflow:**
 - `research-ideation` - Research startup: 5W1H brainstorming, literature review, gap analysis
@@ -197,6 +259,16 @@ skill-development → skill-quality-reviewer → skill-improver
 - `webapp-testing` - Local web application testing
 - `kaggle-learner` - Learn from Kaggle solutions
 
+**Obsidian Knowledge Base:**
+- `obsidian-project-memory` - Default project-memory orchestrator for bound research repos
+- `obsidian-project-bootstrap` - Bootstrap or import a research repository into an Obsidian vault
+- `obsidian-research-log` - Route daily notes, plans, and durable progress updates
+- `obsidian-experiment-log` - Log experiments, ablations, and stable result summaries
+- `obsidian-project-lifecycle` - Detach, archive, purge, and note-level lifecycle operations
+- `obsidian-literature-workflow` - Normalize paper notes and connect them to project context
+- `zotero-obsidian-bridge` - Bridge Zotero collections/full text into durable Obsidian paper notes
+- `obsidian-markdown` / `obsidian-cli` / `obsidian-bases` / `json-canvas` / `defuddle` - Vendored official helpers for markdown, CLI, optional bases/canvas, and clean web-to-markdown extraction
+
 **Migrated from Commands (8 new):**
 - `git-commit` - Commit with Conventional Commits
 - `git-push` - Commit and push to GitHub
@@ -223,12 +295,14 @@ Codex CLI does not have slash commands. Instead, the Codex edition relies on ski
 | "write rebuttal" | `review-response` + `rebuttal-writer` |
 | "wrap up session" | `session-wrap-up` |
 
-### Agents (13 specialized)
+### Agents (15 specialized)
 
 Each agent has its own directory under `~/.codex/agents/<name>/` with a `config.toml` and `AGENTS.md` (system prompt). Agents are registered in the main `config.toml` and invoked automatically or on demand.
 
 **Research Agents:**
 - **literature-reviewer** - Literature search, classification, and trend analysis
+- **literature-reviewer-obsidian** - Read project paper notes from Obsidian and generate linked literature synthesis
+- **research-knowledge-curator-obsidian** - Maintain the bound Obsidian project knowledge base during normal research turns
 - **rebuttal-writer** - Systematic rebuttal writing with tone optimization
 - **paper-miner** - Extract reusable writing knowledge into one canonical global writing memory
 
@@ -256,7 +330,7 @@ claude-scholar/                  # Codex CLI edition
 ├── config.toml                  # Core config: model, agents, MCP, features
 ├── AGENTS.md                    # Project context + workflow instructions
 │
-├── agents/                      # 13 specialized agents
+├── agents/                      # 15 specialized agents
 │   ├── code-reviewer/
 │   │   ├── config.toml          # Agent-specific settings
 │   │   └── AGENTS.md            # Agent system prompt
@@ -264,7 +338,7 @@ claude-scholar/                  # Codex CLI edition
 │   ├── literature-reviewer/
 │   └── ... (11 more agents)
 │
-├── skills/                      # 43 skills
+├── skills/                      # 55 skills
 │   ├── ml-paper-writing/
 │   │   └── SKILL.md
 │   ├── git-commit/              # New: migrated from /commit command
@@ -292,7 +366,7 @@ claude-scholar/                  # Codex CLI edition
 
 #### Option 1: Full Installation (Recommended)
 
-Interactive installer with merge support — detects existing `~/.codex` config and merges non-destructively:
+Interactive installer with merge support — detects existing `~/.codex` config and performs a backup-aware incremental update:
 
 ```bash
 git clone -b codex https://github.com/Galaxy-Dawn/claude-scholar.git /tmp/claude-scholar
@@ -300,12 +374,12 @@ bash /tmp/claude-scholar/scripts/setup.sh
 ```
 
 The script will:
-- Detect existing `config.toml` and `auth.json`, ask whether to keep or reconfigure
-- Choose API provider (OpenAI or custom) and model
-- Merge Scholar-specific sections (features, agents, MCP) into existing config
-- Copy skills, agents, scripts, and utils to `~/.codex/`
+- Preserve your existing provider/model choices unless you explicitly reconfigure them
+- Preserve existing API keys, auth files, permissions, and unrelated config fields
+- Merge Scholar-managed sections (features, agents, MCP, skills paths) into the existing config instead of overwriting the whole file
+- Copy or refresh skills, agents, scripts, and utilities under `~/.codex/` with backups for overwritten managed files
 
-**Includes**: All 43 skills, 13 agents, Zotero MCP config, and AGENTS.md.
+**Includes**: All 55 skills, 15 agents, Zotero MCP config, Obsidian knowledge-base skills, and AGENTS.md.
 
 #### Option 2: Manual Installation
 
@@ -316,7 +390,6 @@ git clone -b codex https://github.com/Galaxy-Dawn/claude-scholar.git /tmp/claude
 
 mkdir -p ~/.codex/skills ~/.codex/agents
 cp /tmp/claude-scholar/config.toml ~/.codex/
-cp /tmp/claude-scholar/AGENTS.md ~/.codex/
 cp -r /tmp/claude-scholar/skills/ml-paper-writing ~/.codex/skills/
 cp -r /tmp/claude-scholar/skills/research-ideation ~/.codex/skills/
 cp -r /tmp/claude-scholar/skills/git-workflow ~/.codex/skills/
@@ -325,7 +398,7 @@ cp -r /tmp/claude-scholar/agents/code-reviewer ~/.codex/agents/
 rm -rf /tmp/claude-scholar
 ```
 
-**Note**: You'll need to manually edit `~/.codex/config.toml` to set your model, provider, and register the agents/skills you copied.
+**Note**: You'll need to manually edit `~/.codex/config.toml` to set your model, provider, and register the agents/skills you copied. Keep `AGENTS.md` in the repo where you actually run Codex.
 
 ### Requirements
 
@@ -340,7 +413,7 @@ For Zotero-integrated research workflows, install the MCP server:
 
 ```bash
 # Install Zotero MCP server
-uv tool install git+https://github.com/Galaxy-Dawn/zotero-mcp.git
+uv tool install --reinstall git+https://github.com/Galaxy-Dawn/zotero-mcp.git
 ```
 
 For Web/write tools, open [Zotero Settings -> Security -> Applications](https://www.zotero.org/settings/security#applications), create a private key, and use the numeric `User ID` shown on that page as `ZOTERO_LIBRARY_ID` for a personal library. Then configure `config.toml`:
@@ -370,6 +443,18 @@ After installation, run `codex` to start. The Codex CLI will:
 3. Use registered agents from `config.toml` for specialized tasks
 4. Enforce `sandbox_mode = "workspace-write"` for file safety
 
+## Obsidian Knowledge Base
+
+The Codex branch now carries the same filesystem-first Obsidian project knowledge-base direction as the main branch, adapted to Codex conventions:
+
+- no Obsidian MCP or API key requirement
+- repo-bound project memory via `.claude/project-memory/registry.yaml` inside the research repo
+- compact vault layout: `Knowledge / Papers / Experiments / Results / Results/Reports / Writing / Daily / Archive`
+- optional official `obsidian` CLI support for navigation only
+- default literature graph artifact: `Maps/literature.canvas`
+
+See [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md).
+
 ## Key Differences from OpenCode Version
 
 | Aspect | OpenCode (`opencode` branch) | Codex CLI (`codex` branch) |
@@ -378,7 +463,7 @@ After installation, run `codex` to start. The Codex CLI will:
 | Hooks/Plugins | TypeScript plugins (`plugins/*.ts`) | None — replaced by AGENTS.md instructions + sandbox |
 | Agents | JSON config in `opencode.jsonc` | Individual directories (`agents/<name>/config.toml + AGENTS.md`) |
 | Commands | File-based `.md` (50+) | Merged into skills (natural language triggers) |
-| Skills | 32 skills | 43 skills |
+| Skills | 32 skills | 55 skills |
 | Security | `security-guard.ts` plugin | `sandbox_mode = "workspace-write"` + AGENTS.md rules |
 | MCP | `opencode.jsonc` mcp section | `config.toml` `[mcp_servers]` section |
 | Dependencies | `package.json` (npm) | None — no npm dependencies |
@@ -416,12 +501,39 @@ Defined in `AGENTS.md`:
 - Configuration recording (Hydra auto-save)
 - Environment recording and checkpoint management
 
+## Documentation
+
+- [INSTALL-CODEX.md](./INSTALL-CODEX.md) — Codex CLI installation and update guide
+- [MCP_SETUP.md](./MCP_SETUP.md) — Zotero MCP setup and troubleshooting
+- [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md) — filesystem-first Obsidian knowledge-base workflow
+- [AGENTS.md](./AGENTS.md) — Codex project rules, workflow guidance, and orchestration defaults
+
 ## Contributing
 
-This is a personal configuration, but you're welcome to:
-- Fork and adapt for your own research
-- Submit issues for bugs
-- Suggest improvements via issues
+Contributions are welcome, especially for:
+- research workflow design,
+- Codex-compatible skill and agent improvements,
+- Zotero / Obsidian workflow quality,
+- documentation fixes and reproducibility improvements.
+
+If you propose changes to installer behavior, Zotero workflows, or Obsidian routing, please include:
+- the target user workflow,
+- backward-compatibility considerations,
+- and how the change should behave in the Codex edition.
+
+## Citation
+
+If Claude Scholar helps your workflow, you can cite it as:
+
+```bibtex
+@misc{zhang2026claudescholar,
+  author       = {Gaorui Zhang},
+  title        = {Claude Scholar: Semi-automated research assistant for academic research and software development},
+  year         = {2026},
+  howpublished = {GitHub repository},
+  url          = {https://github.com/Galaxy-Dawn/claude-scholar}
+}
+```
 
 ## License
 
@@ -429,7 +541,7 @@ MIT License
 
 ## Acknowledgments
 
-Built with [Codex CLI](https://github.com/openai/codex) and enhanced by the open-source community.
+Built with [Codex CLI](https://github.com/openai/codex) and extended through open-source research tooling and community practice.
 
 ### References
 
@@ -438,6 +550,6 @@ Built with [Codex CLI](https://github.com/openai/codex) and enhanced by the open
 
 ---
 
-**For data science, AI research, and academic writing.**
+**Semi-automated research assistant for academic research and software development.**
 
 Repository: [https://github.com/Galaxy-Dawn/claude-scholar](https://github.com/Galaxy-Dawn/claude-scholar)

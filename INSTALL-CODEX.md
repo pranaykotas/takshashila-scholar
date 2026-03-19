@@ -1,6 +1,6 @@
 # Codex CLI Installation Guide
 
-Claude Scholar 的 Codex CLI 版本安装指南（更新到 results-report / global writing memory / safer incremental setup 之后的版本）。
+Claude Scholar Codex CLI 版安装指南（已覆盖 results-report、global writing memory、Obsidian knowledge base，以及安全增量更新安装器）。
 
 ## Prerequisites
 
@@ -37,6 +37,7 @@ mkdir -p /tmp/claude-scholar/skills
 mkdir -p ~/.codex
 
 # Copy main config
+# Prefer the interactive installer for safe incremental merge
 cp /tmp/claude-scholar/config.toml ~/.codex/config.toml
 ```
 
@@ -47,9 +48,9 @@ cp /tmp/claude-scholar/config.toml ~/.codex/config.toml
 cp -r /tmp/claude-scholar/agents ~/.codex/
 ```
 
-### 5. Setup AGENTS.md
+### 5. Use Repo-local AGENTS.md
 
-The `AGENTS.md` file in the project root is automatically read by Codex CLI when you run it from that directory.
+The `AGENTS.md` file should stay in the project root where you actually run Codex. Codex reads it automatically from the current workspace.
 
 ```bash
 # AGENTS.md is already in the repository root
@@ -60,16 +61,14 @@ ls /tmp/claude-scholar/AGENTS.md
 
 ### Zotero MCP (Literature Management)
 
+For the Obsidian knowledge-base side, no MCP is required; see `OBSIDIAN_SETUP.md`.
+
 ```bash
 # Install Zotero MCP server
 uv tool install --reinstall git+https://github.com/Galaxy-Dawn/zotero-mcp.git
-
-# Enable Local API in Zotero desktop app:
-# Edit → Settings → Advanced → Check "Allow other applications
-# on this computer to communicate with Zotero"
 ```
 
-Already configured in `config.toml`:
+Template block already present in `config.toml` (enable it only after replacing with your own values):
 
 ```toml
 [mcp_servers.zotero]
@@ -87,7 +86,7 @@ ZOTERO_LIBRARY_TYPE = "user"
 ```
 ~/.codex/
 ├── config.toml              # Main config (model, sandbox, skills, agents, MCP)
-└── agents/                  # 13 agent directories
+└── agents/                  # 15 agent directories
     ├── architect/
     │   ├── config.toml      # Agent-specific settings
     │   └── AGENTS.md        # Agent system prompt
@@ -98,6 +97,8 @@ ZOTERO_LIBRARY_TYPE = "user"
     ├── kaggle-miner/
     ├── literature-reviewer/
     ├── paper-miner/
+    ├── literature-reviewer-obsidian/
+    ├── research-knowledge-curator-obsidian/
     ├── rebuttal-writer/
     ├── refactor-cleaner/
     ├── tdd-guide/
@@ -106,12 +107,12 @@ ZOTERO_LIBRARY_TYPE = "user"
 
 /tmp/claude-scholar/         # Project root (codex branch)
 ├── AGENTS.md                # Project instructions (auto-read by Codex)
-├── skills/                  # 43 skills (SKILL.md format)
+├── skills/                  # 55 skills (SKILL.md format)
 │   ├── ml-paper-writing/
 │   ├── research-ideation/
 │   ├── git-commit/          # New (from command)
 │   ├── git-push/            # New (from command)
-│   └── ... (36 more)
+│   └── ... (37 more)
 └── rules/                   # Reference rules (merged into AGENTS.md)
 ```
 
@@ -144,10 +145,10 @@ done
 ### MCP connection issues
 
 ```bash
-# Test Zotero MCP manually
-zotero-mcp serve
+# Reinstall the latest zotero-mcp version
+uv tool install --reinstall git+https://github.com/Galaxy-Dawn/zotero-mcp.git
 
-# Check your Zotero MCP installation and config
+# Test Zotero MCP manually
 zotero-mcp serve
 ```
 
