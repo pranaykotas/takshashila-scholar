@@ -129,11 +129,12 @@
 - **hook-development**: Hook 开发
 - **mcp-integration**: MCP 服务器集成
 
-### 工具与实用 (4)
+### 工具与实用 (5)
 - **planning-with-files**: Markdown 规划
 - **uv-package-manager**: uv 包管理器
 - **webapp-testing**: Web 应用测试
 - **kaggle-learner**: Kaggle 竞赛学习
+- **codex-hook-emulation**: 用 AGENTS + helper script 近似 Claude Code hooks
 
 ### Obsidian 知识库 (12)
 - **obsidian-project-memory**: 默认项目知识库总控
@@ -310,10 +311,35 @@ For complex problems, use split-role sub-agents:
 ## Session Start Protocol
 
 When starting a new session, ALWAYS:
-1. Check git status and display current branch + uncommitted changes
-2. List available skills relevant to the current project context
-3. Show recent TODOs if any exist
-4. Display a brief summary of the project state
+1. Run `python3 scripts/codex_hook_emulation.py session-start --cwd "$PWD"` when inside a repo that contains the helper script
+2. Check git status and display current branch + uncommitted changes
+3. List available skills relevant to the current project context
+4. Show recent TODOs if any exist
+5. Display a brief summary of the project state
+
+---
+
+## Codex Hook Emulation Protocol
+
+Because Codex does not expose native Claude Code hooks, emulate the highest-value hook behavior through `codex-hook-emulation` plus AGENTS discipline:
+
+1. **SessionStart surrogate**
+   - Use `scripts/codex_hook_emulation.py session-start --cwd "$PWD"` at the first substantive repo turn.
+2. **PreToolUse surrogate**
+   - Before dangerous or irreversible operations, run:
+     - `python3 scripts/codex_hook_emulation.py preflight "<command>"`
+   - Interpret exit codes:
+     - `0` allow
+     - `3` confirm with user first
+     - `2` block by default
+3. **PostToolUse surrogate**
+   - After meaningful edits, run:
+     - `python3 scripts/codex_hook_emulation.py post-edit --cwd "$PWD"`
+   - Use the output to decide verification and minimum Obsidian write-back.
+4. **Stop / SessionEnd surrogate**
+   - Before closeout, run:
+     - `python3 scripts/codex_hook_emulation.py session-end --cwd "$PWD"`
+   - Then apply `session-wrap-up`.
 
 ---
 
@@ -328,10 +354,11 @@ If you think there is even a 1% chance a skill might apply, you MUST check it. D
 ## Session Wrap-Up Protocol
 
 When the user says "wrap up", "总结", "session end", or similar:
-1. Generate a work log summarizing what was accomplished
-2. Check if AGENTS.md needs updates based on changes made
-3. Remind about any temporary files that should be cleaned up
-4. Show git status for uncommitted changes
+1. Run `python3 scripts/codex_hook_emulation.py session-end --cwd "$PWD"` when available
+2. Generate a work log summarizing what was accomplished
+3. Check if AGENTS.md needs updates based on changes made
+4. Remind about any temporary files that should be cleaned up
+5. Show git status for uncommitted changes
 
 ---
 
@@ -349,3 +376,4 @@ Two layers of protection:
 - WARN before: `git push --force`, `git reset --hard`, `chmod 777`, `DROP DATABASE/TABLE`
 - NEVER write to system paths: `/etc/`, `/usr/bin/`, `/sbin/`, `/System/`
 - NEVER commit sensitive files: `.env`, `*.pem`, `*.key`, `credentials.json`, `settings.json`
+- Prefer `python3 scripts/codex_hook_emulation.py preflight "<command>"` before high-risk shell actions
