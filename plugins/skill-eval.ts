@@ -32,7 +32,7 @@ export const SkillEvalPlugin: Plugin = async (ctx) => {
         const memoryPath = binding.memoryPath || ".opencode/project-memory/<project_id>.md";
         const vaultRoot = binding.vaultRoot || "unknown-vault";
         output.system.push(
-          `This repository is bound to an Obsidian project knowledge base (project_id=${binding.projectId || "unknown-project"}, vault_root=${vaultRoot}). Treat obsidian-project-memory as the default curator path for research turns, keep ${memoryPath} synchronized when project state changes, and prefer updating canonical notes over creating duplicates.`,
+          `This repository is bound to an Obsidian project knowledge base (project_id=${binding.projectId || "unknown-project"}, vault_root=${vaultRoot}). Treat obsidian-project-memory as the default curator path for research turns. Start narrowly from ${memoryPath}, 00-Hub.md, 01-Plan.md, today's Daily note, and the best matching canonical note before widening to broader repo exploration. When the user asks to import, summarize, review, update, fix, or synchronize project knowledge, do not stop at read-only exploration once you have enough evidence: finish by updating the minimum necessary canonical note(s) under ${vaultRoot}. Prefer updating existing canonical notes over creating siblings. Only create a new canonical note when no adequate durable note exists yet. For concrete canonical-note creation or update, prefer the deterministic helper path via project_kb.py writeback-note rather than ad-hoc manual vault edits. Use built-in file tools such as read, glob, and edit for vault files. Do not use shell commands like ls, cat, echo, touch, or sed just to inspect or modify the bound vault unless there is no file-tool alternative. Never add links in 00-Hub.md to notes that do not exist; render folder-only destinations as plain text paths instead.`,
         );
         return;
       }
@@ -90,7 +90,7 @@ export const SkillEvalPlugin: Plugin = async (ctx) => {
         console.log(`[skill-eval] Research knowledge-base hints: ${hinted.join(", ")}`);
       }
       if (binding.bound && researchPrompt) {
-        console.log(`[skill-eval] Bound Obsidian repo detected: ${binding.projectId || "unknown-project"}. Keep Daily/YYYY-MM-DD.md and ${binding.memoryPath || '.opencode/project-memory/<project_id>.md'} in sync when research state changes.`);
+        console.log(`[skill-eval] Bound Obsidian repo detected: ${binding.projectId || "unknown-project"}. Keep Daily/YYYY-MM-DD.md and ${binding.memoryPath || '.opencode/project-memory/<project_id>.md'} in sync when research state changes, prefer updating canonical notes, and do not stop at read-only exploration when the user explicitly asks for knowledge write-back.`);
       }
     },
   };

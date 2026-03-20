@@ -34,7 +34,11 @@ Use this command when a new Markdown file or folder should be absorbed into the 
    ```bash
    python3 "$HOME/.opencode/skills/obsidian-project-memory/scripts/project_kb.py" find-canonical-note --cwd "$PWD" --kind paper --query "keyword"
    ```
-7. Update project memory and today's daily note with what was promoted, merged, or staged.
+7. If the destination is already clear and the content is ready, prefer deterministic writeback instead of ad-hoc vault editing:
+   ```bash
+   python3 "$HOME/.opencode/skills/obsidian-project-memory/scripts/project_kb.py" writeback-note --cwd "$PWD" --kind "$kind" --query "$query" --title "$title" --content-file "$temp_file"
+   ```
+8. Update project memory and today's daily note with what was promoted, merged, or staged.
 
 ## Routing defaults
 

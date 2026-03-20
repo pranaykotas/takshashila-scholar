@@ -44,6 +44,16 @@ INDEX_NOTE_REL_PATHS = (
     'Knowledge/Research-Questions.md',
     'Results/Figure-and-CSV-Index.md',
 )
+STANDARD_CANONICAL_TITLES = {
+    'knowledge': {
+        'project-overview': 'Knowledge/Project-Overview.md',
+        'research-questions': 'Knowledge/Research-Questions.md',
+        'dataset-protocol': 'Knowledge/Dataset-Protocol.md',
+        'analysis-pipeline-modes': 'Knowledge/Analysis-Pipeline-Modes.md',
+        'source-inventory': 'Knowledge/Source-Inventory.md',
+        'codebase-overview': 'Knowledge/Codebase-Overview.md',
+    },
+}
 
 
 @dataclass(frozen=True)
@@ -382,8 +392,40 @@ def daily_note_path(project_root: Path) -> Path:
     return project_root / 'Daily' / (datetime.now().strftime('%Y-%m-%d') + '.md')
 
 
-def hub_note(project_slug: str, project_title: str) -> str:
-    today = datetime.now().strftime('%Y-%m-%d')
+def render_hub_core_index(project_root: Path) -> str:
+    lines: list[str] = []
+
+    def add_note(path: Path, alias: str | None = None) -> None:
+        if not path.exists():
+            return
+        ref = project_note_ref(path, project_root)
+        lines.append(f'- [[{ref}|{alias}]]' if alias else f'- [[{ref}]]')
+
+    def add_folder_surface(rel: str) -> None:
+        note_path = project_root / f'{rel}.md'
+        if note_path.exists():
+            add_note(note_path)
+            return
+        lines.append(f'- `{rel}/`')
+
+    add_note(project_root / '01-Plan.md')
+    add_note(daily_note_path(project_root), "Today's Daily Note")
+    for rel in [
+        'Knowledge/Project-Overview.md',
+        'Knowledge/Research-Questions.md',
+        'Knowledge/Dataset-Protocol.md',
+        'Knowledge/Analysis-Pipeline-Modes.md',
+        'Knowledge/Source-Inventory.md',
+        'Knowledge/Codebase-Overview.md',
+    ]:
+        add_note(project_root / rel)
+    for rel in ['Experiments', 'Results', 'Results/Reports', 'Papers', 'Writing']:
+        add_folder_surface(rel)
+
+    return '\n'.join(lines) if lines else '- `Knowledge/`\n- `Experiments/`\n- `Results/`\n- `Results/Reports/`\n- `Papers/`\n- `Writing/`'
+
+
+def hub_note(project_root: Path, project_slug: str, project_title: str) -> str:
     return f'''---
 type: project
 title: {project_title}
@@ -400,17 +442,7 @@ updated: {now_iso()}
 - Keep the project grounded in a small set of research-facing folders: Knowledge, Papers, Experiments, Results, Results/Reports, Writing, and Daily.
 
 ## Core Index
-- [[01-Plan]]
-- [[Daily/{today}|Today's Daily Note]]
-- [[Knowledge/Project-Overview]]
-- [[Knowledge/Research-Questions]]
-- [[Knowledge/Dataset-Protocol]]
-- [[Knowledge/Analysis-Pipeline-Modes]]
-- [[Experiments]]
-- [[Results]]
-- `Results/Reports/`
-- [[Papers]]
-- [[Writing]]
+{render_hub_core_index(project_root)}
 
 ## Recent Progress
 - Project knowledge base initialized at {now_iso()}.
@@ -538,11 +570,11 @@ def bootstrap_project(repo_root: Path, vault_path: Path, project_name: str | Non
     for rel in ['Knowledge', 'Papers', 'Experiments', 'Results', 'Results/Reports', 'Writing', 'Daily', 'Archive']:
         (project_root / rel).mkdir(parents=True, exist_ok=True)
 
-    ensure_note(project_root / '00-Hub.md', hub_note(project_slug, project_title))
     ensure_note(project_root / '01-Plan.md', plan_note(project_slug, project_title))
     ensure_note(daily_note_path(project_root), daily_note(project_slug, project_title))
     ensure_note(project_root / 'Knowledge' / 'Source-Inventory.md', build_source_inventory(repo_root))
     ensure_note(project_root / 'Knowledge' / 'Codebase-Overview.md', build_codebase_overview(repo_root))
+    ensure_note(project_root / '00-Hub.md', hub_note(project_root, project_slug, project_title))
 
     reg_path = registry_path(repo_root)
     registry = load_registry(reg_path)
@@ -1055,6 +1087,209 @@ def note_lifecycle(repo_root: Path, mode: str, note: str, dest: str | None = Non
     raise SystemExit(f'Unsupported note lifecycle mode: {mode}')
 
 
+def title_case_file_stem(value: str) -> str:
+    slug = slugify(value)
+    if not slug:
+        return 'Untitled-Note'
+    return '-'.join(part.capitalize() for part in slug.split('-'))
+
+
+def resolve_writeback_target(
+    binding: ProjectBinding,
+    kind: str,
+    note: str | None,
+    query: str | None,
+    title: str | None,
+) -> tuple[Path, str]:
+    project_root = binding.project_root
+    if note and note.strip():
+        target = (project_root / note.strip()).resolve()
+        if target.suffix.lower() != '.md':
+            target = target.with_suffix('.md')
+        if not str(target).startswith(str(project_root.resolve())):
+            raise SystemExit('Writeback target must stay inside the project root')
+        return target, 'explicit'
+
+    if kind not in NOTE_KIND_FOLDERS or kind == 'daily':
+        raise SystemExit('writeback-note supports only knowledge, paper, experiment, result, or writing targets')
+
+    cleaned_query = (query or '').strip()
+    canonical_key = normalize_note_token(title or cleaned_query)
+    standard_rel = STANDARD_CANONICAL_TITLES.get(kind, {}).get(canonical_key)
+    if standard_rel:
+        return (project_root / standard_rel).resolve(), 'standard-canonical'
+
+    if cleaned_query:
+        candidates = search_note_candidates(project_root, kind, cleaned_query)
+        if candidates:
+            return candidates[0], 'canonical-match'
+
+    folder = project_root / note_folder_for_kind(kind)
+    stem_source = (title or cleaned_query or 'Untitled Note').strip()
+    target = folder / f'{title_case_file_stem(stem_source)}.md'
+    return target, 'created-from-query' if cleaned_query else 'created-from-title'
+
+
+def infer_note_type(project_root: Path, target: Path, kind: str) -> str:
+    rel = target.relative_to(project_root).as_posix()
+    if rel in {'00-Hub.md', '01-Plan.md'}:
+        return 'project'
+    if rel.startswith('Results/Reports/'):
+        return 'results-report'
+    mapping = {
+        'knowledge': 'knowledge',
+        'paper': 'paper',
+        'experiment': 'experiment',
+        'result': 'result',
+        'writing': 'writing',
+    }
+    return mapping.get(kind, 'note')
+
+
+def extract_heading_title(content: str) -> str:
+    stripped = content.strip()
+    if stripped.startswith('---\n'):
+        end = stripped.find('\n---\n', 4)
+        if end != -1:
+            stripped = stripped[end + 5 :].lstrip()
+    match = re.search(r'^#\s+(.+)$', stripped, re.M)
+    return match.group(1).strip() if match else ''
+
+
+def strip_frontmatter(content: str) -> str:
+    stripped = content.strip()
+    if stripped.startswith('---\n'):
+        end = stripped.find('\n---\n', 4)
+        if end != -1:
+            return stripped[end + 5 :].lstrip()
+    return stripped
+
+
+def ensure_note_markdown(
+    project_root: Path,
+    target: Path,
+    kind: str,
+    project_id: str,
+    title: str | None,
+    raw_content: str,
+    timestamp: str,
+) -> str:
+    existing = read_text(target) if target.exists() else ''
+    resolved_title = (
+        (title or '').strip()
+        or parse_frontmatter(raw_content).get('title', '').strip()
+        or parse_frontmatter(existing).get('title', '').strip()
+        or extract_heading_title(raw_content)
+        or extract_heading_title(existing)
+        or titleize_slug(slugify(target.stem))
+    )
+    body = strip_frontmatter(raw_content)
+    if not re.search(r'^#\s+.+$', body, re.M):
+        body = f'# {resolved_title}\n\n{body}'.strip()
+    content = body.strip() + '\n'
+    content = set_frontmatter_value(content, 'type', infer_note_type(project_root, target, kind))
+    content = set_frontmatter_value(content, 'title', resolved_title)
+    content = set_frontmatter_value(content, 'project', project_id)
+    content = set_frontmatter_value(content, 'status', parse_frontmatter(existing).get('status', 'active'))
+    content = set_frontmatter_value(content, 'updated', timestamp)
+    return content
+
+
+def ensure_project_memory_file(binding: ProjectBinding) -> Path:
+    memory_path = binding.repo_root / '.opencode' / 'project-memory' / f'{binding.project_id}.md'
+    if not memory_path.exists():
+        memory_path.parent.mkdir(parents=True, exist_ok=True)
+        memory_path.write_text(
+            project_memory(binding.project_id, binding.repo_root, binding.project_root, binding.hub_note),
+            encoding='utf-8',
+        )
+    return memory_path
+
+
+def record_writeback_daily(binding: ProjectBinding, timestamp: str, kind: str, target: Path, action: str) -> Path:
+    daily_path = daily_note_path(binding.project_root)
+    if not daily_path.exists():
+        write_text(daily_path, daily_note(binding.project_id, titleize_slug(binding.project_id)))
+    content = read_text(daily_path)
+    content = set_frontmatter_value(content, 'updated', timestamp)
+    rel = project_note_ref(target, binding.project_root)
+    bullet = f'- {timestamp}: {action} `{kind}` -> [[{rel}]].'
+    content = prepend_bullets(content, 'Knowledge Writebacks', [bullet])
+    write_text(daily_path, content)
+    return daily_path
+
+
+def record_writeback_memory(binding: ProjectBinding, memory_path: Path, timestamp: str, kind: str, target: Path, action: str) -> None:
+    content = read_text(memory_path, project_memory(binding.project_id, binding.repo_root, binding.project_root, binding.hub_note))
+    content = set_frontmatter_value(content, 'last_sync_at', timestamp)
+    rel = project_note_ref(target, binding.project_root)
+    sync_line = f'- {timestamp}: writeback `{kind}` -> [[{rel}]] ({action}).'
+    content = prepend_bullets(content, 'Recent Sync Status', [sync_line])
+    write_text(memory_path, content)
+
+
+def refresh_hub_after_writeback(binding: ProjectBinding, timestamp: str) -> None:
+    hub_path = binding.project_root / '00-Hub.md'
+    content = read_text(hub_path, hub_note(binding.project_root, binding.project_id, titleize_slug(binding.project_id)))
+    content = set_frontmatter_value(content, 'updated', timestamp)
+    content = upsert_section(content, 'Core Index', render_hub_core_index(binding.project_root))
+    write_text(hub_path, content)
+
+
+def update_registry_timestamp(binding: ProjectBinding, timestamp: str) -> None:
+    path = registry_path(binding.repo_root)
+    registry = load_registry(path)
+    entry = registry['projects'].get(binding.project_id)
+    if not entry:
+        return
+    entry['updated_at'] = timestamp
+    save_registry(path, registry)
+
+
+def writeback_note(
+    repo_root: Path,
+    kind: str,
+    note: str | None,
+    query: str | None,
+    title: str | None,
+    content_file: str | None,
+    body: str | None,
+    project_id: str | None = None,
+) -> dict[str, Any]:
+    binding = resolve_binding(repo_root, project_id)
+    if not content_file and not (body or '').strip():
+        raise SystemExit('writeback-note requires --content-file or --body')
+
+    raw_content = Path(content_file).expanduser().read_text(encoding='utf-8') if content_file else (body or '')
+    if not raw_content.strip():
+        raise SystemExit('writeback-note received empty content')
+
+    target, resolution = resolve_writeback_target(binding, kind, note, query, title)
+    existed = target.exists()
+    timestamp = now_iso()
+    normalized = ensure_note_markdown(binding.project_root, target, kind, binding.project_id, title, raw_content, timestamp)
+    write_text(target, normalized)
+
+    memory_path = ensure_project_memory_file(binding)
+    daily_path = record_writeback_daily(binding, timestamp, kind, target, 'updated' if existed else 'created')
+    record_writeback_memory(binding, memory_path, timestamp, kind, target, 'updated' if existed else 'created')
+    refresh_hub_after_writeback(binding, timestamp)
+    update_registry_timestamp(binding, timestamp)
+
+    return {
+        'project_id': binding.project_id,
+        'kind': kind,
+        'target_note': str(target),
+        'target_note_ref': project_note_ref(target, binding.project_root),
+        'resolution': resolution,
+        'created': not existed,
+        'updated': existed,
+        'daily_note': str(daily_path),
+        'memory_file': str(memory_path),
+        'hub_note': str(binding.project_root / '00-Hub.md'),
+    }
+
+
 def git_output(repo_root: Path, args: list[str]) -> str:
     try:
         output = subprocess.check_output(['git', *args], cwd=str(repo_root), stderr=subprocess.DEVNULL)
@@ -1241,8 +1476,9 @@ def sync_daily(ctx: SyncContext) -> Path:
 
 def sync_hub(ctx: SyncContext, daily_path: Path) -> None:
     hub_path = ctx.binding.project_root / '00-Hub.md'
-    content = read_text(hub_path, hub_note(ctx.binding.project_id, ctx.project_title))
+    content = read_text(hub_path, hub_note(ctx.binding.project_root, ctx.binding.project_id, ctx.project_title))
     content = set_frontmatter_value(content, 'updated', ctx.timestamp)
+    content = upsert_section(content, 'Core Index', render_hub_core_index(ctx.binding.project_root))
     summary = ', '.join(summarize_categories(ctx.categorized)) or 'no tracked deltas'
     bullet = f'- Auto-sync `{ctx.scope}` at {ctx.timestamp}: {len(ctx.changed_paths)} changed files ({summary}). See [[{daily_path.relative_to(ctx.binding.project_root).as_posix()}]].'
     content = prepend_bullets(content, 'Recent Progress', [bullet])
@@ -1457,6 +1693,16 @@ def parse_args() -> argparse.Namespace:
     note_parser.add_argument('--dest', default='', help='Destination path for rename, relative to the project root')
     note_parser.add_argument('--project-id', default='')
 
+    writeback_parser = sub.add_parser('writeback-note')
+    writeback_parser.add_argument('--cwd', default='.')
+    writeback_parser.add_argument('--kind', required=True, choices=['knowledge', 'paper', 'experiment', 'result', 'writing'])
+    writeback_parser.add_argument('--note', default='', help='Explicit project-relative markdown path to create/update')
+    writeback_parser.add_argument('--query', default='', help='Semantic query used to resolve the best canonical note')
+    writeback_parser.add_argument('--title', default='', help='Preferred title when creating a new note')
+    writeback_parser.add_argument('--content-file', default='', help='Path to a prepared markdown file to write back')
+    writeback_parser.add_argument('--body', default='', help='Inline markdown body to write back')
+    writeback_parser.add_argument('--project-id', default='')
+
     return parser.parse_args()
 
 
@@ -1497,6 +1743,20 @@ def main() -> None:
 
     if args.cmd == 'note-lifecycle':
         result = note_lifecycle(repo_root, args.mode, args.note, args.dest or None, args.project_id or None)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return
+
+    if args.cmd == 'writeback-note':
+        result = writeback_note(
+            repo_root,
+            args.kind,
+            args.note or None,
+            args.query or None,
+            args.title or None,
+            args.content_file or None,
+            args.body or None,
+            args.project_id or None,
+        )
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return
 

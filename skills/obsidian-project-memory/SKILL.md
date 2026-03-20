@@ -53,9 +53,11 @@ python3 scripts/project_kb.py query-context --cwd "$PWD" --kind broad
 python3 scripts/project_kb.py query-context --cwd "$PWD" --kind experiment --query freezing
 python3 scripts/project_kb.py find-canonical-note --cwd "$PWD" --kind experiment --query freezing
 python3 scripts/project_kb.py note-lifecycle --cwd "$PWD" --mode archive --note "Results/Old-Result.md"
+python3 scripts/project_kb.py writeback-note --cwd "$PWD" --kind knowledge --query "project overview" --title "Project Overview" --content-file "$temp_file"
 ```
 
 Do **not** expect the script to understand project meaning. It manages state; it does not replace synthesis.
+For canonical note creation/update, the intended split is: the agent synthesizes the content, then `writeback-note` deterministically resolves the target note and performs the filesystem write-back.
 
 Read [references/SCRIPT-VS-AGENT.md](references/SCRIPT-VS-AGENT.md) when deciding whether a task belongs in the script or must stay agent-driven.
 
@@ -78,6 +80,9 @@ Before writing anything, read only the minimum stable context:
 - today's `Daily/YYYY-MM-DD.md` if it exists
 
 If the task is about project understanding, existing docs, or historical results, load more context selectively using the references below.
+Prefer built-in file reads/edits over shell probing when the target is already inside the bound vault. Do not use shell commands like `ls`, `cat`, `echo`, `touch`, or `sed` just to inspect or modify vault notes when normal file tools can do the job.
+
+When the user explicitly asks to import, summarize, update, fix, or sync project knowledge, do not stop after context gathering alone. Once you have enough evidence, finish by writing the minimum necessary canonical note update into the vault.
 
 ### 3. Classify the knowledge delta
 
@@ -138,6 +143,13 @@ Then write only the durable note that matches the bucket:
 Internal experiment round reports should default to:
 - `Results/Reports/YYYY-MM-DD--{experiment-line}--r{round}--{purpose}.md`
 
+Prefer this order when deciding the write target:
+1. update an existing canonical note,
+2. create a new canonical note only if no adequate one exists,
+3. stage into `Daily/` only when the material is still raw or unresolved.
+
+Do not leave the turn at “I inspected the repo” or “I found relevant files” when the user asked for knowledge-base maintenance and the write target is already clear.
+
 Read [references/NOTE-TEMPLATES.md](references/NOTE-TEMPLATES.md) when a note needs a stable shape.
 
 ## Knowledge CRUD rules
@@ -188,6 +200,7 @@ Treat the vault as a small set of **canonical notes** plus supporting daily cont
 - Do not create arbitrary `.canvas` sprawl; the main default exception is `Maps/literature.canvas` for literature workflows.
 - For engineering-only turns, prefer `Daily/` plus project memory unless there is a real experiment, result, or planning impact.
 - Treat “remove project knowledge” as **archive** by default; purge only when the user explicitly asks for permanent deletion.
+- Do not add `00-Hub.md` links to notes that do not exist yet; for folder-only surfaces, use plain text paths instead of fake wikilinks.
 
 ## Reference files
 
