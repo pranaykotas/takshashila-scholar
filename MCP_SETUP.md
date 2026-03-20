@@ -8,7 +8,7 @@ Claude Scholar relies on MCP (Model Context Protocol) servers for extended capab
 
 **Used by**: `literature-reviewer` agent, `/research-init`, `/zotero-review`, `/zotero-notes` commands
 
-**Package**: [Galaxy-Dawn/zotero-mcp](https://github.com/Galaxy-Dawn/zotero-mcp) — auto-detects local Zotero desktop vs Web API mode; Web credentials are required for remote access and write tools.
+**Package**: [Galaxy-Dawn/zotero-mcp](https://github.com/Galaxy-Dawn/zotero-mcp) — auto-detects local Zotero desktop vs Web API mode; Web credentials are only required for remote access or write tools.
 
 #### Features
 
@@ -22,10 +22,10 @@ Claude Scholar relies on MCP (Model Context Protocol) servers for extended capab
 
 #### Prerequisites
 
-1. Install [Zotero](https://www.zotero.org/) (optional, for local mode)
-2. For Web API access, open [Zotero Settings -> Security -> Applications](https://www.zotero.org/settings/security#applications)
+1. Install [Zotero](https://www.zotero.org/) if you want local read-only access without Web API credentials
+2. For write tools or remote Web API access, open [Zotero Settings -> Security -> Applications](https://www.zotero.org/settings/security#applications)
 3. Click `Create new private key` to generate your API key
-4. On the same page, the `User ID` shown below the button is the value to use as `ZOTERO_LIBRARY_ID` for a personal library
+4. On the same page, copy the `User ID` shown below the button. Use this numeric value as `ZOTERO_LIBRARY_ID` for personal libraries
 
 #### Installation
 
@@ -40,7 +40,9 @@ Choose your platform below:
 
 ##### Claude Code
 
-Add to your `~/.claude/settings.json`:
+For Claude Code v2.1.5+, add to your `~/.claude.json` under `mcpServers`.
+
+For earlier versions, add to your `~/.claude/settings.json` under `mcpServers`:
 
 ```json
 {
@@ -170,11 +172,12 @@ Used for: Chrome browser control, web page interaction.
 After configuration, restart your CLI and verify MCP servers are connected:
 
 ```
-# In your CLI, try calling a Zotero tool:
+# Zotero example:
 > List my Zotero collections
+
 ```
 
-If the tool responds with your collections, the setup is complete.
+If the tool responds with your data (for example collections), the setup is complete.
 
 ## Troubleshooting
 

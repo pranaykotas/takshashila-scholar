@@ -19,7 +19,7 @@ error() { echo -e "\033[1;31m[ERROR]\033[0m $*"; exit 1; }
 
 check_deps() {
   command -v git  >/dev/null || error "Git is required. Install it first."
-  command -v node >/dev/null || error "Node.js is required for safe opencode.jsonc merging. Install it first."
+  command -v node >/dev/null || error "Node.js is required. Install it first."
 }
 
 ensure_backup_dir() {
@@ -103,6 +103,7 @@ copy_components() {
   info "Updated components: ${COMPONENTS[*]}"
 }
 
+# Merge agent, mcp, permission, and plugin entries from opencode.jsonc
 merge_opencode_config() {
   local template="$1/opencode.jsonc"
   local target="$OPENCODE_DIR/opencode.jsonc"
@@ -210,13 +211,19 @@ merged.plugin = plugin;
 fs.writeFileSync(targetPath, JSON.stringify(merged, null, 2) + '\n');
 NODE
 
-  info "Merged repo-managed agent/mcp/permission/plugin entries into opencode.jsonc while preserving existing provider/model/auth settings."
+  local merge_status=$?
+  if [ "$merge_status" -ne 0 ]; then
+    warn "Auto-merge failed. Please manually copy settings from opencode.jsonc."
+    return 0
+  fi
+
+  info "Merged agent/mcp/permission/plugin into opencode.jsonc without touching env/model/API key/provider/auth fields."
 }
 
 main() {
   echo ""
   echo "╔══════════════════════════════════════╗"
-  echo "║  Claude Scholar Installer (OpenCode) ║"
+  echo "║       Claude Scholar Installer       ║"
   echo "╚══════════════════════════════════════╝"
   echo ""
 
@@ -225,6 +232,7 @@ main() {
   info "Installing from: $SRC_DIR"
   copy_components "$SRC_DIR"
   merge_opencode_config "$SRC_DIR"
+  info "Your existing env/model/API key/permissions settings are preserved."
   info "Updated files: $UPDATED_COUNT | Unchanged files skipped: $SKIPPED_COUNT | Backups created: $BACKUP_COUNT"
   if [ "$BACKUP_READY" -eq 1 ]; then
     info "Recover previous files from: $BACKUP_DIR"

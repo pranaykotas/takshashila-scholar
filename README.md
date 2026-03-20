@@ -6,30 +6,34 @@
     <a href="https://github.com/Galaxy-Dawn/claude-scholar/network/members"><img src="https://img.shields.io/github/forks/Galaxy-Dawn/claude-scholar?style=flat-square" alt="Forks"/></a>
     <img src="https://img.shields.io/github/last-commit/Galaxy-Dawn/claude-scholar?style=flat-square" alt="Last Commit"/>
     <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"/>
+    <img src="https://img.shields.io/badge/Claude_Code-Compatible-blueviolet?style=flat-square" alt="Claude Code"/>
+    <img src="https://img.shields.io/badge/Codex_CLI-Compatible-blue?style=flat-square" alt="Codex CLI"/>
     <img src="https://img.shields.io/badge/OpenCode-Compatible-orange?style=flat-square" alt="OpenCode"/>
   </p>
 
   <strong>Language</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a>
 </div>
 
-> Semi-automated research assistant for academic research and software development, adapted for OpenCode. Covers ideation, coding, experiments, reporting, writing, rebuttal, and publication while keeping human decision-making at the center.
-
-> **Note**: This is the **OpenCode edition** of Claude Scholar. For the Claude Code workflow, see the [`main` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/main). For Codex CLI, see the [`codex` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/codex).
+> Semi-automated research assistant for academic research and software development. Supports [Claude Code](https://github.com/anthropics/claude-code), [Codex CLI](https://github.com/openai/codex), and [OpenCode](https://github.com/opencode-ai/opencode) across literature review, coding, experiments, reporting, writing, and project knowledge management.
 
 ## Recent News
 
-- **2026-03-20**: **OpenCode Obsidian workflow sync** — ported the filesystem-first Obsidian project knowledge-base workflow into the `opencode` branch: added `OBSIDIAN_SETUP.md`, Obsidian project-memory skills, Zotero → Obsidian bridge skills, `obsidian-*` commands, repo-local `.opencode/project-memory/` binding, and OpenCode plugin awareness for bound research repos.
-- **2026-03-18**: **Results reporting, writing memory, and safer installer updates** — split post-experiment work into `results-analysis` for strict statistics, real scientific figures, `analysis-report` / `stats-appendix` / `figure-catalog`, and `results-report` for complete post-experiment reports; removed the redundant `data-analyst` dependency, made `/analyze-results` the default one-shot analysis + report entrypoint, added the global `paper-miner` writing memory with `/mine-writing-patterns`, refreshed the OpenCode positioning around human-centered semi-automation, and upgraded the installer for backup-aware incremental updates.
-- **2026-02-26**: **Zotero MCP Web/write workflow** — supports remote access, DOI/arXiv/URL import, collection management, item updates, and safer setup guidance across Claude Code, Codex CLI, and OpenCode.
-- **2026-02-23**: **OpenCode installer** — added `scripts/setup.sh` for safe installation into existing `~/.opencode`.
+- **2026-03-18**: **Results reporting, writing memory, and workflow cleanup** — split post-experiment work into `results-analysis` for strict statistics, real scientific figures, `analysis-report` / `stats-appendix` / `figure-catalog`, and `results-report` for decision-oriented post-experiment reports with Obsidian write-back; removed the redundant `data-analyst` entrypoint, made `/analyze-results` the default one-shot command for analysis + report generation, introduced a global `paper-miner` writing memory with the new `/mine-writing-patterns` command, wired `ml-paper-writing` and `review-response` to read that shared memory, refreshed the README around human-centered semi-automation, and updated the project logo.
+- **2026-03-17**: **Obsidian project knowledge base** — filesystem-first project knowledge base with project import, repo-bound auto-sync, durable knowledge routed across `Papers / Knowledge / Experiments / Results / Writing`, round-level experiment reports stored under `Results/Reports/`, and no MCP requirement.
+- **2026-02-26**: **Zotero MCP Web API mode** — remote Zotero access, DOI/arXiv/URL import, collection management, item updates, and safer setup guidance across Claude Code, Codex CLI, and OpenCode.
 
 <details>
 <summary>View older changelog</summary>
 
-- **2026-02-25**: Codex CLI branch — added `codex` branch supporting OpenAI Codex CLI with config.toml, 40 skills, 14 agents, and sandbox security.
-- **2026-02-21**: OpenCode migration — ported the configuration into OpenCode format: hooks → plugins (TypeScript), agents → `opencode.jsonc`, `CLAUDE.md` → `AGENTS.md`, and preserved file-based commands.
-- **2026-02-15**: Zotero MCP integration — added `/zotero-review` and `/zotero-notes`, and updated the research workflow around Zotero-backed literature management.
-- **2026-01-25**: Project open-sourced, v1.0.0 released.
+- **2026-02-25**: **Codex CLI** support — added `codex` branch supporting [OpenAI Codex CLI](https://github.com/openai/codex) with config.toml, 40 skills, 14 agents, and sandbox security
+- **2026-02-23**: Added `setup.sh` installer — backup-aware incremental updates for existing `~/.opencode`, auto-backup `opencode.jsonc`, additive `agent/mcp/permission/plugin` merge
+- **2026-02-21**: **OpenCode** support — Claude Scholar now supports [OpenCode](https://github.com/opencode-ai/opencode) as an alternative CLI; switch to the `opencode` branch for OpenCode-compatible configuration
+- **2026-02-20**: Bilingual docs — maintained English and Chinese entry documents for broader readability
+- **2026-02-15**: Zotero MCP integration — added `/zotero-review` and `/zotero-notes` commands, updated `research-ideation` skill with Zotero integration guide, enhanced `literature-reviewer` agent with Zotero MCP support for automated paper import, collection management, full-text reading, and citation export
+- **2026-02-14**: Hooks optimization — restructured `security-guard` to two-tier system (Block + Confirm), `skill-forced-eval` now groups skills into 6 categories with silent scan mode, `session-start` limits display to top 5, `session-summary` adds 30-day log auto-cleanup, `stop-summary` shows separate added/modified/deleted counts; removed deprecated shell scripts (lib/common.sh, lib/platform.sh)
+- **2026-02-11**: Major update — added 10 new skills (research-ideation, results-analysis, citation-verification, review-response, paper-self-review, post-acceptance, daily-coding, frontend-design, ui-ux-pro-max, web-design-reviewer), 7 new agents, 8 research workflow commands, 2 new rules (security, experiment-reproducibility); restructured the main configuration docs; 89 files changed
+- **2026-01-26**: Rewrote all Hooks to cross-platform Node.js; completely rewrote README; expanded ML paper writing knowledge base; merged PR #1 (cross-platform support)
+- **2026-01-25**: Project open-sourced, v1.0.0 released with 25 skills (architecture-design, bug-detective, git-workflow, kaggle-learner, scientific-writing, etc.), 2 agents (paper-miner, kaggle-miner), 30+ commands (including SuperClaude suite), 5 Shell Hooks, and 2 rules (coding-style, agents)
 
 </details>
 
@@ -37,14 +41,13 @@
 
 | Section | What it helps with |
 |---|---|
-| [Why Claude Scholar](#why-claude-scholar) | Understand the project positioning and the human-in-the-loop philosophy. |
-| [Core Workflow](#core-workflow) | See the staged pipeline from ideation to publication. |
-| [Quick Start](#quick-start) | Install Claude Scholar for OpenCode in full, minimal, or selective mode. |
-| [Platform Support](#platform-support) | Understand how this branch relates to `main` and `codex`. |
-| [Integrations](#integrations) | See which external systems are productized on this branch. |
+| [Why Claude Scholar](#why-claude-scholar) | Understand the project positioning and target use cases. |
+| [Core Workflow](#core-workflow) | See the end-to-end research pipeline from ideation to publication. |
+| [Quick Start](#quick-start) | Install Claude Scholar in full, minimal, or selective mode. |
+| [Integrations](#integrations) | Learn how Zotero and Obsidian fit into the workflow. |
 | [Primary Workflows](#primary-workflows) | Browse the main research and development workflows. |
 | [Supporting Workflows](#supporting-workflows) | See the background systems that strengthen the main workflow. |
-| [Documentation](#documentation) | Jump to setup docs, config files, and entry documents. |
+| [Documentation](#documentation) | Jump to setup docs, configuration, and templates. |
 | [Citation](#citation) | Cite Claude Scholar in papers, reports, or project docs. |
 
 ## Why Claude Scholar
@@ -55,7 +58,7 @@ Its core idea is simple:
 
 > **human decision-making stays at the center; the assistant accelerates the workflow around it.**
 
-That means Claude Scholar is designed to help with the heavy, repetitive, and structure-sensitive parts of research — literature organization, experiment analysis, reporting, writing support, and software workflow hygiene — while still keeping the key judgments in human hands:
+That means Claude Scholar is designed to help with the heavy, repetitive, and structure-sensitive parts of research — literature organization, note-taking, experiment analysis, reporting, and writing support — while still keeping the key judgments in human hands:
 
 - which problem is worth pursuing,
 - which papers actually matter,
@@ -70,22 +73,21 @@ In other words, Claude Scholar is a **semi-automated research assistant**, not a
 - **Ideation**: turn a vague topic into concrete questions, research gaps, and an initial plan.
 - **Literature**: search, import, organize, and read papers through Zotero collections.
 - **Paper notes**: convert papers into structured reading notes and reusable claims.
-- **Knowledge base**: route durable knowledge into Obsidian across `Papers / Knowledge / Experiments / Results / Results/Reports / Writing`.
-- **Experiments**: track hypotheses, experiment lines, run history, findings, and next actions, then sync the durable parts back into the bound vault.
+- **Knowledge base**: route durable knowledge into Obsidian across `Papers / Knowledge / Experiments / Results / Writing`, with round-level experiment reports stored under `Results/Reports/`.
+- **Experiments**: track hypotheses, experiment lines, run history, findings, and next actions.
 - **Analysis**: generate strict statistics, real scientific figures, and analysis artifacts with `results-analysis`.
-- **Reporting**: produce a complete post-experiment report with `results-report`, then write it back into Obsidian under `Results/Reports/`.
+- **Reporting**: produce a complete post-experiment report with `results-report`, then write it back into Obsidian.
 - **Writing and publication**: carry stable findings into literature reviews, papers, rebuttals, slides, posters, and promotion.
 
 ## Quick Start
 
-### Prerequisites
+### Requirements
 
-- [OpenCode](https://github.com/sst/opencode) CLI
+- [OpenCode](https://github.com/sst/opencode)
 - Git
-- Node.js (required for the safe installer merge logic)
 - (Optional) Python + [uv](https://docs.astral.sh/uv/) for Python development
 - (Optional) [Zotero](https://www.zotero.org/) + [Galaxy-Dawn/zotero-mcp](https://github.com/Galaxy-Dawn/zotero-mcp) for literature workflows
-- (Optional) [Obsidian Desktop](https://obsidian.md/) for the filesystem-first project knowledge base workflow
+- (Optional) [Obsidian](https://obsidian.md/) for project knowledge-base workflows
 
 ### Option 1: Full Installation (Recommended)
 
@@ -97,9 +99,9 @@ bash /tmp/claude-scholar/scripts/setup.sh
 The installer is **backup-aware and incremental-update friendly**:
 - updates repo-managed `skills/commands/plugins/scripts/utils/AGENTS.md`,
 - backs up overwritten files to `~/.opencode/.claude-scholar-backups/<timestamp>/`,
-- keeps `opencode.jsonc.bak`,
-- preserves your existing provider, model, auth, API-key, permission, and custom MCP settings,
-- merges repo-managed `agent/mcp/permission/plugin` entries instead of replacing the entire config.
+- backs up `opencode.jsonc` to `opencode.jsonc.bak`,
+- preserves your existing `env`, model/provider settings, API keys, permissions, auth, and current `mcp` values,
+- adds missing repo-managed `agent/mcp/permission/plugin` entries instead of replacing your entire config.
 
 To update later:
 
@@ -111,25 +113,24 @@ bash scripts/setup.sh
 
 ### Option 2: Minimal Installation
 
-Install only a smaller research-focused subset:
+Install only a small research-focused subset:
 
 ```bash
 git clone -b opencode https://github.com/Galaxy-Dawn/claude-scholar.git /tmp/claude-scholar
-mkdir -p ~/.opencode/plugins/lib ~/.opencode/skills ~/.opencode/commands
+mkdir -p ~/.opencode/plugins/lib ~/.opencode/skills
 cp /tmp/claude-scholar/plugins/*.ts ~/.opencode/plugins/
 cp /tmp/claude-scholar/plugins/lib/common.ts ~/.opencode/plugins/lib/
+cp -r /tmp/claude-scholar/skills/ml-paper-writing ~/.opencode/skills/
 cp -r /tmp/claude-scholar/skills/research-ideation ~/.opencode/skills/
 cp -r /tmp/claude-scholar/skills/results-analysis ~/.opencode/skills/
 cp -r /tmp/claude-scholar/skills/results-report ~/.opencode/skills/
-cp -r /tmp/claude-scholar/skills/ml-paper-writing ~/.opencode/skills/
 cp -r /tmp/claude-scholar/skills/review-response ~/.opencode/skills/
-cp /tmp/claude-scholar/commands/analyze-results.md ~/.opencode/commands/
-cp /tmp/claude-scholar/commands/mine-writing-patterns.md ~/.opencode/commands/
+cp -r /tmp/claude-scholar/skills/writing-anti-ai ~/.opencode/skills/
+cp -r /tmp/claude-scholar/skills/git-workflow ~/.opencode/skills/
+cp -r /tmp/claude-scholar/skills/bug-detective ~/.opencode/skills/
 ```
 
-**Post-install**: minimal/manual install does **not** auto-merge `opencode.jsonc`; copy only the MCP/agent/permission entries you want.
-
-**Optional Obsidian bundle**: if you also want the bound project knowledge-base workflow, additionally copy `OBSIDIAN_SETUP.md`, `skills/obsidian-*`, `skills/zotero-obsidian-bridge`, and `commands/obsidian-*.md` into `~/.opencode/`, then merge the Obsidian-related `agent` and `plugin` entries from the repo `opencode.jsonc` (the two Obsidian agents live there). The simplest path is still to rerun `bash scripts/setup.sh`.
+**Post-install**: minimal/manual install does **not** auto-merge `opencode.jsonc`; copy only the plugin or MCP entries you want from `opencode.jsonc`.
 
 ### Option 3: Selective Installation
 
@@ -139,28 +140,23 @@ Copy only the parts you need:
 git clone -b opencode https://github.com/Galaxy-Dawn/claude-scholar.git /tmp/claude-scholar
 cd /tmp/claude-scholar
 
-cp /tmp/claude-scholar/opencode.jsonc ~/.opencode/
-cp -r /tmp/claude-scholar/skills/results-analysis ~/.opencode/skills/
-cp -r /tmp/claude-scholar/skills/results-report ~/.opencode/skills/
-cp -r /tmp/claude-scholar/skills/obsidian-project-memory ~/.opencode/skills/
-cp -r /tmp/claude-scholar/skills/obsidian-project-bootstrap ~/.opencode/skills/
-cp -r /tmp/claude-scholar/skills/obsidian-research-log ~/.opencode/skills/
-cp -r /tmp/claude-scholar/skills/obsidian-experiment-log ~/.opencode/skills/
-cp /tmp/claude-scholar/commands/analyze-results.md ~/.opencode/commands/
-cp /tmp/claude-scholar/commands/obsidian-sync.md ~/.opencode/commands/
+cp plugins/*.ts ~/.opencode/plugins/
+cp -r skills/latex-conference-template-organizer ~/.opencode/skills/
+cp -r skills/architecture-design ~/.opencode/skills/
+cp AGENTS.md ~/.opencode/AGENTS.md
 ```
 
-**Post-install**: back up your existing `~/.opencode/opencode.jsonc` before manually overwriting it.
+**Post-install**: selective/manual install does **not** auto-merge `opencode.jsonc`; copy only the plugin or MCP entries you actually want from `opencode.jsonc`.
 
 ## Platform Support
 
-Claude Scholar is maintained across three related CLI workflows:
+Claude Scholar is maintained for:
 
-- **`main`** — Claude Code as the primary upstream workflow.
-- **`codex`** — Codex CLI adaptation with Codex-native configuration and hook emulation.
-- **`opencode`** — this branch, focused on OpenCode-native config, plugins, and command layout.
+- **Claude Code** — the primary installation target.
+- **Codex CLI** — supported workflow and documentation are available in this repo ecosystem.
+- **OpenCode** — supported as an alternative CLI workflow.
 
-The high-level goal is shared across branches: support ideation, coding, experiments, reporting, writing, and publication with a human-in-the-loop workflow.
+The top-level workflow is the same: research, coding, experiments, reporting, and project knowledge management.
 
 ## Integrations
 
@@ -176,16 +172,13 @@ See [MCP_SETUP.md](./MCP_SETUP.md).
 
 ### Obsidian
 
-Use Obsidian when you want Claude Scholar to maintain a filesystem-first research knowledge base for:
+Use Obsidian when you want Claude Scholar to maintain a filesystem-first research knowledge base:
 - `Papers/`
-- `Knowledge/`
 - `Experiments/`
 - `Results/`
 - `Results/Reports/`
 - `Writing/`
 - `Daily/`
-
-The OpenCode branch now supports repo-local binding through `.opencode/project-memory/` and the full `obsidian-*` command surface.
 
 See [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md).
 
@@ -194,6 +187,8 @@ See [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md).
 Complete academic research lifecycle — 7 stages from idea to publication.
 
 ### 1. Research Ideation (Zotero-Integrated)
+
+End-to-end research startup from idea generation to literature management.
 
 | Type | Name | One-line explanation |
 |---|---|---|
@@ -204,164 +199,226 @@ Complete academic research lifecycle — 7 stages from idea to publication.
 | Command | `/zotero-notes` | Batch-read a Zotero collection and create structured paper reading notes. |
 
 **How it works**
-- use 5W1H to sharpen the problem;
-- search and import papers into Zotero;
-- read full text where available;
-- identify research gaps;
-- produce a concrete question and next-step plan.
+- **5W1H Brainstorming**: turn a vague topic into structured questions (`What / Why / Who / When / Where / How`).
+- **Literature Search & Import**: search papers, extract DOI/arXiv/URLs, import them into Zotero, and organize them into themed collections.
+- **PDF & Full Text**: attach PDFs when available, read full text when possible, and fall back to abstract-level analysis when necessary.
+- **Gap Analysis**: identify literature, methodological, application, interdisciplinary, or temporal gaps.
+- **Research Question & Planning**: convert the review into concrete questions, initial hypotheses, and next-step planning.
+
+**Typical output**
+- literature review notes
+- structured Zotero collection
+- project proposal / research direction draft
 
 ### 2. ML Project Development
+
+Maintainable ML project structure for experiment code and iteration.
 
 | Type | Name | One-line explanation |
 |---|---|---|
 | Skill | `architecture-design` | Define maintainable ML project structure when new registrable components or modules are introduced. |
-| Skill | `git-workflow` | Enforce Conventional Commits, branching discipline, and safe collaboration flow. |
-| Skill | `bug-detective` | Debug implementation failures systematically across Python, Bash/Zsh, and JS/TS. |
-| Command | `/plan` | Turn a feature or fix request into an executable implementation plan. |
-| Command | `/code-review` | Review changes before merge or publication. |
-| Command | `/tdd` | Run a test-driven development workflow. |
+| Skill | `git-workflow` | Enforce branch hygiene, commit conventions, and safer collaboration workflows. |
+| Skill | `bug-detective` | Debug stack traces, shell failures, and code-path issues systematically. |
+| Agent | `code-reviewer` | Review modified code for correctness, maintainability, and implementation quality. |
+| Agent | `dev-planner` | Break complex engineering work into concrete implementation steps. |
+| Command | `/plan` | Create or refine an implementation plan before coding. |
+| Command | `/commit` | Prepare a conventional commit for the current changes. |
+| Command | `/code-review` | Run a focused review on the current code changes. |
+| Command | `/tdd` | Drive feature work through small, test-backed implementation steps. |
 
 **How it works**
-- keep files and modules maintainable,
-- use config-driven patterns,
-- plan before large changes,
-- verify before pushing.
+- **Structure**: use Factory / Registry patterns for new ML components when appropriate.
+- **Code Quality**: keep files maintainable, typed, and config-driven.
+- **Debugging**: inspect stack traces, shell failures, and code-path issues systematically.
+- **Git Discipline**: use branch hygiene, conventional commits, and safer merge/rebase workflows.
 
 ### 3. Experiment Analysis
+
+Strict analysis of experimental results with scientific figures and report-ready artifacts.
 
 | Type | Name | One-line explanation |
 |---|---|---|
 | Skill | `results-analysis` | Produce a strict analysis bundle with rigorous statistics, real scientific figures, and analysis artifacts. |
 | Skill | `results-report` | Turn analysis artifacts into a complete post-experiment report with decisions, limitations, and next actions. |
-| Command | `/analyze-results` | Run the full post-experiment workflow in one shot: strict analysis first, then final report generation. |
+| Command | `/analyze-results` | Run the full experiment workflow in one shot: strict analysis first, then final report generation. |
 
 **How it works**
-- validate experiment artifacts and comparison units,
-- run descriptive and inferential statistics,
-- generate real figures,
-- write a report into `Results/Reports/` with explicit blockers and next actions.
+- **Data Processing**: read experiment logs, metrics files, and result directories.
+- **Statistical Testing**: run strict statistical checks such as t-test / ANOVA / Wilcoxon where appropriate.
+- **Visualization**: generate real scientific figures with interpretation guidance, not just vague plotting suggestions.
+- **Ablation & Comparison**: analyze component contribution, performance tradeoffs, and stability.
+- **Post-Experiment Reporting**: turn the analysis bundle into a full retrospective report with conclusions, limitations, and next actions.
+
+**Typical output**
+- `analysis-report.md`
+- `stats-appendix.md`
+- `figure-catalog.md`
+- `figures/`
+- post-experiment summary report in Obsidian `Results/Reports/`
 
 ### 4. Paper Writing
 
+Systematic academic writing from structure setup to draft refinement.
+
 | Type | Name | One-line explanation |
 |---|---|---|
-| Skill | `ml-paper-writing` | Draft and revise ML/AI papers with venue-aware structure and narrative guidance. |
-| Agent | `paper-miner` | Mine reusable writing patterns, structure signals, and phrasing from strong papers. |
-| Skill | `citation-verification` | Check citation format, metadata accuracy, and grounding. |
-| Command | `/mine-writing-patterns` | Update the global paper-miner writing memory from one or more papers. |
+| Skill | `ml-paper-writing` | Draft publication-oriented ML/AI papers from repo context, evidence, and literature. |
+| Skill | `citation-verification` | Check references, metadata, and claim-citation alignment to prevent citation mistakes. |
+| Skill | `writing-anti-ai` | Reduce robotic phrasing and improve clarity, rhythm, and human academic tone. |
+| Skill | `latex-conference-template-organizer` | Clean messy conference templates into an Overleaf-ready writing structure. |
+| Agent | `paper-miner` | Mine strong papers for reusable writing patterns, structure, and venue expectations. |
+| Command | `/mine-writing-patterns` | Read a paper and merge reusable writing knowledge into the global paper-miner writing memory. |
 
 **How it works**
-- organize templates,
-- verify citations,
-- mine reusable writing patterns into one global memory,
-- draft or revise sections with stronger structure and phrasing.
+- **Template Preparation**: clean conference templates into an Overleaf-ready structure.
+- **Citation Verification**: verify references, metadata, and claim-citation alignment.
+- **Systematic Writing**: draft sections from repo context, experiment evidence, and literature notes.
+- **Style Refinement**: reduce robotic phrasing and improve rhythm, clarity, and tone.
 
 ### 5. Paper Self-Review
 
+Quality assurance before submission.
+
 | Type | Name | One-line explanation |
 |---|---|---|
-| Skill | `paper-self-review` | Run a systematic quality review before submission. |
+| Skill | `paper-self-review` | Audit structure, logic, citations, figures, and compliance before submission. |
+
+**How it works**
+- **Structure Check**: logical flow, section balance, and narrative coherence.
+- **Logic Validation**: claim-evidence alignment, assumption clarity, and argument consistency.
+- **Citation Audit**: reference correctness and completeness.
+- **Figure Quality**: caption completeness, readability, and accessibility.
+- **Compliance**: page limits, formatting, and disclosure requirements.
 
 ### 6. Submission & Rebuttal
 
+Submission preparation and review response workflow.
+
 | Type | Name | One-line explanation |
 |---|---|---|
-| Skill | `review-response` | Build structured, evidence-based rebuttal responses to reviewer comments. |
-| Agent | `rebuttal-writer` | Optimize tone, structure, and response strategy for review replies. |
-| Command | `/rebuttal` | Generate a complete rebuttal draft from reviewer comments. |
+| Skill | `review-response` | Structure reviewer comments into an evidence-based rebuttal workflow. |
+| Agent | `rebuttal-writer` | Draft professional, respectful, and strategically organized rebuttal text. |
+| Command | `/rebuttal` | Generate a complete rebuttal draft from review comments and evidence. |
+
+**How it works**
+- **Pre-submission Checks**: venue-specific formatting, anonymization, and checklist requirements.
+- **Review Analysis**: classify reviewer comments into actionable categories.
+- **Response Strategy**: decide whether to accept, defend, clarify, or propose new experiments.
+- **Rebuttal Writing**: generate structured, evidence-based responses with professional tone.
 
 ### 7. Post-Acceptance Processing
 
+Conference preparation and research promotion after acceptance.
+
 | Type | Name | One-line explanation |
 |---|---|---|
-| Skill | `post-acceptance` | Prepare slides, posters, and promotion materials after acceptance. |
-| Command | `/presentation` | Create a presentation outline. |
-| Command | `/poster` | Create a poster plan. |
-| Command | `/promote` | Draft public-facing promotion content. |
+| Skill | `post-acceptance` | Support talks, posters, and research promotion after acceptance. |
+| Command | `/presentation` | Generate presentation structure and speaking guidance for the accepted work. |
+| Command | `/poster` | Organize the work into poster-ready content and layout guidance. |
+| Command | `/promote` | Draft public-facing promotion content such as summaries, posts, or threads. |
+
+**How it works**
+- **Presentation**: prepare talk structure and slide guidance.
+- **Poster**: organize content into poster-ready layout and hierarchy.
+- **Promotion**: generate social media, blog, or summary material for broader communication.
 
 ## Supporting Workflows
 
-### Automated Plugin Workflow
-
-OpenCode uses **plugins**, not Claude Code hooks.
-
-| Type | Name | One-line explanation |
-|---|---|---|
-| Plugin | `skill-eval.ts` | Match user requests with the most relevant skills before execution. |
-| Plugin | `session-start.ts` | Show git status and project context at session start. |
-| Plugin | `session-summary.ts` | Summarize work at session end. |
-| Plugin | `stop-summary.ts` | Provide lightweight state updates during the session lifecycle. |
-| Plugin | `security-guard.ts` | Block obviously dangerous commands and warn on risky operations. |
-
-### Knowledge Extraction Workflow
-
-| Type | Name | One-line explanation |
-|---|---|---|
-| Agent | `paper-miner` | Maintain one canonical global writing memory for future drafting and rebuttal work. |
-| Agent | `kaggle-miner` | Extract reusable engineering patterns from Kaggle solutions. |
+These workflows run in the background to strengthen the primary workflows.
 
 ### Obsidian Project Knowledge Base
 
+Use Obsidian as the durable sink for project knowledge, not just as a note dump.
+
 | Type | Name | One-line explanation |
 |---|---|---|
-| Skill | `obsidian-project-memory` | Maintain the repo-bound Obsidian knowledge base and decide what durable knowledge should be written back. |
-| Skill | `obsidian-project-bootstrap` | Initialize or import a research repository into an Obsidian project knowledge base. |
-| Skill | `obsidian-research-log` | Route daily progress, plans, TODOs, and milestone updates into the knowledge base. |
-| Skill | `obsidian-experiment-log` | Capture experiment setup, run history, outcomes, and next actions in Obsidian. |
-| Skill | `zotero-obsidian-bridge` | Turn Zotero collections into canonical Obsidian paper notes and refresh `Maps/literature.canvas`. |
-| Agent | `literature-reviewer-obsidian` | Read bound vault paper notes and generate filesystem-first literature synthesis. |
-| Agent | `research-knowledge-curator-obsidian` | Act as the default curator for bound repos and keep daily / plan / experiment / result context synchronized. |
-| Command | `/obsidian-init` | Bootstrap or import an Obsidian project knowledge base for the current repository. |
-| Command | `/obsidian-ingest` | Ingest a new Markdown file or folder into the correct canonical destination. |
-| Command | `/obsidian-review` | Generate project-linked literature synthesis from paper notes in the bound vault. |
-| Command | `/obsidian-notes` | Normalize paper notes and connect them to project context, experiments, and results. |
-| Command | `/obsidian-link` | Repair or strengthen wikilinks across canonical project notes. |
-| Command | `/obsidian-sync` | Force deterministic sync between the repo, `.opencode/project-memory/`, and the bound vault. |
-| Command | `/obsidian-note` | Find, rename, archive, or purge a single canonical note. |
-| Command | `/obsidian-project` | Detach, archive, purge, or rebuild a project knowledge base. |
-| Command | `/obsidian-views` | Generate optional `.base` views and extra canvases on explicit request. |
+| Skill | `obsidian-project-memory` | Maintain the project-level Obsidian knowledge base and decide what durable knowledge should be written back. |
+| Skill | `obsidian-project-bootstrap` | Initialize an Obsidian knowledge base for a new or existing research project. |
+| Skill | `obsidian-research-log` | Record daily research progress, plans, ideas, and TODOs into the knowledge base. |
+| Skill | `obsidian-experiment-log` | Capture experiment setup, run history, outcomes, and follow-up actions in Obsidian. |
+| Command | `/obsidian-ingest` | Ingest a new Markdown file or folder into the correct place in the knowledge base. |
+| Command | `/obsidian-note` | Manage a single note lifecycle such as lookup, rename, archive, or purge. |
+| Command | `/obsidian-views` | Generate or refresh optional Obsidian views such as `.base` files. |
 
 **How it works**
-- bind the repo through `.opencode/project-memory/registry.yaml`,
-- route stable knowledge into `Papers / Knowledge / Experiments / Results / Results/Reports / Writing`,
-- keep `Daily/` plus project memory updated conservatively,
-- refresh `Maps/literature.canvas` as the default literature graph artifact.
+- bind an existing repo to an Obsidian vault,
+- route stable knowledge into `Papers / Knowledge / Experiments / Results / Writing`, with round-level experiment reports stored under `Results/Reports/`,
+- keep `Daily/` and project memory updated conservatively,
+- ingest new Markdown files into the correct canonical destination,
+- optionally generate extra views and canvases.
+
+### Automated Enforcement Workflow
+
+Cross-platform plugins automate routine workflow checks and reminders.
+
+**Plugins**
+- `skill-eval.ts`
+- `session-start.ts`
+- `session-summary.ts`
+- `stop-summary.ts`
+- `security-guard.ts`
+
+**How it works**
+- **Before prompts**: evaluate applicable skills and surface relevant workflow hints.
+- **At session start**: show Git state, available commands, and project-memory context.
+- **At session end/stop**: summarize work and remind the user about minimum maintenance tasks.
+- **Security**: block catastrophic commands and require confirmation for dangerous but legitimate ones.
+
+### Knowledge Extraction Workflow
+
+Specialized agents can mine reusable knowledge from papers and competitions.
+
+| Type | Name | One-line explanation |
+|---|---|---|
+| Agent | `paper-miner` | Extract reusable writing knowledge, structure patterns, and venue heuristics from strong papers. |
+| Agent | `kaggle-miner` | Extract engineering practices and solution patterns from strong Kaggle workflows. |
+
+**How it works**
+- extract writing patterns, venue expectations, and rebuttal strategies from papers,
+- extract engineering patterns and solution structure from Kaggle workflows,
+- feed those insights back into skills and reference material.
 
 ### Skill Evolution System
 
-```text
-skill-development -> skill-quality-reviewer -> skill-improver
-```
+Claude Scholar also contains a self-improvement loop for its own skills.
 
-Use this loop when creating, auditing, and improving reusable skills inside Claude Scholar.
+| Type | Name | One-line explanation |
+|---|---|---|
+| Skill | `skill-development` | Create new skills with clear triggers, structure, and progressive disclosure. |
+| Skill | `skill-quality-reviewer` | Review skills across content quality, organization, style, and structural integrity. |
+| Skill | `skill-improver` | Apply structured improvement plans to evolve existing skills. |
+
+**How it works**
+- create new skills with clear trigger descriptions,
+- review them across quality dimensions,
+- apply structured improvements and iterate.
 
 ## Documentation
 
-- [MCP_SETUP.md](./MCP_SETUP.md) — Zotero MCP configuration across Claude Code, Codex CLI, and OpenCode.
-- [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md) — filesystem-first Obsidian knowledge-base workflow for the OpenCode branch.
-- [AGENTS.md](./AGENTS.md) — OpenCode branch instruction and workflow entry document.
-- [README.zh-CN.md](./README.zh-CN.md) — Chinese version of this README.
-- `scripts/setup.sh` — backup-aware installer for the OpenCode branch.
-
+- [MCP_SETUP.md](./MCP_SETUP.md) — Zotero/browser MCP setup
+- [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md) — Obsidian knowledge base workflow
+- [AGENTS.md](./AGENTS.md) — full local configuration, skill list, and workflow details for the OpenCode branch
+- [README.zh-CN.md](./README.zh-CN.md) — Chinese version of this README
+- [opencode.jsonc](./opencode.jsonc) — optional OpenCode config template for plugin/MCP/agent/permission entries
 ## Project Rules
 
-The OpenCode branch still follows the same core project rules:
-- maintain small, readable files,
-- prefer typed and reproducible workflows,
-- use Conventional Commits,
-- treat secrets and local credentials carefully,
-- verify before publishing or pushing.
+Claude Scholar includes project rules for:
+- coding style,
+- agent orchestration,
+- security,
+- experiment reproducibility.
+
+These are reflected in the shipped configuration and in `AGENTS.md`.
 
 ## Contributing
 
-This branch is maintained as a practical OpenCode adaptation of Claude Scholar.
+Issues, PRs, and workflow improvements are welcome.
 
-Contributions are welcome, especially for:
-- OpenCode-native workflow polish,
-- safer installer behavior,
-- documentation cleanup,
-- Zotero workflow improvements,
-- reporting and writing workflow quality.
+If you propose changes to installer behavior, Zotero workflows, or Obsidian routing, please include:
+- the user scenario,
+- the current limitation,
+- the expected behavior,
+- and any compatibility concerns.
 
 ## License
 
@@ -369,31 +426,33 @@ MIT License.
 
 ## Citation
 
-If Claude Scholar helps your research or engineering workflow, please cite:
+If Claude Scholar helps your research or engineering workflow, you can cite the repository as:
 
 ```bibtex
-@misc{claudescholar,
-  author       = {Gaorui Zhang},
+@misc{claude_scholar_2026,
   title        = {Claude Scholar: Semi-automated research assistant for academic research and software development},
+  author       = {Gaorui Zhang},
   year         = {2026},
-  howpublished = {GitHub repository},
-  url          = {https://github.com/Galaxy-Dawn/claude-scholar}
+  howpublished = {\url{https://github.com/Galaxy-Dawn/claude-scholar}},
+  note         = {GitHub repository}
 }
 ```
 
 ## Acknowledgments
 
-Claude Scholar builds on ideas from:
-- the Claude Code ecosystem,
-- OpenCode as an alternative CLI runtime,
-- Zotero and the broader research-tooling ecosystem,
-- the ML/AI writing and experiment-analysis community.
+Built with Claude Code CLI and enhanced by the open-source community.
 
 ### References
 
-- [OpenCode](https://github.com/sst/opencode)
-- [Claude Code](https://github.com/anthropics/claude-code)
-- [OpenAI Codex CLI](https://github.com/openai/codex)
-- [Zotero](https://www.zotero.org/)
-- [Model Context Protocol](https://modelcontextprotocol.io/)
-- [uv](https://docs.astral.sh/uv/)
+This project is inspired by and builds upon excellent work from the community:
+
+- **[everything-claude-code](https://github.com/anthropics/everything-claude-code)** - Comprehensive resource for Claude Code CLI
+- **[AI-research-SKILLs](https://github.com/zechenzhangAGI/AI-research-SKILLs)** - Research-focused skills and configurations
+
+These projects provided valuable insights and foundations for the research-oriented features in Claude Scholar.
+
+---
+
+**For data science, AI research, and academic writing.**
+
+Repository: [https://github.com/Galaxy-Dawn/claude-scholar](https://github.com/Galaxy-Dawn/claude-scholar)
