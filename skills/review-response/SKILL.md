@@ -104,7 +104,6 @@ Read narrowly:
 
 Do not quote the memory mechanically. Use it to improve structure, clarity, restraint, and professionalism.
 
-
 ## Reference Documents
 
 For detailed guides, refer to:
