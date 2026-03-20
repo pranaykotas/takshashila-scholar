@@ -81,6 +81,8 @@ In other words, Claude Scholar is a **semi-automated research assistant**, not a
 
 ## Quick Start
 
+> **Branch note**: the `main` branch is the Claude Code workflow. If you use Codex CLI, please see the [`codex` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/codex). If you use OpenCode, please see the [`opencode` branch](https://github.com/Galaxy-Dawn/claude-scholar/tree/opencode).
+
 ### Requirements
 
 - [Claude Code](https://github.com/anthropics/claude-code)
