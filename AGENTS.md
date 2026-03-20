@@ -77,12 +77,21 @@
 ### 支撑工作流
 
 - **Zotero 集成**: 通过 Zotero MCP 服务器实现论文自动导入、集合管理、全文阅读和准确引用导出
+- **Obsidian 知识库**: 内置 filesystem-first 的项目知识库工作流，默认围绕 `Papers / Knowledge / Experiments / Results / Results/Reports / Writing / Daily / Archive` 组织 durable knowledge
+- **Obsidian agents**: `literature-reviewer-obsidian` 负责 filesystem-first 文献综述；`research-knowledge-curator-obsidian` 负责已绑定仓库的默认知识库维护
 - **知识提取**: `paper-miner` 将论文写作模式沉淀到一份全局 canonical writing memory；`kaggle-miner` 持续从竞赛方案中提取工程知识
 - **技能进化**: `skill-development` → `skill-quality-reviewer` → `skill-improver` 三步改进循环
 
+### Obsidian 项目知识库规则
+
+- 如果当前仓库包含 `.opencode/project-memory/registry.yaml`，默认激活 `obsidian-project-memory`，并把 Obsidian 视为该仓库的默认项目知识库。
+- 如果仓库还没绑定，但明显是科研项目仓库，则默认激活 `obsidian-project-bootstrap` 完成导入。
+- 每次实质性的科研回合，至少维护当天 `Daily/` 与 `.opencode/project-memory/<project_id>.md`；只有顶层项目状态发生变化时才更新 `00-Hub.md`。
+- 该工作流不依赖 Obsidian MCP、API key 或额外 REST 服务。
+
 ---
 
-## 技能目录（33 skills）
+## 技能目录（45+ skills）
 
 ### 研究与分析 (5)
 - **research-ideation**: 研究构思启动
@@ -90,6 +99,19 @@
 - **results-report**: 实验后完整总结报告
 - **citation-verification**: 引文验证
 - **daily-paper-generator**: 每日论文生成器
+
+### Obsidian 知识库 (11)
+- **obsidian-project-memory**: repo 绑定 Obsidian 项目知识库的默认总控
+- **obsidian-project-bootstrap**: 将新项目或已有科研仓库导入 Obsidian 知识库
+- **obsidian-research-log**: 每日进展、计划、TODO、里程碑写回
+- **obsidian-experiment-log**: 实验与结果沉淀
+- **obsidian-project-lifecycle**: detach / archive / purge / rebuild
+- **obsidian-literature-workflow**: 在项目知识库内进行 paper-note 归一化与文献综述
+- **zotero-obsidian-bridge**: Zotero -> Obsidian 的 paper notes / literature canvas 主桥接
+- **obsidian-markdown**: vendored 的官方 Obsidian Markdown skill
+- **obsidian-cli**: vendored 的官方 Obsidian CLI skill
+- **obsidian-bases**: vendored 的官方 `.base` skill（显式启用）
+- **obsidian-link-graph / obsidian-synthesis-map**: 辅助修链与综合映射
 
 ### 论文写作与发表 (7)
 - **ml-paper-writing**: ML/AI 论文写作辅助（NeurIPS, ICML, ICLR, Nature 等）
@@ -226,10 +248,10 @@ For complex problems, use split-role sub-agents:
 ### Secrets Management
 - API keys, tokens, passwords must NEVER appear in committed files
 - Use environment variables or `.env` files (gitignored)
-- `settings.json` is excluded from Git
+- local runtime config files that may contain auth or API settings must stay out of Git
 
 ### Sensitive Files (NEVER commit)
-`settings.json`, `.env`, `*.pem`, `*.key`, `credentials.json`, `*_secret*`, `*_token*`, `*.sqlite`, `*.db`
+`opencode.jsonc`, `.env`, `*.pem`, `*.key`, `credentials.json`, `*_secret*`, `*_token*`, `*.sqlite`, `*.db`
 
 ### Prohibited in Source Code
 - Hardcoded passwords or API keys

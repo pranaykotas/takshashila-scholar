@@ -1,25 +1,25 @@
 ---
 name: Plugin Structure
-description: This skill should be used when the user asks to "create a plugin", "scaffold a plugin", "understand plugin structure", "organize plugin components", "set up plugin.json", "use ${CLAUDE_PLUGIN_ROOT}", "add commands/agents/skills/hooks", "configure auto-discovery", or needs guidance on plugin directory layout, manifest configuration, component organization, file naming conventions, or Claude Code plugin architecture best practices.
+description: This skill should be used when the user asks to "create a plugin", "scaffold a plugin", "understand plugin structure", "organize plugin components", or needs guidance on OpenCode branch layout, manifest/config entrypoints, component organization, and legacy Claude plugin architecture references.
 version: 0.1.0
 ---
 
-# Plugin Structure for Claude Code
+# Plugin Structure for the OpenCode Branch
 
 ## Overview
 
-Claude Code plugins follow a standardized directory structure with automatic component discovery. Understanding this structure enables creating well-organized, maintainable plugins that integrate seamlessly with Claude Code.
+This branch uses `opencode.jsonc`, `plugins/`, `commands/`, `skills/`, `scripts/`, and `AGENTS.md` as the primary runtime layout. If Claude plugin manifests or `${CLAUDE_PLUGIN_ROOT}` appear below, treat them as legacy reference rather than the OpenCode-native path.
 
 **Key concepts:**
 - Conventional directory layout for automatic discovery
-- Manifest-driven configuration in `.claude-plugin/plugin.json`
+- OpenCode-native runtime config in `opencode.jsonc`; legacy Claude plugin manifests may still appear below
 - Component-based organization (commands, agents, skills, hooks)
 - Portable path references using `${CLAUDE_PLUGIN_ROOT}`
 - Explicit vs. auto-discovered component loading
 
 ## Directory Structure
 
-Every Claude Code plugin follows this organizational pattern:
+For legacy Claude plugin layouts, the organizational pattern looks like this:
 
 ```
 plugin-name/
@@ -131,7 +131,7 @@ description: Command description
 Command implementation instructions...
 ```
 
-**Usage**: Commands integrate as native slash commands in Claude Code
+**Usage**: In legacy Claude plugin runtimes, commands integrate as native slash commands
 
 ### Agents
 
@@ -159,7 +159,7 @@ capabilities:
 Detailed agent instructions and knowledge...
 ```
 
-**Usage**: Users can invoke agents manually, or Claude Code selects them automatically based on task context
+**Usage**: Agents can be invoked manually; legacy Claude runtimes may also auto-select them based on task context
 
 ### Skills
 
@@ -195,7 +195,7 @@ Skill instructions and guidance...
 
 **Supporting files**: Skills can include scripts, references, examples, or assets in subdirectories
 
-**Usage**: Claude Code autonomously activates skills based on task context matching the description
+**Usage**: Skills activate when the runtime matches the description; Claude Code-specific auto-activation here is legacy reference
 
 ### Hooks
 
@@ -228,7 +228,7 @@ hooks/
 
 **Available events**: PreToolUse, PostToolUse, Stop, SubagentStop, SessionStart, SessionEnd, UserPromptSubmit, PreCompact, Notification
 
-**Usage**: Hooks execute automatically in response to Claude Code events
+**Usage**: Legacy Claude hooks execute automatically in response to runtime events
 
 ### MCP Servers
 
@@ -251,7 +251,7 @@ hooks/
 }
 ```
 
-**Usage**: MCP servers integrate seamlessly with Claude Code's tool system
+**Usage**: MCP servers integrate with the runtime tool system; Claude Code behavior here is legacy reference
 
 ## Portable Path References
 
@@ -338,7 +338,7 @@ source "${CLAUDE_PLUGIN_ROOT}/lib/common.sh"
 
 ## Auto-Discovery Mechanism
 
-Claude Code automatically discovers and loads components:
+Legacy Claude plugin runtimes automatically discover and load components like this:
 
 1. **Plugin manifest**: Reads `.claude-plugin/plugin.json` when plugin enables
 2. **Commands**: Scans `commands/` directory for `.md` files
@@ -348,9 +348,9 @@ Claude Code automatically discovers and loads components:
 6. **MCP servers**: Loads configuration from `.mcp.json` or manifest
 
 **Discovery timing**:
-- Plugin installation: Components register with Claude Code
+- Plugin installation: components register with the runtime
 - Plugin enable: Components become available for use
-- No restart required: Changes take effect on next Claude Code session
+- Changes take effect on the next runtime session
 
 **Override behavior**: Custom paths in `plugin.json` supplement (not replace) default directories
 
@@ -451,7 +451,7 @@ my-plugin/
 - Verify file is in correct directory with correct extension
 - Check YAML frontmatter syntax (commands, agents, skills)
 - Ensure skill has `SKILL.md` (not `README.md` or other name)
-- Confirm plugin is enabled in Claude Code settings
+- Confirm the plugin/config is enabled in the active runtime
 
 **Path resolution errors**:
 - Replace all hardcoded paths with `${CLAUDE_PLUGIN_ROOT}`
@@ -463,7 +463,7 @@ my-plugin/
 - Confirm directories are at plugin root (not in `.claude-plugin/`)
 - Check file naming follows conventions (kebab-case, correct extensions)
 - Verify custom paths in manifest are correct
-- Restart Claude Code to reload plugin configuration
+- Reload the active runtime session to pick up plugin configuration changes
 
 **Conflicts between plugins**:
 - Use unique, descriptive component names

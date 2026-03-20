@@ -1,6 +1,6 @@
 # Command Development Skill
 
-Comprehensive guidance on creating Claude Code slash commands, including file format, frontmatter options, dynamic arguments, and best practices.
+Comprehensive guidance on creating reusable command prompts for the OpenCode branch, including file format, frontmatter options, dynamic arguments, and best practices.
 
 ## Overview
 
@@ -12,8 +12,8 @@ This skill provides knowledge about:
 - Bash execution with !` syntax
 - Command organization and namespacing
 - Best practices for command development
-- Plugin-specific features (${CLAUDE_PLUGIN_ROOT}, plugin patterns)
-- Integration with plugin components (agents, skills, hooks)
+- OpenCode branch notes plus transferable legacy plugin reference (${CLAUDE_PLUGIN_ROOT}, plugin patterns)
+- Integration with repo components (agents, skills, plugins)
 - Validation patterns and error handling
 
 ## Skill Structure
@@ -37,7 +37,7 @@ Core skill content covering:
 - ${CLAUDE_PLUGIN_ROOT} environment variable
 - Plugin command discovery and organization
 - Plugin command patterns (configuration, template, multi-script)
-- Integration with plugin components (agents, skills, hooks)
+- Integration with repo components (agents, skills, plugins)
 - Validation patterns (argument, file, resource, error handling)
 
 ### References
@@ -81,7 +81,7 @@ Practical command examples:
 
 ## When This Skill Triggers
 
-Claude Code activates this skill when users:
+Use this skill on the OpenCode branch when users:
 - Ask to "create a slash command" or "add a command"
 - Need to "write a custom command"
 - Want to "define command arguments"
@@ -129,8 +129,8 @@ Command prompt content with:
 
 ### Locations
 
-- **Project**: `.claude/commands/` (shared with team)
-- **Personal**: `~/.claude/commands/` (your commands)
+- **Repository source**: `commands/` (tracked in the repo before installation)
+- **Personal runtime**: `~/.opencode/commands/` (your installed commands)
 - **Plugin**: `plugin-name/commands/` (plugin-specific)
 
 ### Key Features
@@ -261,7 +261,7 @@ To update this skill:
 3. Add new examples/ for different use cases
 4. Update frontmatter when new fields added
 5. Ensure imperative/infinitive form throughout
-6. Test examples work with current Claude Code
+6. Test examples against the current OpenCode/runtime command behavior
 
 ## Version History
 

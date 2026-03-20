@@ -1,6 +1,6 @@
 /**
  * 跨平台工具函数库
- * 为 Claude Code 插件提供跨平台兼容性支持
+ * 为 OpenCode 分支脚本与插件提供跨平台兼容性支持
  *
  * @module utils
  */
@@ -85,12 +85,12 @@ function runCommand(cmd, options = {}) {
 }
 
 /**
- * 获取 Claude 配置目录（跨平台）
- * @returns {string} Claude 配置目录路径
+ * 获取 OpenCode 配置目录（跨平台）
+ * @returns {string} OpenCode 配置目录路径
  */
-function getClaudeConfigDir() {
+function getOpenCodeConfigDir() {
   const homeDir = getHomeDir();
-  return path.join(homeDir, '.claude');
+  return path.join(homeDir, '.opencode');
 }
 
 /**
@@ -102,9 +102,17 @@ function getProjectRoot(startDir = process.cwd()) {
   let currentDir = startDir;
 
   while (currentDir !== path.parse(currentDir).root) {
-    // 检查是否存在 .claude-plugin 目录
-    const pluginDir = path.join(currentDir, '.claude-plugin');
-    if (fs.existsSync(pluginDir)) {
+    // 检查是否存在 OpenCode 项目标记
+    const openCodeConfig = path.join(currentDir, 'opencode.jsonc');
+    const pluginsDir = path.join(currentDir, 'plugins');
+    const agentsDoc = path.join(currentDir, 'AGENTS.md');
+    if (fs.existsSync(openCodeConfig) || (fs.existsSync(pluginsDir) && fs.statSync(pluginsDir).isDirectory()) || fs.existsSync(agentsDoc)) {
+      return currentDir;
+    }
+
+    // 兼容历史 Claude plugin 目录
+    const legacyPluginDir = path.join(currentDir, '.claude-plugin');
+    if (fs.existsSync(legacyPluginDir)) {
       return currentDir;
     }
 
@@ -221,7 +229,7 @@ module.exports = {
   ensureDir,
   commandExists,
   runCommand,
-  getClaudeConfigDir,
+  getOpenCodeConfigDir,
   getProjectRoot,
   joinPath,
   resolvePath,

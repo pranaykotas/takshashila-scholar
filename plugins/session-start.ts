@@ -2,7 +2,7 @@
  * Session Start Plugin - Display project status on session.created
  * Hook: event (filters for session.created)
  */
-import { getGitInfo, getTodoInfo } from "./lib/common";
+import { detectResearchRepoCandidate, getGitInfo, getProjectMemoryBinding, getTodoInfo } from "./lib/common";
 import type { Plugin } from "@opencode-ai/plugin";
 
 export const SessionStartPlugin: Plugin = async (ctx) => {
@@ -12,6 +12,9 @@ export const SessionStartPlugin: Plugin = async (ctx) => {
       const cwd = ctx.directory;
       const git = getGitInfo(cwd);
       const todo = getTodoInfo(cwd);
+      const binding = getProjectMemoryBinding(cwd);
+      const candidate = detectResearchRepoCandidate(cwd);
+
       let msg = `📂 ${cwd}\n`;
       if (git.is_repo) {
         msg += `Branch: ${git.branch}`;
@@ -20,7 +23,17 @@ export const SessionStartPlugin: Plugin = async (ctx) => {
       if (todo.found) {
         msg += `Todos: ${todo.pending} pending / ${todo.done} done\n`;
       }
-      console.log(msg);
+      if (binding.bound) {
+        msg += `🧠 Obsidian project memory: bound (${binding.projectId || "unknown-project"})\n`;
+        if (binding.vaultRoot) msg += `  - Vault root: ${binding.vaultRoot}\n`;
+        if (binding.memoryPath) msg += `  - Memory: ${binding.memoryPath}\n`;
+        msg += "  - Suggested commands: /obsidian-sync, /obsidian-note\n";
+      } else if (candidate.candidate) {
+        msg += "🧠 Obsidian project memory: research repo candidate\n";
+        msg += `  - Detected markers: ${candidate.markers.join(", ")}\n`;
+        msg += "  - Suggested command: /obsidian-init\n";
+      }
+      console.log(msg.trimEnd());
     },
   };
 };

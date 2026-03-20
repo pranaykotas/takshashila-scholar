@@ -1,14 +1,14 @@
 ---
 name: MCP Integration
-description: This skill should be used when the user asks to "add MCP server", "integrate MCP", "configure MCP in plugin", "use .mcp.json", "set up Model Context Protocol", "connect external service", mentions "${CLAUDE_PLUGIN_ROOT} with MCP", or discusses MCP server types (SSE, stdio, HTTP, WebSocket). Provides comprehensive guidance for integrating Model Context Protocol servers into Claude Code plugins for external tool and service integration.
+description: This skill should be used when the user asks to "add MCP server", "integrate MCP", "set up Model Context Protocol", or connect an external service. On the OpenCode branch, prefer `opencode.jsonc` and OpenCode-native config, while treating `.mcp.json`-style Claude plugin layouts as legacy reference.
 version: 0.1.0
 ---
 
-# MCP Integration for Claude Code Plugins
+# MCP Integration for the OpenCode Branch
 
 ## Overview
 
-Model Context Protocol (MCP) enables Claude Code plugins to integrate with external services and APIs by providing structured tool access. Use MCP integration to expose external service capabilities as tools within Claude Code.
+Model Context Protocol (MCP) lets this branch connect external services and APIs as tools. For OpenCode, the primary configuration surface is `opencode.jsonc`; any `.mcp.json` or Claude plugin examples below should be treated as transferable legacy reference, not the default branch layout.
 
 **Key capabilities:**
 - Connect to external services (databases, APIs, file systems)
@@ -88,9 +88,9 @@ Execute local MCP servers as child processes. Best for local tools and custom se
 - NPM-packaged MCP servers
 
 **Process management:**
-- Claude Code spawns and manages the process
+- The runtime spawns and manages the process (Claude-specific behavior below is legacy reference)
 - Communicates via stdin/stdout
-- Terminates when Claude Code exits
+- Terminates when the hosting runtime exits
 
 ### SSE (Server-Sent Events)
 
@@ -115,7 +115,7 @@ Connect to hosted MCP servers with OAuth support. Best for cloud services.
 **Authentication:**
 - OAuth flows handled automatically
 - User prompted on first use
-- Tokens managed by Claude Code
+- Tokens managed by the hosting runtime
 
 ### HTTP (REST API)
 
@@ -242,7 +242,7 @@ Use `/mcp` command to see all servers including plugin-provided ones.
 
 ### OAuth (SSE/HTTP)
 
-OAuth handled automatically by Claude Code:
+Legacy Claude runtimes can handle OAuth automatically like this:
 
 ```json
 {
@@ -424,11 +424,11 @@ for id in task_ids:
 
 ### Local Testing
 
-1. Configure MCP server in `.mcp.json`
-2. Install plugin locally (`.claude-plugin/`)
+1. Configure the MCP server in the runtime config (`opencode.jsonc` on this branch, `.mcp.json` only for legacy Claude layouts)
+2. Install or register the plugin/runtime config locally
 3. Run `/mcp` to verify server appears
 4. Test tool calls in commands
-5. Check `claude --debug` logs for connection issues
+5. Check runtime debug logs for connection issues
 
 ### Validation Checklist
 
@@ -466,7 +466,7 @@ Look for:
 - Verify server connected successfully
 - Check tool names match exactly
 - Run `/mcp` to see available tools
-- Restart Claude Code after config changes
+- Reload the runtime after config changes if tools do not refresh automatically
 
 **Authentication failing:**
 - Clear cached auth tokens
@@ -533,7 +533,7 @@ Working examples in `examples/`:
 ### External Resources
 
 - **Official MCP Docs**: https://modelcontextprotocol.io/
-- **Claude Code MCP Docs**: https://docs.claude.com/en/docs/claude-code/mcp
+- **Claude Code MCP Docs (legacy reference)**: https://docs.claude.com/en/docs/claude-code/mcp
 - **MCP SDK**: @modelcontextprotocol/sdk
 - **Testing**: Use `claude --debug` and `/mcp` command
 

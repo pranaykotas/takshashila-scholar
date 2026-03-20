@@ -2,7 +2,7 @@
 name: results-report
 description: This skill should be used when the user asks to "write an experiment report", "summarize experimental results", "do experiment retrospection", "write a results report", "写实验总结报告", "写实验复盘", or mentions turning completed experiment artifacts into a structured, decision-oriented research report. It assumes strict analysis should come from `results-analysis` first.
 version: 0.1.0
-tags: [Research, Reporting, Experiments]
+tags: [Research, Reporting, Experiments, Obsidian]
 ---
 
 # Results Report
@@ -24,7 +24,7 @@ This skill is for the stage **after** `results-analysis`.
 - decision-oriented narrative,
 - figure-by-figure interpretation inside a coherent structure,
 - limitations, failure cases, and next actions,
-- local write-back into `Results/Reports/` or another requested report location.
+- Obsidian write-back into `Results/Reports/`.
 
 Do not replace strict analysis with confident prose. If the analysis bundle is missing, first identify the blocker and request or produce the missing bundle.
 
@@ -138,13 +138,19 @@ Read `references/figure-interpretation.md` and `references/statistical-completen
 
 ### 5. Choose the write target explicitly
 
-Always choose an explicit write target:
-- default to `Results/Reports/{report-name}.md` inside the current repo,
-- link back to the relevant `Experiments/` or `Results/` notes if this repo maintains them,
-- if the user requests another output location, keep the same filename contract there,
-- explicitly say which local path was updated.
+If the current repo is bound to an Obsidian project knowledge base:
+- create or update `Results/Reports/{report-name}.md`,
+- link back to the relevant `Experiments/` note,
+- update the matching canonical `Results/` note when a durable conclusion is now supported,
+- append a short trace to today's `Daily/` note,
+- update `.opencode/project-memory/<project_id>.md`.
 
-Internal experiment reports belong in `Results/Reports/`, not `Writing/`.
+If the repo is **not** bound:
+- write the report as a local markdown artifact in the requested output location or next to the analysis bundle,
+- keep the same filename contract,
+- explicitly say that no Obsidian write-back was attempted.
+
+Use `obsidian-project-memory` conventions only for bound repos. Internal experiment reports belong in `Results/Reports/`, not `Writing/`.
 
 ### 6. End with explicit next actions
 

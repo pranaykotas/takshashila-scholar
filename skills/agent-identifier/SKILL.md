@@ -1,14 +1,14 @@
 ---
 name: Agent Development
-description: This skill should be used when the user asks to "create an agent", "add an agent", "write a subagent", "agent frontmatter", "when to use description", "agent examples", "agent tools", "agent colors", "autonomous agent", or needs guidance on agent structure, system prompts, triggering conditions, or agent development best practices for Claude Code plugins.
+description: This skill should be used when the user asks to "create an agent", "add an agent", "write a subagent", "agent frontmatter", "when to use description", "agent examples", "agent tools", "agent colors", "autonomous agent", or needs guidance on agent structure, system prompts, triggering conditions, and agent development best practices in the OpenCode branch.
 version: 0.1.0
 ---
 
-# Agent Development for Claude Code Plugins
+# Agent Development for the OpenCode Branch
 
 ## Overview
 
-Agents are autonomous subprocesses that handle complex, multi-step tasks independently. Understanding agent structure, triggering conditions, and system prompt design enables creating powerful autonomous capabilities.
+Agents are autonomous subprocesses that handle complex, multi-step tasks independently. In this branch, prefer OpenCode-native agent/config entrypoints first; treat any Claude Code-specific notes below as legacy reference when the concepts still transfer.
 
 **Key concepts:**
 - Agents are FOR autonomous work, commands are FOR user-initiated actions
@@ -218,7 +218,7 @@ Handle these situations:
 
 ### Method 1: AI-Assisted Generation
 
-Use this prompt pattern (extracted from Claude Code):
+Use this prompt pattern (historical Claude reference, still useful as a design example):
 
 ```
 Create an agent configuration based on this request: "[YOUR DESCRIPTION]"
@@ -382,7 +382,7 @@ For detailed guidance, consult:
 
 - **`references/system-prompt-design.md`** - Complete system prompt patterns
 - **`references/triggering-examples.md`** - Example formats and best practices
-- **`references/agent-creation-system-prompt.md`** - The exact prompt from Claude Code
+- **`references/agent-creation-system-prompt.md`** - Historical Claude agent-creation prompt kept as design reference
 
 ### Example Files
 

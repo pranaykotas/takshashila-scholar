@@ -7,7 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { commandExists, readJSON, getProjectRoot, getClaudeConfigDir, isWindows } = require('./utils');
+const { commandExists, readJSON, getProjectRoot, getOpenCodeConfigDir, isWindows } = require('./utils');
 
 // 包管理器配置
 const PACKAGE_MANAGERS = {
@@ -55,7 +55,7 @@ const DETECTION_PRIORITY = ['pnpm', 'bun', 'yarn', 'npm'];
 function getProjectConfigPath() {
   const projectRoot = getProjectRoot();
   if (projectRoot) {
-    return path.join(projectRoot, '.claude', 'package-manager.json');
+    return path.join(projectRoot, '.opencode', 'package-manager.json');
   }
   return null;
 }
@@ -65,7 +65,7 @@ function getProjectConfigPath() {
  * @returns {string} 配置文件路径
  */
 function getGlobalConfigPath() {
-  return path.join(getClaudeConfigDir(), 'package-manager.json');
+  return path.join(getOpenCodeConfigDir(), 'package-manager.json');
 }
 
 /**
@@ -73,7 +73,7 @@ function getGlobalConfigPath() {
  * @returns {string|null} 包管理器名称或 null
  */
 function detectFromEnvironment() {
-  const envPm = process.env.CLAUDE_PACKAGE_MANAGER;
+  const envPm = process.env.OPENCODE_PACKAGE_MANAGER || process.env.CLAUDE_PACKAGE_MANAGER;
   if (envPm && PACKAGE_MANAGERS[envPm]) {
     return envPm;
   }

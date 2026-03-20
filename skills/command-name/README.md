@@ -1,6 +1,6 @@
 # Plugin Structure Skill
 
-Comprehensive guidance on Claude Code plugin architecture, directory layout, and best practices.
+Comprehensive guidance on OpenCode branch layout, plus legacy plugin-architecture reference where concepts still transfer.
 
 ## Overview
 
@@ -72,7 +72,7 @@ Three complete plugin examples:
 
 ## When This Skill Triggers
 
-Claude Code activates this skill when users:
+This skill is relevant on the OpenCode branch when users:
 - Ask to "create a plugin" or "scaffold a plugin"
 - Need to "understand plugin structure"
 - Want to "organize plugin components"

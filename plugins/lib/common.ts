@@ -44,7 +44,7 @@ export function getTodoInfo(cwd: string): TodoInfo {
   const todoFiles = [
     path.join(cwd, "docs", "todo.md"),
     path.join(cwd, "TODO.md"),
-    path.join(cwd, ".claude", "todos.md"),
+    path.join(cwd, ".opencode", "todos.md"),
     path.join(cwd, "TODO"),
     path.join(cwd, "notes", "todo.md"),
   ];
@@ -59,4 +59,64 @@ export function getTodoInfo(cwd: string): TodoInfo {
     }
   }
   return { found: false, file: null, path: null, total: 0, done: 0, pending: 0 };
+}
+
+
+export interface ProjectMemoryBinding {
+  bound: boolean;
+  registryPath: string | null;
+  memoryPath: string | null;
+  projectId: string | null;
+  vaultRoot: string | null;
+}
+
+export interface ResearchRepoCandidate {
+  candidate: boolean;
+  markers: string[];
+}
+
+export function getProjectMemoryBinding(cwd: string): ProjectMemoryBinding {
+  const registryPath = path.join(cwd, ".opencode", "project-memory", "registry.yaml");
+  if (!fs.existsSync(registryPath)) {
+    return { bound: false, registryPath: null, memoryPath: null, projectId: null, vaultRoot: null };
+  }
+  try {
+    const raw = fs.readFileSync(registryPath, "utf8").trim();
+    const data = raw ? JSON.parse(raw) : {};
+    const projects = data.projects || {};
+    const firstKey = Object.keys(projects)[0];
+    if (!firstKey) {
+      return { bound: false, registryPath, memoryPath: null, projectId: null, vaultRoot: null };
+    }
+    const project = projects[firstKey] || {};
+    const memoryPath = path.join(cwd, ".opencode", "project-memory", `${firstKey}.md`);
+    return {
+      bound: true,
+      registryPath,
+      memoryPath,
+      projectId: firstKey,
+      vaultRoot: project.project_root || project.vault_path || null,
+    };
+  } catch {
+    return { bound: false, registryPath, memoryPath: null, projectId: null, vaultRoot: null };
+  }
+}
+
+export function detectResearchRepoCandidate(cwd: string): ResearchRepoCandidate {
+  const markers: string[] = [];
+  const checks = [
+    ".git",
+    "README.md",
+    path.join("docs"),
+    path.join("notes"),
+    path.join("plan"),
+    path.join("results"),
+    path.join("outputs"),
+    path.join("src"),
+    path.join("scripts"),
+  ];
+  for (const rel of checks) {
+    if (fs.existsSync(path.join(cwd, rel))) markers.push(rel);
+  }
+  return { candidate: markers.length >= 3, markers };
 }

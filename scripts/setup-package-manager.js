@@ -26,7 +26,7 @@ const { log } = require('./lib/utils');
 
 function showHelp() {
   console.log(`
-Package Manager Setup for Claude Code
+Package Manager Setup for OpenCode
 
 Usage:
   node scripts/setup-package-manager.js [options] [package-manager]
@@ -62,6 +62,7 @@ Examples:
 function detectAndShow() {
   const pm = getPackageManager();
   const available = getAvailablePackageManagers();
+  const availableSet = new Set(available.filter(item => item.available).map(item => item.name));
   const fromLock = detectFromLockFile();
   const fromPkg = detectFromPackageJson();
 
@@ -75,12 +76,12 @@ function detectAndShow() {
   console.log('Detection results:');
   console.log(`  From package.json: ${fromPkg || 'not specified'}`);
   console.log(`  From lock file: ${fromLock || 'not found'}`);
-  console.log(`  Environment var: ${process.env.CLAUDE_PACKAGE_MANAGER || 'not set'}`);
+  console.log(`  Environment var: ${process.env.OPENCODE_PACKAGE_MANAGER || process.env.CLAUDE_PACKAGE_MANAGER || 'not set'}`);
   console.log('');
 
   console.log('Available package managers:');
   for (const pmName of Object.keys(PACKAGE_MANAGERS)) {
-    const installed = available.includes(pmName);
+    const installed = availableSet.has(pmName);
     const indicator = installed ? '✓' : '✗';
     const current = pmName === pm.name ? ' (current)' : '';
     console.log(`  ${indicator} ${pmName}${current}`);
@@ -96,13 +97,14 @@ function detectAndShow() {
 
 function listAvailable() {
   const available = getAvailablePackageManagers();
+  const availableSet = new Set(available.filter(item => item.available).map(item => item.name));
   const pm = getPackageManager();
 
   console.log('\nAvailable Package Managers:\n');
 
   for (const pmName of Object.keys(PACKAGE_MANAGERS)) {
     const config = PACKAGE_MANAGERS[pmName];
-    const installed = available.includes(pmName);
+    const installed = availableSet.has(pmName);
     const current = pmName === pm.name ? ' (current)' : '';
 
     console.log(`${pmName}${current}`);
@@ -122,7 +124,8 @@ function setGlobal(pmName) {
   }
 
   const available = getAvailablePackageManagers();
-  if (!available.includes(pmName)) {
+  const availableSet = new Set(available.filter(item => item.available).map(item => item.name));
+  if (!availableSet.has(pmName)) {
     console.warn(`Warning: ${pmName} is not installed on your system`);
   }
 

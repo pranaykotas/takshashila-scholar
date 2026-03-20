@@ -9,7 +9,7 @@ personas: [architect, frontend, backend, security, qa-specialist]
 
 # /sc:implement - Feature Implementation
 
-> **Context Framework Note**: This behavioral instruction activates when Claude Code users type `/sc:implement` patterns. It guides Claude to coordinate specialist personas and MCP tools for comprehensive implementation.
+> **Context Framework Note**: This behavioral instruction activates when OpenCode users type `/sc:implement` patterns. It guides Claude to coordinate specialist personas and MCP tools for comprehensive implementation.
 
 ## Triggers
 - Feature development requests for components, APIs, or complete functionality
@@ -21,7 +21,7 @@ personas: [architect, frontend, backend, security, qa-specialist]
 ```
 /sc:implement [feature-description] [--type component|api|service|feature] [--framework react|vue|express] [--safe] [--with-tests]
 ```
-**Usage**: Type this in Claude Code conversation to activate implementation behavioral mode with coordinated expertise and systematic development approach.
+**Usage**: Type this in your OpenCode conversation to activate implementation behavioral mode with coordinated expertise and systematic development approach.
 
 ## Behavioral Flow
 1. **Analyze**: Examine implementation requirements and detect technology context

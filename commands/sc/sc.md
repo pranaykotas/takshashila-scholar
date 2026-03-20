@@ -127,4 +127,4 @@ SuperClaude v4.1.7
 
 📚 **Documentation**: https://github.com/SuperClaude-Org/SuperClaude_Framework
 
-⚠️ **Important**: Restart Claude Code after installing commands to use them!
+⚠️ **Important**: Reload the OpenCode session after installing or updating these commands if they do not appear immediately!

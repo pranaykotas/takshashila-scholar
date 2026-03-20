@@ -44,7 +44,7 @@ tags: [Research, Analysis, Statistics, Visualization, Reporting]
 - 完整实验总结报告
 - 逐图解释与结论串联
 - 面向决策的 next actions
-- 并默认写回本地 `Results/Reports/` 目录
+- 如已绑定 Obsidian，则自动写回知识库
 
 换句话说，`/analyze-results` 不只是“分析”，而是：
 
@@ -61,8 +61,8 @@ tags: [Research, Analysis, Statistics, Visualization, Reporting]
 3. **Phase 2 完整报告**
    - 使用 `results-report`
    - 基于 Phase 1 产物写出完整实验总结报告
-4. **本地报告写回**
-   - 默认写回 `Results/Reports/`，并在需要时更新 repo 内已有的 `Experiments/` / `Results/` 索引
+4. **知识库回写**
+   - 如果当前 repo 已绑定 Obsidian project memory，则写回 `Results/Reports/`、相关 `Experiments/`、`Daily/` 和 project memory
 5. **显式报告 blocker**
    - 若统计输入不足、无法画图或命名信息缺失，必须说明阻塞点，不能伪造结论
 
@@ -148,11 +148,13 @@ Results/Reports/
 - 报告必须覆盖：main findings、statistical validation、figure-by-figure interpretation、negative results、next actions
 - 报告默认是**内部实验总结报告**，不是论文 `Results` section
 
-### 本地知识沉淀
-默认至少执行：
+### Obsidian 写回
+如果 repo 已绑定 Obsidian knowledge base，则至少执行：
 - 新建/更新 `Results/Reports/{report-name}.md`
-- 若 repo 内已有 `Experiments/` 或 `Results/` note，则补充回链或索引
-- 明确写出本轮的 blocker、限制和下一步
+- 回链对应 `Experiments/` note
+- 若结论已稳定，更新 canonical `Results/` note
+- 追加当天 `Daily/YYYY-MM-DD.md`
+- 更新 `.opencode/project-memory/<project_id>.md`
 
 ## 何时不用这个命令
 
@@ -178,4 +180,4 @@ Results/Reports/
 - 有命名规范正确的 results report
 - 图表与文字解释一致
 - blocker 与限制被明确写出
-- 本地 `Results/Reports/` 已生成且内容可追溯
+- 若 repo 绑定 Obsidian，知识库已完成最小写回

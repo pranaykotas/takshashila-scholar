@@ -1,14 +1,14 @@
 ---
 name: Command Development
-description: This skill should be used when the user asks to "create a slash command", "add a command", "write a custom command", "define command arguments", "use command frontmatter", "organize commands", "create command with file references", "interactive command", "use AskUserQuestion in command", or needs guidance on slash command structure, YAML frontmatter fields, dynamic arguments, bash execution in commands, user interaction patterns, or command development best practices for Claude Code.
+description: This skill should be used when the user asks to "create a slash command", "add a command", "write a custom command", "define command arguments", "use command frontmatter", "organize commands", "create command with file references", "interactive command", or needs guidance on reusable command structure and command development best practices on the OpenCode branch.
 version: 0.2.0
 ---
 
-# Command Development for Claude Code
+# Command Development for the OpenCode Branch
 
 ## Overview
 
-Slash commands are frequently-used prompts defined as Markdown files that Claude executes during interactive sessions. Understanding command structure, frontmatter options, and dynamic features enables creating powerful, reusable workflows.
+Commands are reusable Markdown prompts and helper workflows. On this branch, prefer repo-root `commands/` as the source of truth and `~/.opencode/commands/` as the installed runtime location; Claude Code-specific details below are legacy reference unless explicitly needed.
 
 **Key concepts:**
 - Markdown file format for commands
@@ -54,7 +54,7 @@ The first example tells Claude what to do. The second tells the user what will h
 ### Command Locations
 
 **Project commands** (shared with team):
-- Location: `.claude/commands/`
+- Location: `commands/` in the repo source, installed to `~/.opencode/commands/` for local runtime
 - Scope: Available in specific project
 - Label: Shown as "(project)" in `/help`
 - Use for: Team workflows, project-specific tasks
@@ -78,10 +78,13 @@ The first example tells Claude what to do. The second tells the user what will h
 Commands are Markdown files with `.md` extension:
 
 ```
-.claude/commands/
-├── review.md           # /review command
-├── test.md             # /test command
-└── deploy.md           # /deploy command
+commands/                     # repo source
+├── review.md                # /review command
+├── test.md                  # /test command
+└── deploy.md                # /deploy command
+
+# installed runtime location
+~/.opencode/commands/
 ```
 
 **Simple command:**
@@ -332,7 +335,7 @@ For complete syntax, examples, and best practices, see `references/plugin-featur
 Simple organization for small command sets:
 
 ```
-.claude/commands/
+commands/
 ├── build.md
 ├── test.md
 ├── deploy.md
@@ -347,7 +350,7 @@ Simple organization for small command sets:
 Organize commands in subdirectories:
 
 ```
-.claude/commands/
+commands/
 ├── ci/
 │   ├── build.md        # /build (project:ci)
 │   ├── test.md         # /test (project:ci)
@@ -505,7 +508,7 @@ PR #$1 Workflow:
 - Check file is in correct directory
 - Verify `.md` extension present
 - Ensure valid Markdown format
-- Restart Claude Code
+- Reload the runtime session (OpenCode or equivalent) if commands were newly installed
 
 **Arguments not working:**
 - Verify `$1`, `$2` syntax correct
@@ -556,7 +559,7 @@ Review results and report findings.
 !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/script.sh`
 
 # Load plugin configuration
-@${CLAUDE_PLUGIN_ROOT}/config/settings.json
+@${CLAUDE_PLUGIN_ROOT}/config/runtime-config.json
 
 # Use plugin template
 @${CLAUDE_PLUGIN_ROOT}/templates/report.md

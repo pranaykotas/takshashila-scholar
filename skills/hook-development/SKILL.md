@@ -1,14 +1,14 @@
 ---
 name: Hook Development
-description: This skill should be used when the user asks to "create a hook", "add a PreToolUse/PostToolUse/Stop hook", "validate tool use", "implement prompt-based hooks", "use ${CLAUDE_PLUGIN_ROOT}", "set up event-driven automation", "block dangerous commands", or mentions hook events (PreToolUse, PostToolUse, Stop, SubagentStop, SessionStart, SessionEnd, UserPromptSubmit, PreCompact, Notification). Provides comprehensive guidance for creating and implementing Claude Code plugin hooks with focus on advanced prompt-based hooks API.
+description: This skill should be used when the user asks to emulate hook-like automation, validate tool use, block dangerous commands, or discusses hook events and workflow guards. On the OpenCode branch, prefer plugin-based equivalents and treat native Claude hook details as legacy reference.
 version: 0.1.0
 ---
 
-# Hook Development for Claude Code Plugins
+# Workflow Guard Development for the OpenCode Branch
 
 ## Overview
 
-Hooks are event-driven automation scripts that execute in response to Claude Code events. Use hooks to validate operations, enforce policies, add context, and integrate external tools into workflows.
+OpenCode does not provide Claude Code-native hooks. In this branch, prefer `plugins/*.ts` and runtime guards for session-start, session-summary, stop-summary, skill evaluation, and security enforcement; any direct Claude hook details below are legacy reference.
 
 **Key capabilities:**
 - Validate tool calls before execution (PreToolUse)
@@ -101,7 +101,7 @@ Execute bash commands for deterministic checks:
 
 ### Settings Format (Direct)
 
-**For user settings** in `.claude/settings.json`, use direct format:
+**Legacy Claude reference:** for user settings in `~/.claude/settings.json`, use the direct format below. On OpenCode, prefer plugin-based guards.
 
 ```json
 {
@@ -237,7 +237,7 @@ Execute when user submits a prompt. Use to add context, validate, or block promp
 
 ### SessionStart
 
-Execute when Claude Code session begins. Use to load context and set environment.
+Legacy Claude behavior: execute when the session begins. On OpenCode, mirror this with `session-start.ts` or equivalent plugin logic.
 
 **Example:**
 ```json
@@ -573,24 +573,24 @@ input=$(cat)
 
 ### Hooks Load at Session Start
 
-**Important:** Hooks are loaded when Claude Code session starts. Changes to hook configuration require restarting Claude Code.
+**Important:** In legacy Claude runtimes, hooks load when the session starts. On OpenCode, plugin changes may likewise require reloading the session.
 
 **Cannot hot-swap hooks:**
 - Editing `hooks/hooks.json` won't affect current session
 - Adding new hook scripts won't be recognized
 - Changing hook commands/prompts won't update
-- Must restart Claude Code: exit and run `claude` again
+- Reload the relevant runtime session after guard/plugin changes
 
 **To test hook changes:**
 1. Edit hook configuration or scripts
-2. Exit Claude Code session
+2. Exit the current runtime session
 3. Restart: `claude` or `cc`
 4. New hook configuration loads
 5. Test hooks with `claude --debug`
 
 ### Hook Validation at Startup
 
-Hooks are validated when Claude Code starts:
+Legacy Claude hooks are validated when the runtime starts:
 - Invalid JSON in hooks.json causes loading failure
 - Missing scripts cause warnings
 - Syntax errors reported in debug mode
@@ -706,7 +706,7 @@ To implement hooks in a plugin:
 5. Use ${CLAUDE_PLUGIN_ROOT} for all file references
 6. Validate configuration with `scripts/validate-hook-schema.sh hooks/hooks.json`
 7. Test hooks with `scripts/test-hook.sh` before deployment
-8. Test in Claude Code with `claude --debug`
+8. Test in the target runtime with its debug mode enabled
 9. Document hooks in plugin README
 
 Focus on prompt-based hooks for most use cases. Reserve command hooks for performance-critical or deterministic checks.

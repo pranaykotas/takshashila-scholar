@@ -1,12 +1,12 @@
 ---
 name: Skill Development
-description: This skill should be used when the user wants to "create a skill", "add a skill to plugin", "write a new skill", "improve skill description", "organize skill content", or needs guidance on skill structure, progressive disclosure, or skill development best practices for Claude Code plugins.
+description: This skill should be used when the user wants to "create a skill", "write a new skill", "improve skill description", "organize skill content", or needs guidance on skill structure, progressive disclosure, and keeping OpenCode-branch skills internally consistent.
 version: 0.1.0
 ---
 
-# Skill Development for Claude Code Plugins
+# Skill Development for the OpenCode Branch
 
-This skill provides guidance for creating effective skills for Claude Code plugins.
+This skill provides guidance for creating effective local skills for the OpenCode branch. If historical Claude plugin layout appears below, treat it as legacy reference rather than the default runtime contract.
 
 ## About Skills
 
@@ -127,7 +127,7 @@ Example: When building a `big-query` skill to handle queries like "How many user
 1. Querying BigQuery requires re-discovering the table schemas and relationships each time
 2. A `references/schema.md` file documenting the table schemas would be helpful to store in the skill
 
-**For Claude Code plugins:** When building a hooks skill, the analysis shows:
+**For legacy Claude plugin layouts:** when building a hooks-oriented skill, the analysis may show:
 1. Developers repeatedly need to validate hooks.json and test hook scripts
 2. `scripts/validate-hook-schema.sh` and `scripts/test-hook.sh` utilities would be helpful
 3. `references/patterns.md` for detailed hook patterns to avoid bloating SKILL.md
@@ -136,7 +136,7 @@ To establish the skill's contents, analyze each concrete example to create a lis
 
 ### Step 3: Create Skill Structure
 
-For Claude Code plugins, create the skill directory structure:
+If adapting a legacy Claude plugin layout, create the skill directory structure like this:
 
 ```bash
 mkdir -p plugin-name/skills/skill-name/{references,examples,scripts}
@@ -250,7 +250,7 @@ After testing the skill, users may request improvements. Often this happens righ
 
 ### Skill Location in Plugins
 
-Plugin skills live in the plugin's `skills/` directory:
+In legacy Claude plugin layouts, skills live in the plugin's `skills/` directory:
 
 ```
 my-plugin/
@@ -268,7 +268,7 @@ my-plugin/
 
 ### Auto-Discovery
 
-Claude Code automatically discovers skills:
+Legacy Claude runtimes automatically discover skills like this:
 - Scans `skills/` directory
 - Finds subdirectories containing `SKILL.md`
 - Loads skill metadata (name + description) always
@@ -305,7 +305,7 @@ Study the skills in this plugin as examples of best practices:
 **agent-development skill:**
 - Strong triggers: "create an agent", "agent frontmatter", etc.
 - Focused SKILL.md (1,438 words)
-- References include the AI generation prompt from Claude Code
+- References may include AI-generation prompts carried over from Claude Code as historical context
 - Complete agent examples
 
 **plugin-settings skill:**
