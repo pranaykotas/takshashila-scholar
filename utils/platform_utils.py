@@ -24,9 +24,9 @@ def get_home_dir() -> Path:
     return Path.home()
 
 
-def get_claude_dir() -> Path:
-    """Get the Claude config directory"""
-    return get_home_dir() / '.claude'
+def get_opencode_dir() -> Path:
+    """Get the OpenCode config directory"""
+    return get_home_dir() / '.opencode'
 
 
 def get_temp_dir() -> Path:
@@ -36,7 +36,7 @@ def get_temp_dir() -> Path:
 
 def get_plan_dir() -> Path:
     """Get the plan directory"""
-    plan_dir = get_claude_dir() / 'plan'
+    plan_dir = get_opencode_dir() / 'plan'
     plan_dir.mkdir(parents=True, exist_ok=True)
     return plan_dir
 
@@ -272,7 +272,7 @@ def get_platform_info() -> Dict[str, Any]:
 
 
 def log(message: str) -> None:
-    """Log to stderr (visible to user in Claude Code)"""
+    """Log to stderr (visible to user in OpenCode)"""
     print(message, file=sys.stderr)
 
 
@@ -295,7 +295,7 @@ __all__ = [
 
     # Directories
     'get_home_dir',
-    'get_claude_dir',
+    'get_opencode_dir',
     'get_temp_dir',
     'get_plan_dir',
     'ensure_dir',
