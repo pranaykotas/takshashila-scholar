@@ -440,7 +440,7 @@ If Claude Scholar helps your research or engineering workflow, you can cite the 
 
 ## Acknowledgments
 
-Built with Claude Code CLI and enhanced by the open-source community.
+Built for OpenCode and aligned with the broader Claude Scholar ecosystem.
 
 ### References
 

@@ -440,7 +440,7 @@ MIT 许可证。
 
 ## 致谢
 
-使用 Claude Code CLI 构建，并由开源社区增强。
+面向 OpenCode 构建，并与更广泛的 Claude Scholar 生态保持对齐。
 
 ### 参考资料
 
