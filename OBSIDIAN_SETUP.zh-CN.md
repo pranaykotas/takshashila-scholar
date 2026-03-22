@@ -173,7 +173,7 @@ obsidian://search?vault=My%20Vault&query=%23experiment
 
 如果你在 WSL 里运行 Claude Scholar，但想用 **Windows 原生 Obsidian** 获得更稳定的窗口行为，推荐使用下面的双份方案：
 
-- `WSL vault` 作为 **source of truth**：`/home/circle/claude-scholar/obsidian-vault`
+- `WSL vault` 作为 **source of truth**：`$HOME/claude-scholar/obsidian-vault`
 - `Windows 本地目录` 作为镜像副本：例如 `/mnt/c/Users/<你的用户名>/Documents/Obsidian/claude-scholar-vault`
 - Windows Obsidian 只打开 **Windows 本地镜像目录**
 
