@@ -83,6 +83,35 @@ Each research repo gets a local binding under:
 - `registry.yaml` stores the repo ↔ vault binding
 - `<project_id>.md` stores the assistant-facing project memory for incremental syncs
 
+## Note language
+
+Generated and synced notes resolve their language with this priority:
+1. project config in `.opencode/project-memory/registry.yaml`
+2. environment variable `OBSIDIAN_NOTE_LANGUAGE`
+3. default `en`
+
+Note: the file is currently named `registry.yaml` for historical reasons, but its on-disk format is JSON.
+
+Supported values:
+- `en`
+- `zh-CN`
+
+Per-project example:
+
+```json
+{
+  "projects": {
+    "my-project": {
+      "project_id": "my-project",
+      "vault_root": "/path/to/vault/Research/my-project",
+      "note_language": "zh-CN"
+    }
+  }
+}
+```
+
+Existing English and Chinese headings remain compatible during sync, so changing the configured language does not break older notes.
+
 ## Main commands
 
 - `/obsidian-init` — bootstrap or import a project knowledge base
@@ -166,3 +195,28 @@ obsidian://search?vault=My%20Vault&query=%23experiment
 | The vault still shows `Views/`, `Concepts/`, or `Datasets/` as defaults | Those are from older docs or older project generations; the current default workflow uses the compact structure above and only keeps `Maps/literature.canvas` by default |
 | CLI commands fail | Check that `Settings -> General -> Advanced -> Command line interface` is enabled; otherwise continue with filesystem-only sync |
 | “Remove project knowledge” is too destructive | Use archive or detach; purge is only for permanent deletion |
+
+## WSL -> Windows mirror workflow
+
+If you run Claude Scholar inside WSL but prefer opening Obsidian through native Windows for more stable window behavior, use a two-copy setup:
+
+- keep the WSL vault as the source of truth (for example `<repo-root>/obsidian-vault`)
+- keep a Windows-local mirror directory mounted in WSL (for example `<wsl-mounted-windows-vault-path>`)
+- open the mirrored Windows-local directory in Windows Obsidian
+
+Sync with:
+
+```bash
+bash scripts/sync_obsidian_to_windows.sh \
+  --windows-path <wsl-mounted-windows-vault-path>
+```
+
+Preview first if needed:
+
+```bash
+bash scripts/sync_obsidian_to_windows.sh \
+  --windows-path <wsl-mounted-windows-vault-path> \
+  --dry-run
+```
+
+By default the sync deletes mirror-only files that no longer exist in the WSL source. Add `--no-delete` if you want to keep extra files in the Windows mirror.

@@ -347,6 +347,31 @@ Use Obsidian as the durable sink for project knowledge, not just as a note dump.
 - ingest new Markdown files into the correct canonical destination,
 - optionally generate extra views and canvases.
 
+**Note language configuration**
+
+Generated and synced Obsidian notes resolve their language with this priority:
+1. project config: `.opencode/project-memory/registry.yaml` -> `note_language`
+2. environment variable: `OBSIDIAN_NOTE_LANGUAGE`
+3. default: `en`
+
+Note: the file is currently named `registry.yaml` for historical reasons, but its on-disk format is JSON.
+
+Per-project example:
+
+```json
+{
+  "projects": {
+    "my-project": {
+      "project_id": "my-project",
+      "vault_root": "/path/to/vault/Research/my-project",
+      "note_language": "zh-CN"
+    }
+  }
+}
+```
+
+English and Chinese section headings remain mutually compatible during sync, so older notes in either language can still be updated safely after switching configuration.
+
 ### Automated Enforcement Workflow
 
 Cross-platform plugins automate routine workflow checks and reminders.

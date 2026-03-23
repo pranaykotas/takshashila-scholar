@@ -347,6 +347,31 @@ Claude Scholar 目前面向以下 CLI 工作流：
 - 把新的 Markdown 文件分类并合并进正确的规范笔记
 - 按需生成额外视图和 canvas
 
+**笔记语言配置**
+
+生成和同步 Obsidian 笔记时，语言按以下优先级解析：
+1. 项目配置：`.opencode/project-memory/registry.yaml` 中的 `note_language`
+2. 环境变量：`OBSIDIAN_NOTE_LANGUAGE`
+3. 默认值：`en`
+
+说明：文件名目前仍叫 `registry.yaml`，但其磁盘格式实际上是 JSON。
+
+项目级示例：
+
+```json
+{
+  "projects": {
+    "my-project": {
+      "project_id": "my-project",
+      "vault_root": "/path/to/vault/Research/my-project",
+      "note_language": "zh-CN"
+    }
+  }
+}
+```
+
+同步时会同时兼容英文和中文 section heading，因此切换配置后，历史英文/中文笔记都可以继续安全更新。
+
 ### 自动化约束工作流
 
 跨平台 plugins 自动执行日常检查与提醒。
