@@ -1,5 +1,5 @@
 ---
-name: Plugin Structure
+name: plugin-structure
 description: This skill should be used when the user asks to "create a plugin", "scaffold a plugin", "understand plugin structure", "organize plugin components", or needs guidance on OpenCode branch layout, manifest/config entrypoints, component organization, and legacy Claude plugin architecture references.
 version: 0.1.0
 ---

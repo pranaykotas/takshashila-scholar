@@ -1,5 +1,5 @@
 ---
-name: MCP Integration
+name: mcp-integration
 description: This skill should be used when the user asks to "add MCP server", "integrate MCP", "set up Model Context Protocol", or connect an external service. On the OpenCode branch, prefer `opencode.jsonc` and OpenCode-native config, while treating `.mcp.json`-style Claude plugin layouts as legacy reference.
 version: 0.1.0
 ---

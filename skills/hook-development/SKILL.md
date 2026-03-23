@@ -1,5 +1,5 @@
 ---
-name: Hook Development
+name: hook-development
 description: This skill should be used when the user asks to emulate hook-like automation, validate tool use, block dangerous commands, or discusses hook events and workflow guards. On the OpenCode branch, prefer plugin-based equivalents and treat native Claude hook details as legacy reference.
 version: 0.1.0
 ---

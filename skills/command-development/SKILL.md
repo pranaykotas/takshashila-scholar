@@ -1,5 +1,5 @@
 ---
-name: Command Development
+name: command-development
 description: This skill should be used when the user asks to "create a slash command", "add a command", "write a custom command", "define command arguments", "use command frontmatter", "organize commands", "create command with file references", "interactive command", or needs guidance on reusable command structure and command development best practices on the OpenCode branch.
 version: 0.2.0
 ---
