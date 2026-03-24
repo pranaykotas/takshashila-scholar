@@ -96,9 +96,10 @@ bash /tmp/claude-scholar/scripts/setup.sh
 ```
 
 The installer is **backup-aware and incremental-update friendly**:
-- syncs repo-managed `skills/`, `agents/`, `scripts/`, `utils/`, and `AGENTS.md`,
+- syncs repo-managed `skills/`, `agents/`, `scripts/`, and `utils/`,
 - merges Claude Scholar sections into an existing `~/.codex/config.toml` when you keep your current provider/model,
 - backs up `config.toml` and `auth.json` before overwriting,
+- preserves an existing `~/.codex/AGENTS.md` and installs the repo-managed version as `~/.codex/AGENTS.scholar.md`,
 - preserves your existing provider/model/API key when you choose the incremental-update path,
 - optionally enables the Zotero MCP block already present in the template config.
 

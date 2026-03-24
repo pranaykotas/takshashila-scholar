@@ -96,9 +96,10 @@ bash /tmp/claude-scholar/scripts/setup.sh
 ```
 
 安装器现在支持**带备份的安全增量更新**：
-- 同步仓库托管的 `skills/`、`agents/`、`scripts/`、`utils/` 与 `AGENTS.md`
+- 同步仓库托管的 `skills/`、`agents/`、`scripts/` 与 `utils/`
 - 当你选择保留现有 provider/model 时，把 Claude Scholar 所需 section 合并进现有 `~/.codex/config.toml`
 - 覆盖前自动备份 `config.toml` 与 `auth.json`
+- 如果已存在 `~/.codex/AGENTS.md`，则保留原文件，并把仓库版本另存为 `~/.codex/AGENTS.scholar.md`
 - 在增量更新路径下保留现有 provider / model / API key
 - 可选启用模板中已经存在的 Zotero MCP 配置块
 
