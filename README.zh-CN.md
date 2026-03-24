@@ -97,9 +97,10 @@ bash /tmp/claude-scholar/scripts/setup.sh
 ```
 
 安装器现在支持**带备份的安全增量更新**：
-- 更新仓库托管的 `skills/commands/plugins/scripts/utils/AGENTS.md`
+- 更新仓库托管的 `skills/commands/plugins/scripts/utils/`
 - 将被覆盖的文件备份到 `~/.opencode/.claude-scholar-backups/<timestamp>/`
 - 同时把 `opencode.jsonc` 备份为 `opencode.jsonc.bak`
+- 如果已存在 `~/.opencode/AGENTS.md`，则保留原文件，并把仓库版本另存为 `~/.opencode/AGENTS.scholar.md`
 - 保留已有的 `env`、模型/provider 配置、API key、permissions、auth，以及当前 `mcp` 的现有取值
 - 对仓库托管的 `agent/mcp/permission/plugin` 条目采用追加缺失项的方式，而不是整体替换
 

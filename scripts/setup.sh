@@ -4,7 +4,8 @@ set -euo pipefail
 OPENCODE_DIR="$HOME/.opencode"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SRC_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-COMPONENTS=(skills commands plugins scripts utils AGENTS.md)
+COMPONENTS=(skills commands plugins scripts utils)
+AGENTS_MD_SIDECAR="AGENTS.scholar.md"
 BACKUP_ROOT="$OPENCODE_DIR/.claude-scholar-backups"
 BACKUP_STAMP="$(date +%Y%m%d-%H%M%S)"
 BACKUP_DIR="$BACKUP_ROOT/$BACKUP_STAMP"
@@ -89,8 +90,28 @@ copy_dir_safely() {
   done < <(find "$src_dir" -type f -print0)
 }
 
+install_agents_md() {
+  local src_file="$1"
+  local target_file="$OPENCODE_DIR/AGENTS.md"
+  local sidecar_file="$OPENCODE_DIR/$AGENTS_MD_SIDECAR"
+
+  if [ -f "$target_file" ]; then
+    warn "Preserving existing AGENTS.md"
+    copy_file_safely "$src_file" "$sidecar_file"
+    info "Installed repository AGENTS.md as $AGENTS_MD_SIDECAR"
+    return 0
+  fi
+
+  copy_file_safely "$src_file" "$target_file"
+}
+
 copy_components() {
   local src="$1"
+
+  if [ -f "$src/AGENTS.md" ]; then
+    install_agents_md "$src/AGENTS.md"
+  fi
+
   for comp in "${COMPONENTS[@]}"; do
     if [ -e "$src/$comp" ]; then
       if [ -d "$src/$comp" ]; then

@@ -97,9 +97,10 @@ bash /tmp/claude-scholar/scripts/setup.sh
 ```
 
 The installer is **backup-aware and incremental-update friendly**:
-- updates repo-managed `skills/commands/plugins/scripts/utils/AGENTS.md`,
+- updates repo-managed `skills/commands/plugins/scripts/utils/`,
 - backs up overwritten files to `~/.opencode/.claude-scholar-backups/<timestamp>/`,
 - backs up `opencode.jsonc` to `opencode.jsonc.bak`,
+- preserves an existing `~/.opencode/AGENTS.md` and installs the repo-managed version as `~/.opencode/AGENTS.scholar.md`,
 - preserves your existing `env`, model/provider settings, API keys, permissions, auth, and current `mcp` values,
 - adds missing repo-managed `agent/mcp/permission/plugin` entries instead of replacing your entire config.
 
