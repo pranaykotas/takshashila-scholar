@@ -4,7 +4,9 @@ set -euo pipefail
 CLAUDE_DIR="$HOME/.claude"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SRC_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-COMPONENTS=(skills commands agents rules hooks scripts CLAUDE.md CLAUDE.zh-CN.md)
+COMPONENTS=(skills commands agents rules hooks scripts)
+CLAUDE_MD_SIDECAR="CLAUDE.scholar.md"
+CLAUDE_ZH_MD_SIDECAR="CLAUDE.zh-CN.scholar.md"
 BACKUP_ROOT="$CLAUDE_DIR/.claude-scholar-backups"
 BACKUP_STAMP="$(date +%Y%m%d-%H%M%S)"
 BACKUP_DIR="$BACKUP_ROOT/$BACKUP_STAMP"
@@ -220,8 +222,47 @@ copy_dir_safely() {
   done < <(find "$src_dir" -type f -print0)
 }
 
+install_claude_md() {
+  local src_file="$1"
+  local target_file="$CLAUDE_DIR/CLAUDE.md"
+  local sidecar_file="$CLAUDE_DIR/$CLAUDE_MD_SIDECAR"
+
+  if [ -f "$target_file" ]; then
+    warn "Preserving existing CLAUDE.md"
+    copy_file_safely "$src_file" "$sidecar_file"
+    info "Installed repository CLAUDE.md as $CLAUDE_MD_SIDECAR"
+    return 0
+  fi
+
+  copy_file_safely "$src_file" "$target_file"
+}
+
+install_claude_zh_md() {
+  local src_file="$1"
+  local target_file="$CLAUDE_DIR/CLAUDE.zh-CN.md"
+  local sidecar_file="$CLAUDE_DIR/$CLAUDE_ZH_MD_SIDECAR"
+
+  if [ -f "$target_file" ]; then
+    warn "Preserving existing CLAUDE.zh-CN.md"
+    copy_file_safely "$src_file" "$sidecar_file"
+    info "Installed repository CLAUDE.zh-CN.md as $CLAUDE_ZH_MD_SIDECAR"
+    return 0
+  fi
+
+  copy_file_safely "$src_file" "$target_file"
+}
+
 copy_components() {
   local src="$1"
+
+  if [ -f "$src/CLAUDE.md" ]; then
+    install_claude_md "$src/CLAUDE.md"
+  fi
+
+  if [ -f "$src/CLAUDE.zh-CN.md" ]; then
+    install_claude_zh_md "$src/CLAUDE.zh-CN.md"
+  fi
+
   for comp in "${COMPONENTS[@]}"; do
     if [ -e "$src/$comp" ]; then
       if [ -d "$src/$comp" ]; then

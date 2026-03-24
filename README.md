@@ -104,6 +104,8 @@ The installer is **backup-aware and incremental-update friendly**:
 - updates repo-managed `skills/commands/agents/rules/hooks/scripts/CLAUDE*.md`,
 - backs up overwritten files to `~/.claude/.claude-scholar-backups/<timestamp>/`,
 - backs up `settings.json` to `settings.json.bak`,
+- preserves an existing `~/.claude/CLAUDE.md` and installs the repo-managed version as `~/.claude/CLAUDE.scholar.md`,
+- preserves an existing `~/.claude/CLAUDE.zh-CN.md` and installs the repo-managed version as `~/.claude/CLAUDE.zh-CN.scholar.md`,
 - preserves your existing `env`, model/provider settings, API keys, permissions, and current `mcpServers` values,
 - adds missing hook entries instead of replacing your entire hook set.
 

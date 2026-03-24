@@ -104,6 +104,8 @@ bash /tmp/claude-scholar/scripts/setup.sh
 - 更新仓库托管的 `skills/commands/agents/rules/hooks/scripts/CLAUDE*.md`
 - 将被覆盖的文件备份到 `~/.claude/.claude-scholar-backups/<timestamp>/`
 - 同时把 `settings.json` 备份为 `settings.json.bak`
+- 如果已存在 `~/.claude/CLAUDE.md`，则保留原文件，并把仓库版本另存为 `~/.claude/CLAUDE.scholar.md`
+- 如果已存在 `~/.claude/CLAUDE.zh-CN.md`，则保留原文件，并把仓库版本另存为 `~/.claude/CLAUDE.zh-CN.scholar.md`
 - 保留已有的 `env`、模型/provider 配置、API key、permissions，以及当前 `mcpServers` 的现有取值
 - 对 hooks 采用追加缺失项的方式，而不是整体替换
 
