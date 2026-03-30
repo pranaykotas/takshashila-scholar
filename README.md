@@ -115,6 +115,8 @@ The installer is **backup-aware and incremental-update friendly**:
 - preserves your existing `env`, model/provider settings, API keys, permissions, auth, and current `mcp` values,
 - adds missing repo-managed `agent/mcp/permission/plugin` entries instead of replacing your entire config.
 
+**Important AGENTS note**: if you already maintain your own `~/.opencode/AGENTS.md`, review `~/.opencode/AGENTS.scholar.md` after installation and manually merge the Claude Scholar sections you want into your own `AGENTS.md`. Do not assume the sidecar file is applied automatically.
+
 To update later:
 
 ```bash
@@ -145,7 +147,7 @@ cp -r /tmp/claude-scholar/skills/git-workflow ~/.opencode/skills/
 cp -r /tmp/claude-scholar/skills/bug-detective ~/.opencode/skills/
 ```
 
-**Post-install**: minimal/manual install does **not** auto-merge `opencode.jsonc`; copy only the plugin or MCP entries you want from `opencode.jsonc`.
+**Post-install**: minimal/manual install does **not** auto-merge `opencode.jsonc`; copy only the plugin or MCP entries you want from `opencode.jsonc`. If you already have your own `~/.opencode/AGENTS.md`, merge the relevant sections from this repo's `AGENTS.md` into your file instead of blindly overwriting it.
 
 ### Option 3: Selective Installation
 
@@ -161,7 +163,7 @@ cp -r skills/architecture-design ~/.opencode/skills/
 cp AGENTS.md ~/.opencode/AGENTS.md
 ```
 
-**Post-install**: selective/manual install does **not** auto-merge `opencode.jsonc`; copy only the plugin or MCP entries you actually want from `opencode.jsonc`.
+**Post-install**: selective/manual install does **not** auto-merge `opencode.jsonc`; copy only the plugin or MCP entries you actually want from `opencode.jsonc`. If you already have your own `~/.opencode/AGENTS.md`, merge the relevant sections from this repo's `AGENTS.md` into your file instead of blindly overwriting it.
 
 ## Platform Support
 

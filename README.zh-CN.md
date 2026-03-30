@@ -115,6 +115,8 @@ bash /tmp/claude-scholar/scripts/setup.sh
 - 保留已有的 `env`、模型/provider 配置、API key、permissions、auth，以及当前 `mcp` 的现有取值
 - 对仓库托管的 `agent/mcp/permission/plugin` 条目采用追加缺失项的方式，而不是整体替换
 
+**重要 AGENTS 说明**：如果你原来就有自己的 `~/.opencode/AGENTS.md`，安装后请查看 `~/.opencode/AGENTS.scholar.md`，并将其中你需要的 Claude Scholar 内容按需 merge 到你自己的 `AGENTS.md` 里；不要假设这个 sidecar 文件会自动生效。
+
 以后做增量更新时：
 
 ```bash
@@ -145,7 +147,7 @@ cp -r /tmp/claude-scholar/skills/git-workflow ~/.opencode/skills/
 cp -r /tmp/claude-scholar/skills/bug-detective ~/.opencode/skills/
 ```
 
-**安装后**：最小化/手动安装**不会自动合并** `opencode.jsonc`；请按需从 `opencode.jsonc` 复制你需要的 plugin 或 MCP 条目。
+**安装后**：最小化/手动安装**不会自动合并** `opencode.jsonc`；请按需从 `opencode.jsonc` 复制你需要的 plugin 或 MCP 条目。如果你已经有自己的 `~/.opencode/AGENTS.md`，也请把仓库 `AGENTS.md` 中相关内容按需 merge 到你的文件里，而不是直接覆盖。
 
 ### 选项 3：选择性安装
 
@@ -161,7 +163,7 @@ cp -r skills/architecture-design ~/.opencode/skills/
 cp AGENTS.md ~/.opencode/AGENTS.md
 ```
 
-**安装后**：选择性/手动安装**不会自动合并** `opencode.jsonc`；请按需从 `opencode.jsonc` 复制你真正需要的 plugin 或 MCP 条目。
+**安装后**：选择性/手动安装**不会自动合并** `opencode.jsonc`；请按需从 `opencode.jsonc` 复制你真正需要的 plugin 或 MCP 条目。如果你已经有自己的 `~/.opencode/AGENTS.md`，也请把仓库 `AGENTS.md` 中相关内容按需 merge 到你的文件里，而不是直接覆盖。
 
 ## 平台支持
 
