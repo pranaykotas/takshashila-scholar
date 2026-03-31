@@ -18,9 +18,10 @@
 
 ## Recent News
 
-- **2026-03-18**: **Results reporting, writing memory, and workflow cleanup** — split post-experiment work into `results-analysis` for strict statistics, real scientific figures, `analysis-report` / `stats-appendix` / `figure-catalog`, and `results-report` for decision-oriented post-experiment reports with Obsidian write-back; removed the redundant `data-analyst` entrypoint, made `/analyze-results` the default one-shot command for analysis + report generation, introduced a global `paper-miner` writing memory with the new `/mine-writing-patterns` command, wired `ml-paper-writing` and `review-response` to read that shared memory, refreshed the README around human-centered semi-automation, and updated the project logo.
-- **2026-03-17**: **Obsidian project knowledge base** — filesystem-first project knowledge base with project import, repo-bound auto-sync, durable knowledge routed across `Papers / Knowledge / Experiments / Results / Writing`, round-level experiment reports stored under `Results/Reports/`, and no MCP requirement.
-- **2026-02-26**: **Zotero MCP Web API mode** — remote Zotero access, DOI/arXiv/URL import, collection management, item updates, and safer setup guidance across Claude Code, Codex CLI, and OpenCode.
+- **2026-03-31**: **Zotero smart-import workflow docs aligned** — updated Claude Scholar's research-facing docs around the latest `zotero-mcp` public surface: `zotero_add_items_by_identifier` is now the default paper-import path, `zotero_reconcile_collection_duplicates` is the standard post-import cleanup step, source-aware PDF cascade behavior is documented more accurately, and public vs internal diagnostics are now clearly separated.
+- **2026-03-31**: **README onboarding refreshed** — clarified that Claude Scholar is especially well-suited to computer science and AI researchers, added practical getting-started scenarios after installation, improved prerequisite and branch guidance, and made the “existing local md files must be manually merged” expectation much more explicit.
+- **2026-03-31**: **Installer and hook behavior tightened** — the installer now preserves existing local `AGENTS.md` while installing the repo-managed version as `AGENTS.scholar.md`, and the default hook summaries were trimmed to reduce noisy temp-file / uncommitted-file output while keeping safer write-guard behavior.
+- **2026-03-31**: **Japanese documentation added** — added Japanese docs for the main README plus `AGENTS`, `MCP_SETUP`, and `OBSIDIAN_SETUP`, so the OpenCode branch now has a more complete multilingual documentation surface.
 
 <details>
 <summary>View older changelog</summary>
@@ -44,6 +45,7 @@
 | [Why Claude Scholar](#why-claude-scholar) | Understand the project positioning and target use cases. |
 | [Core Workflow](#core-workflow) | See the end-to-end research pipeline from ideation to publication. |
 | [Quick Start](#quick-start) | Install Claude Scholar in full, minimal, or selective mode. |
+| [Getting Started Scenarios](#getting-started-scenarios) | See a few realistic first-use scenarios after installation. |
 | [Integrations](#integrations) | Learn how Zotero and Obsidian fit into the workflow. |
 | [Primary Workflows](#primary-workflows) | Browse the main research and development workflows. |
 | [Supporting Workflows](#supporting-workflows) | See the background systems that strengthen the main workflow. |
@@ -127,7 +129,6 @@ bash scripts/setup.sh
 
 **Windows**: please use Git Bash or WSL to run the installer.
 
-
 ### Option 2: Minimal Installation
 
 Install only a small research-focused subset:
@@ -164,6 +165,58 @@ cp AGENTS.md ~/.opencode/AGENTS.md
 ```
 
 **Post-install**: selective/manual install does **not** auto-merge `opencode.jsonc`; copy only the plugin or MCP entries you actually want from `opencode.jsonc`. If you already have your own `~/.opencode/AGENTS.md`, merge the relevant sections from this repo's `AGENTS.md` into your file instead of blindly overwriting it.
+
+## Getting Started Scenarios
+
+After installation, the simplest way to begin is to describe your task in natural language. You do not need to memorize the whole system first. Below are a few realistic starting points.
+
+### 1. Start a New Research Topic
+**You can say:**
+> Help me start research on [your topic]. I want a literature-grounded plan, the key open questions, and the next concrete steps.
+
+**What Claude Scholar will typically help with:**
+- clarify the topic and narrow the research question,
+- identify promising literature directions,
+- suggest an initial plan or hypothesis list,
+- optionally route the work into Zotero or Obsidian if you use them.
+
+### 2. Review a Zotero Collection
+**You can say:**
+> Review my Zotero collection on brain foundation models and summarize the main directions, gaps, and promising next steps.
+
+**Typical output:**
+- paper grouping by theme,
+- a short literature synthesis,
+- gap analysis,
+- candidate research directions worth pursuing next.
+
+### 3. Analyze Finished Experiment Results
+**You can say:**
+> Analyze the results in this experiment folder, check what changed across runs, and write a decision-oriented summary.
+
+**Typical output:**
+- metric comparison,
+- ablation or error-analysis suggestions,
+- a result summary that highlights what is solid, what is weak, and what to run next.
+
+### 4. Draft a Paper or Rebuttal Section
+**You can say:**
+> Help me draft the related work section for this project based on the current findings and paper notes.
+
+or:
+
+> Help me write a rebuttal draft for these reviewer comments.
+
+**Typical output:**
+- a structured section draft,
+- improved argument flow,
+- clearer claims and evidence mapping,
+- follow-up points that still need support or verification.
+
+### Practical Notes
+- Start with one concrete task, not a vague request for "everything."
+- If you already maintain your own local `AGENTS.md`, merge the Claude Scholar sections you want from `AGENTS.scholar.md` instead of assuming sidecar files apply automatically.
+- Zotero and Obsidian are optional, but they become much more useful when you want durable literature notes or project memory rather than one-off chat output.
 
 ## Platform Support
 

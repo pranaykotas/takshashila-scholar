@@ -18,9 +18,10 @@
 
 ## 最新动态
 
-- **2026-03-18**: **实验结果报告、写作记忆与工作流整理** — 将实验后处理明确拆成两层：`results-analysis` 负责严格统计、真实科研图、`analysis-report` / `stats-appendix` / `figure-catalog`，`results-report` 负责面向决策的实验总结报告与 Obsidian 写回；移除了冗余的 `data-analyst` 入口，把 `/analyze-results` 调整为默认的一键分析 + 成稿命令；同时为 `paper-miner` 引入全局 writing memory 与新的 `/mine-writing-patterns` 命令，并让 `ml-paper-writing` 与 `review-response` 统一读取这份共享记忆；此外还重写了 README 的定位，明确其是以人类决策为中心的半自动研究助手，并更新了项目 logo。
-- **2026-03-17**: **Obsidian 项目知识库** — 基于以文件系统为核心的项目知识库工作流，支持项目导入、已绑定仓库自动同步，将稳定知识路由到 `Papers / Knowledge / Experiments / Results / Writing`，并将具体轮次的实验报告存放在 `Results/Reports/` 下，且不依赖 MCP。
-- **2026-02-26**: **Zotero MCP Web API 模式** — 支持远程 Zotero 访问、DOI/arXiv/URL 导入、集合管理、条目更新，并补充了 Claude Code、Codex CLI、OpenCode 的配置说明。
+- **2026-03-31**: **Zotero smart-import 工作流文档完成对齐** — 围绕最新 `zotero-mcp` 的公开能力，系统更新了 Claude Scholar 的研究工作流文档：将 `zotero_add_items_by_identifier` 明确为默认论文导入入口，把 `zotero_reconcile_collection_duplicates` 设为标准导入后清理步骤，更准确地说明了来源感知 PDF cascade，同时把公开工具与内部诊断能力的边界重新讲清楚了。
+- **2026-03-31**: **README 上手路径完成刷新** — 明确了 Claude Scholar 尤其适合计算机科学与 AI 研究者，在安装说明后补充了更贴近真实使用的上手场景，进一步收紧了 prerequisite / 分支说明，并把“如果用户本地已有 md 文件，需要手动 merge”这件事写得更明确。
+- **2026-03-31**: **安装器与 hooks 行为进一步收口** — 安装器现在会保留已有的本地 `AGENTS.md`，并把仓库版本作为 `AGENTS.scholar.md` sidecar 文件安装；同时默认 hooks 的摘要输出进一步降噪，减少 temp files / uncommitted files 的噪声，同时保留更安全的写入守卫边界。
+- **2026-03-31**: **日文文档补齐** — 为主 README 以及 `AGENTS`、`MCP_SETUP`、`OBSIDIAN_SETUP` 补充了日文文档，使 OpenCode 分支的多语言文档入口更完整。
 
 <details>
 <summary>查看历史更新日志</summary>
@@ -44,6 +45,7 @@
 | [为什么使用 Claude Scholar](#为什么使用-claude-scholar) | 快速理解项目定位和适用场景。 |
 | [核心工作流](#核心工作流) | 查看从研究构思到发表的主链路。 |
 | [快速开始](#快速开始) | 选择完整、最小或选择性安装方式。 |
+| [上手场景](#上手场景) | 查看安装完成后几种最常见的上手场景。 |
 | [集成能力](#集成能力) | 了解 Zotero 和 Obsidian 如何接入工作流。 |
 | [主要工作流](#主要工作流) | 查看核心研究与开发工作流。 |
 | [支撑工作流](#支撑工作流) | 查看支撑主工作流的后台机制。 |
@@ -127,7 +129,6 @@ bash scripts/setup.sh
 
 **Windows**：请使用 Git Bash / WSL 运行安装脚本。
 
-
 ### 选项 2：最小化安装
 
 只安装一组较小的研究工作流子集：
@@ -164,6 +165,58 @@ cp AGENTS.md ~/.opencode/AGENTS.md
 ```
 
 **安装后**：选择性/手动安装**不会自动合并** `opencode.jsonc`；请按需从 `opencode.jsonc` 复制你真正需要的 plugin 或 MCP 条目。如果你已经有自己的 `~/.opencode/AGENTS.md`，也请把仓库 `AGENTS.md` 中相关内容按需 merge 到你的文件里，而不是直接覆盖。
+
+## 上手场景
+
+安装完成后，最简单的上手方式就是直接用自然语言描述你的任务，不需要先把整套系统全部背下来。下面给几种最常见、也最实用的起步场景。
+
+### 1. 启动一个新的研究主题
+**你可以这样说：**
+> 帮我围绕[你的研究主题]启动研究。我想先得到一个基于文献的初步计划、关键开放问题，以及接下来最具体的推进步骤。
+
+**Claude Scholar 通常会帮助你：**
+- 澄清主题并收敛研究问题，
+- 给出值得优先看的文献方向，
+- 形成初始研究计划或假设列表，
+- 如果你在用 Zotero / Obsidian，还可以把工作进一步路由进去。
+
+### 2. 回顾一个 Zotero 文献集合
+**你可以这样说：**
+> 帮我回顾我在 Zotero 里关于 brain foundation models 的文献集合，并总结其中的主要方向、研究空白，以及最值得继续推进的下一步。
+
+**典型输出包括：**
+- 按主题分组的论文图景，
+- 一段简明文献综合，
+- research gap 分析，
+- 值得继续推进的候选研究方向。
+
+### 3. 分析已经完成的实验结果
+**你可以这样说：**
+> 帮我分析这个实验目录里的结果，看看不同 runs 之间到底变了什么，并输出一份面向决策的总结。
+
+**典型输出包括：**
+- 指标对比，
+- ablation 或 error analysis 建议，
+- 一份结果总结，说明哪些结论比较稳、哪些还不够稳、下一步该跑什么。
+
+### 4. 起草论文段落或 rebuttal 回复
+**你可以这样说：**
+> 请基于这个项目当前已有的发现和论文笔记，帮我起草相关工作这一节。
+
+或者：
+
+> 请根据这些审稿人意见，帮我起草一版 rebuttal。
+
+**典型输出包括：**
+- 结构化的段落草稿，
+- 更清楚的论证链条，
+- claims 与 evidence 的对应关系，
+- 还需要补验证或补材料的点。
+
+### 使用建议
+- 先从一个具体任务开始，而不是一上来让系统“把所有事情都做了”。
+- 如果你已经有自己的本地 `AGENTS.md` 文件，请把你需要的 Claude Scholar 内容从 `AGENTS.scholar.md` 里按需 merge 进去，不要假设 sidecar 文件会自动生效。
+- Zotero 和 Obsidian 都不是强制的，但如果你希望得到 durable literature notes 或 project memory，而不是一次性聊天输出，它们会非常有帮助。
 
 ## 平台支持
 
