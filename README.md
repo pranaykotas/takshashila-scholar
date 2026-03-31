@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/Codex_CLI-Compatible-blue?style=flat-square" alt="Codex CLI"/>
   </p>
 
-  <strong>Language</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a>
+  <strong>Language</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a> | <a href="README.ja-JP.md">日本語</a>
 </div>
 
 > Semi-automated research assistant for academic research and software development, especially for computer science and AI researchers, adapted for [Codex CLI](https://github.com/openai/codex) across ideation, literature review, experiments, reporting, writing, and project knowledge management.
@@ -431,6 +431,7 @@ Claude Scholar also includes a self-improvement loop for its own skills.
 - [MCP_SETUP.md](./MCP_SETUP.md) — Zotero MCP setup for Codex
 - [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md) — Obsidian project knowledge base workflow
 - [AGENTS.md](./AGENTS.md) — Codex session rules, safety discipline, and workflow instructions
+- [README.ja-JP.md](./README.ja-JP.md) — Japanese version of this README
 - [config.toml](./config.toml) — template Codex configuration with skills, agents, and MCP blocks
 
 ## Project Rules

@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/Codex_CLI-Compatible-blue?style=flat-square" alt="Codex CLI"/>
   </p>
 
-  <strong>语言</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a>
+  <strong>语言</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a> | <a href="README.ja-JP.md">日本語</a>
 </div>
 
 > 面向学术研究和软件开发的半自动研究助手，尤其适合计算机科学与 AI 研究者，已适配 [Codex CLI](https://github.com/openai/codex)，覆盖研究构思、文献综述、实验、结果报告、写作与项目知识库维护。
@@ -406,6 +406,7 @@ Claude Scholar 也包含一套自我改进的 skill 工作流。
 - [MCP_SETUP.zh-CN.md](./MCP_SETUP.zh-CN.md) — Codex 版 Zotero MCP 配置说明
 - [OBSIDIAN_SETUP.zh-CN.md](./OBSIDIAN_SETUP.zh-CN.md) — Obsidian 项目知识库工作流
 - [AGENTS.md](./AGENTS.md) — Codex 会话规则、安全约束与工作流说明
+- [README.ja-JP.md](./README.ja-JP.md) — 本 README 的日文版
 - [config.toml](./config.toml) — 包含 skills、agents 与 MCP 配置块的 Codex 模板配置
 
 ## 项目规则
