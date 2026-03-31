@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/OpenCode-Compatible-orange?style=flat-square" alt="OpenCode"/>
   </p>
 
-  <strong>Language</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a>
+  <strong>Language</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a> | <a href="README.ja-JP.md">日本語</a>
 </div>
 
 > Semi-automated research assistant for academic research and software development, especially for computer science and AI researchers. Supports [Claude Code](https://github.com/anthropics/claude-code), [Codex CLI](https://github.com/openai/codex), and [OpenCode](https://github.com/opencode-ai/opencode) across literature review, coding, experiments, reporting, writing, and project knowledge management.
@@ -441,6 +441,7 @@ Claude Scholar also contains a self-improvement loop for its own skills.
 - [OBSIDIAN_SETUP.md](./OBSIDIAN_SETUP.md) — Obsidian knowledge base workflow
 - [AGENTS.md](./AGENTS.md) — full local configuration, skill list, and workflow details for the OpenCode branch
 - [README.zh-CN.md](./README.zh-CN.md) — Chinese version of this README
+- [README.ja-JP.md](./README.ja-JP.md) — Japanese version of this README
 - [opencode.jsonc](./opencode.jsonc) — optional OpenCode config template for plugin/MCP/agent/permission entries
 ## Project Rules
 

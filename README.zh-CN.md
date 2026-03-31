@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/OpenCode-Compatible-orange?style=flat-square" alt="OpenCode"/>
   </p>
 
-  <strong>语言</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a>
+  <strong>语言</strong>: <a href="README.md">English</a> | <a href="README.zh-CN.md">中文</a> | <a href="README.ja-JP.md">日本語</a>
 </div>
 
 > 面向学术研究和软件开发的半自动研究助手，尤其适合计算机科学与 AI 研究者。支持 [Claude Code](https://github.com/anthropics/claude-code)、[Codex CLI](https://github.com/openai/codex) 和 [OpenCode](https://github.com/opencode-ai/opencode)，覆盖文献管理、编码、实验分析、结果报告、写作与项目知识库维护。
@@ -441,6 +441,7 @@ Claude Scholar 也内置了自我改进的 skill 工作流。
 - [OBSIDIAN_SETUP.zh-CN.md](./OBSIDIAN_SETUP.zh-CN.md) — Obsidian 项目知识库工作流
 - [AGENTS.md](./AGENTS.md) — OpenCode 分支的完整本地配置、技能列表与工作流说明
 - [README.md](./README.md) — 英文版 README
+- [README.ja-JP.md](./README.ja-JP.md) — 日文版 README
 - [opencode.jsonc](./opencode.jsonc) — plugin / MCP / agent / permission 的可选配置模板
 ## 项目规则
 
