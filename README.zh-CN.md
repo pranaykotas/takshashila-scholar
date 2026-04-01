@@ -199,7 +199,7 @@ mkdir -p .claude/rules
 cp /tmp/claude-scholar/rules/*.md .claude/rules/
 ```
 
-> **注意**：插件安装不会配置 `settings.json`（MCP 服务器、环境变量等）。如需 Zotero MCP 或其他集成，请参阅[集成能力](#集成能力)部分手动设置。
+**安装后**：插件安装**不会**自动加载 `CLAUDE.md` 或配置 `settings.json`；如果你已经有自己的 `~/.claude/CLAUDE.md` 或 `~/.claude/CLAUDE.zh-CN.md`，也请把仓库提供的相关内容按需 merge 到你的文件里，而不是假设插件会自动应用。如需 Zotero MCP 或其他集成，请参阅[集成能力](#集成能力)部分手动设置。
 
 ## 上手场景
 

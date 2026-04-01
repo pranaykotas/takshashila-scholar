@@ -199,7 +199,7 @@ mkdir -p .claude/rules
 cp /tmp/claude-scholar/rules/*.md .claude/rules/
 ```
 
-> **Note**: Plugin installation does not configure `settings.json` (MCP servers, env vars). If you need Zotero MCP or other integrations, see the [Integrations](#integrations) section for manual setup.
+**Post-install**: plugin installation does **not** auto-load `CLAUDE.md` or configure `settings.json`; if you already have your own `~/.claude/CLAUDE.md` or `~/.claude/CLAUDE.zh-CN.md`, merge the relevant Claude Scholar sections into yours instead of assuming the plugin applies them automatically. If you need Zotero MCP or other integrations, see the [Integrations](#integrations) section for manual setup.
 
 ## Getting Started Scenarios
 
