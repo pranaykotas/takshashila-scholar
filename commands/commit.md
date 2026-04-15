@@ -34,8 +34,6 @@ Stage and commit changes using Conventional Commits format.
    <type>(<scope>): <subject>
 
    <body>
-
-   Co-Authored-By: Claude <noreply@anthropic.com>
    ```
    - Subject: imperative mood, no period, max 72 chars
    - Body: explain what and why (optional for small changes)
@@ -45,6 +43,7 @@ Stage and commit changes using Conventional Commits format.
    - Stage relevant files with `git add`
    - Do NOT stage files containing secrets (.env, credentials, tokens)
    - Create commit with formatted message
+   - Do not include `Co-Authored-By` footers unless the user explicitly asks for them
    - Verify with `git log --oneline -1`
 
 ## Notes

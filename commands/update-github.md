@@ -39,7 +39,7 @@ Commit uncommitted changes and push to remote GitHub repository.
 4. **Stage and Commit**
    - Run `git add` for affected files
    - Create commit with formatted message
-   - Include `Co-Authored-By: Claude <noreply@anthropic.com>` in footer
+   - Do not include `Co-Authored-By` footers unless the user explicitly asks for them
 
 5. **Push to Remote**
    - Run `git push`
@@ -71,8 +71,6 @@ User: /update-github
 
    - 添加使用示例
    - 更新依赖说明
-
-   Co-Authored-By: Claude <noreply@anthropic.com>
 
 4. Proceed? (yes/no/modify)
 
