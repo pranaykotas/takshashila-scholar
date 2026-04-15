@@ -21,24 +21,6 @@
 - **2026-04-15**: **提出 pubfig 与 pubtab 两个 Python package** — 推出了 [`pubfig`](https://github.com/Galaxy-Dawn/pubfig)（用于论文级 scientific figures）和 [`pubtab`](https://github.com/Galaxy-Dawn/pubtab)（用于 publication-ready tables 与 Excel↔LaTeX workflows）两个独立 Python package，为研究者提供更清晰的论文图、benchmark 表、导出控制与最终 QA 生产路径。
 - **2026-04-15**: **将 publication-chart-skill 融入 Claude Scholar** — 把 [`pubfig`](https://github.com/Galaxy-Dawn/pubfig) + [`pubtab`](https://github.com/Galaxy-Dawn/pubtab) 封装成 `publication-chart-skill`，加入仓库，并接到 Claude Scholar 的分析/写作边界里，让论文级图表工作有了明确的 handoff 路径，而不是继续混在通用分析或 prose skill 里。
 
-<details>
-<summary>查看历史更新日志</summary>
-
-- **2026-03-31**: **Zotero smart-import 工作流文档完成对齐** — 围绕最新 `zotero-mcp` 的公开能力，系统更新了 Claude Scholar 的研究工作流文档：将 `zotero_add_items_by_identifier` 明确为默认论文导入入口，把 `zotero_reconcile_collection_duplicates` 设为标准导入后清理步骤，更准确地说明了来源感知 PDF cascade，同时把公开工具与内部诊断能力的边界重新讲清楚了。
-- **2026-03-31**: **README 上手路径完成刷新** — 明确了 Claude Scholar 尤其适合计算机科学与 AI 研究者，在安装说明后补充了更贴近真实使用的上手场景，进一步收紧了 prerequisite / 分支说明，并把“如果用户本地已有 md 文件，需要手动 merge”这件事写得更明确。
-- **2026-03-31**: **安装器与 hooks 行为进一步收口** — 安装器现在会保留已有的本地 `AGENTS.md`，并把仓库版本作为 `AGENTS.scholar.md` sidecar 文件安装；同时默认 hooks 的摘要输出进一步降噪，减少 temp files / uncommitted files 的噪声，同时保留更安全的写入守卫边界。
-- **2026-03-31**: **日文文档补齐** — 为主 README 以及 `AGENTS`、`MCP_SETUP`、`OBSIDIAN_SETUP` 补充了日文文档，使 Codex 分支的多语言文档入口更完整。
-
-- **2026-02-25**: **Codex CLI 迁移** — 将项目迁入 Codex CLI 形态，包含 TOML 配置、agent 目录、基于 AGENTS 的工作约束与增量安装器
-- **2026-02-23**: 新增 `setup.sh` 安装脚本 — 面向已有 `~/.codex` 的带备份增量更新，并支持保留现有配置与可选启用 Zotero MCP
-- **2026-02-22**: 新增 Zotero MCP 模板 — 在 Codex 中提供开箱即用的文献工作流模板
-- **2026-02-21**: 完成 OpenCode 迁移铺垫 — 明确 Claude Code、Codex、OpenCode 三条分支线的分工
-- **2026-02-15**: Zotero MCP 集成 — 将 `/zotero-review`、`/zotero-notes` 风格的文献工作流并入更大的 Claude Scholar 主线
-- **2026-02-11**: 大版本更新 — 扩展研究技能、agents 与学术工作流覆盖范围
-- **2026-01-25**: 项目正式开源，v1.0.0 发布
-
-</details>
-
 ## 快速导航
 
 | 部分 | 作用 |

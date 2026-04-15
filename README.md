@@ -21,24 +21,6 @@
 - **2026-04-15**: **pubfig and pubtab introduced** — introduced [`pubfig`](https://github.com/Galaxy-Dawn/pubfig), a Python package for publication-grade scientific figures, and [`pubtab`](https://github.com/Galaxy-Dawn/pubtab), a Python package for publication-ready tables and Excel↔LaTeX workflows. Together they provide a cleaner production stack for paper figures, benchmark tables, export control, and final artifact QA.
 - **2026-04-15**: **publication-chart-skill integrated into Claude Scholar** — wrapped [`pubfig`](https://github.com/Galaxy-Dawn/pubfig) + [`pubtab`](https://github.com/Galaxy-Dawn/pubtab) into `publication-chart-skill`, added the skill to the repository, and connected it to Claude Scholar's analysis and writing boundaries so publication-grade figure/table work now has an explicit handoff route instead of being mixed into general analysis or prose skills.
 
-<details>
-<summary>View older changelog</summary>
-
-- **2026-03-31**: **Zotero smart-import workflow docs aligned** — updated Claude Scholar's research-facing docs around the latest `zotero-mcp` public surface: `zotero_add_items_by_identifier` is now the default paper-import path, `zotero_reconcile_collection_duplicates` is the standard post-import cleanup step, source-aware PDF cascade behavior is documented more accurately, and public vs internal diagnostics are now clearly separated.
-- **2026-03-31**: **README onboarding refreshed** — clarified that Claude Scholar is especially well-suited to computer science and AI researchers, added practical getting-started scenarios after installation, improved prerequisite and branch guidance, and made the “existing local md files must be manually merged” expectation much more explicit.
-- **2026-03-31**: **Installer and hook behavior tightened** — the installer now preserves existing local `AGENTS.md` while installing the repo-managed version as `AGENTS.scholar.md`, and the default hook summaries were trimmed to reduce noisy temp-file / uncommitted-file output while keeping safer write-guard behavior.
-- **2026-03-31**: **Japanese documentation added** — added Japanese docs for the main README plus `AGENTS`, `MCP_SETUP`, and `OBSIDIAN_SETUP`, so the Codex branch now has a more complete multilingual documentation surface.
-
-- **2026-02-25**: **Codex CLI migration** — ported the project into Codex CLI format with TOML config, agent directories, AGENTS-based instructions, and an incremental installer
-- **2026-02-23**: Added `setup.sh` installer — backup-aware incremental updates for existing `~/.codex`, with config preservation and optional Zotero MCP enablement
-- **2026-02-22**: Added Zotero MCP server template — out-of-the-box literature workflow support in Codex
-- **2026-02-21**: OpenCode migration groundwork — clarified branch split between Claude Code, Codex, and OpenCode
-- **2026-02-15**: Zotero MCP integration — brought `/zotero-review` and `/zotero-notes` style literature workflows into the broader Claude Scholar line
-- **2026-02-11**: Major update — expanded research skills, agents, and workflow coverage across the academic lifecycle
-- **2026-01-25**: Project open-sourced, v1.0.0 released
-
-</details>
-
 ## Quick Navigation
 
 | Section | What it helps with |
