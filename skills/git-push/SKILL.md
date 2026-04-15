@@ -41,7 +41,7 @@ Commit uncommitted changes and push to remote GitHub repository. Handles the com
 4. **Stage and Commit**
    - Run `git add` for affected files
    - Create commit with formatted message
-   - Include `Co-Authored-By: Claude <noreply@anthropic.com>` in footer
+   - Do not include `Co-Authored-By` footers unless the user explicitly asks for them
 
 5. **Push to Remote**
    - Run `git push`
