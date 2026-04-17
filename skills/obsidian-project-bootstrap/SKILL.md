@@ -41,11 +41,11 @@ Resolve the vault path from one of:
    - `.claude/project-memory/<project_id>.md`
    - `Research/{project-slug}/00-Hub.md`
    - `Research/{project-slug}/01-Plan.md`
-   - `Research/{project-slug}/Knowledge/Source-Inventory.md`
-   - `Research/{project-slug}/Knowledge/Codebase-Overview.md`
-5. If the imported project still lacks real background or experiment context, switch to an agent-first pass:
-   - read the most informative repo docs and code entry points,
-   - synthesize durable notes into `Knowledge/`, `Papers/`, `Experiments/`, `Results/`, or `Writing/`,
+   - `Research/{project-slug}/Sources/Source-Inventory.md`
+   - `Research/{project-slug}/Notes/Background.md`
+5. If the imported project still lacks real background or source context, switch to an agent-first pass:
+   - read the most informative project docs and notes,
+   - synthesize durable notes into `Sources/`, `GovernmentDocs/`, `PolicyBriefs/`, `OpEds/`, or `GrantProposals/`,
    - avoid placeholder notes.
 6. Summarize the created knowledge base and the next recommended canonical notes to fill in.
 

@@ -4,13 +4,13 @@ Claude Scholar ships with a built-in Obsidian research knowledge-base workflow. 
 
 ## What this provides
 
-Obsidian is treated as the default knowledge base for a research project, not just a paper library. A project knowledge base can store:
+Obsidian is treated as the default knowledge base for a policy research project. A project knowledge base can store:
 
 - stable project background and research questions
-- paper notes and literature syntheses
-- experiment runbooks and result summaries
+- paper notes, government document notes, and literature syntheses
+- policy brief drafts, op-ed drafts, discussion document drafts
+- grant proposal materials and theory of change documents
 - daily research logs, scratch notes, and sync queues
-- writing assets such as drafts, slides, proposals, and rebuttal material
 - archived project knowledge that should not stay on the main working surface
 
 ## Requirements
@@ -54,19 +54,20 @@ If the repository is not yet bound, but it looks like a research project (for ex
 Research/{project-slug}/
   00-Hub.md
   01-Plan.md
-  Knowledge/
-  Papers/
-  Experiments/
-  Results/
-  Writing/
+  Sources/
+  GovernmentDocs/
+  PolicyBriefs/
+  OpEds/
+  GrantProposals/
+  Notes/
   Daily/
   Archive/
 ```
 
 Key generated files commonly include:
 
-- `Knowledge/Source-Inventory.md`
-- `Knowledge/Codebase-Overview.md`
+- `Sources/Source-Inventory.md`
+- `Sources/literature-synthesis.md`
 - `Maps/literature.canvas`
 - `.claude/project-memory/<project_id>.md`
 

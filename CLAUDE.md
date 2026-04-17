@@ -1,46 +1,38 @@
-# Claude Scholar Configuration
+# Takshashila Scholar Configuration
 
 ## Project Overview
 
-**Claude Scholar** - Semi-automated research assistant for academic research and software development
+**Takshashila Scholar** - Semi-automated research assistant for public policy research
 
-**Mission**: Support Claude Code, OpenCode, and Codex CLI across ideation, coding, experiments, writing, publication, plugin development, and project management.
+**Mission**: Support the complete policy research lifecycle — from literature review and source synthesis through drafting op-eds, policy briefs, discussion documents, and grant proposals — with durable knowledge management in Obsidian.
 
 ---
 
 ## User Background
 
-### Academic Background
-- **Degree**: Computer Science PhD
-- **Target Venues**:
-  - Top conferences: NeurIPS, ICML, ICLR, KDD
-  - High-impact journals: Nature, Science, Cell, PNAS
-- **Focus**: Academic writing quality, logical coherence, natural expression
+### Research Profile
+- **Role**: Public policy researcher and educator at the Takshashila Institution (takshashila.org.in)
+- **Domains**: Technology policy, semiconductor geopolitics, public finance, foreign policy, economics
+- **Outputs**: Op-eds (Indian newspapers), policy briefs, discussion documents, grant proposals, newsletters, course content
+- **Target outlets**: The Hindu, Indian Express, Mint, ORF, Observer Research Foundation, SSRN
 
-### Tech Stack Preferences
+### Tool Stack
 
-**Python Ecosystem**:
-- **Package manager**: `uv` - modern Python package manager
-- **Config management**: Hydra + OmegaConf (config composition, overrides, type safety)
-- **Model training**: Transformers Trainer
-
-**Git Standards**:
-- **Commit convention**: Conventional Commits
-  ```
-  Type: feat, fix, docs, style, refactor, perf, test, chore
-  Scope: data, model, config, trainer, utils, workflow
-  ```
-- **Branch strategy**: master/develop/feature/bugfix/hotfix/release
-- **Merge strategy**: rebase for feature branch sync, merge --no-ff for integration
+| Tool | Use |
+|------|-----|
+| Obsidian | Primary knowledge base for research notes |
+| Zotero | Reference management (papers, reports, govt docs) |
+| Google Docs / Drive | Collaborative drafts and institutional documents |
+| R + Quarto | Data analysis and website publishing |
+| GitHub | Version control |
 
 ---
 
 ## Global Configuration
 
 ### Language Settings
-- **Respond in English to the user**
-- Keep technical terms in English (e.g. NeurIPS, RLHF, TDD, Git)
-- Do not translate proper nouns or names
+- Respond in English
+- Use Indian policy vocabulary where appropriate (e.g., "Union Budget", "PLI scheme", "DPIIT", not generic equivalents)
 
 ### Working Directory Standards
 - Plan documents: `/plan` folder
@@ -48,279 +40,198 @@
 - Auto-create folders if they don't exist
 
 ### Task Execution Principles
-- Discuss approach before breaking down complex tasks
-- Run example tests after implementation
-- Make backups, avoid breaking existing functionality
+- Discuss approach before complex tasks
+- Confirm before writing to Google Docs or sending external messages
+- Preserve existing files; make backups before overwriting
 - Clean up temporary files after completion
 
 ### Work Style
-- **Task management**: Use TodoWrite to track progress, plan before executing complex tasks, prefer existing skills
-- **Communication**: Ask proactively when uncertain, confirm before important operations, follow hook-enforced workflows
-- **Code style**: Python follows PEP 8, comments in English, identifiers in English
+- Use TodoWrite to track progress on multi-step tasks
+- Ask proactively when topic domain knowledge is needed
+- Bias toward action when instructions are clear
 
 ---
 
 ## Core Workflows
 
-### Research Lifecycle (7 Stages)
+### Policy Research Lifecycle (5 Stages)
 
 ```
-Ideation → ML Development → Experiment Analysis → Paper Writing → Self-Review → Submission/Rebuttal → Post-Acceptance
+Ideation → Literature Review → Drafting → Review → Publication/Dissemination
 ```
 
 | Stage | Core Tools | Commands |
 |-------|-----------|----------|
-| 1. Research Ideation | `research-ideation` skill + `literature-reviewer` agent + Zotero MCP | `/research-init`, `/zotero-review`, `/zotero-notes` |
-| 2. ML Project Dev | `architecture-design` skill + `code-reviewer` agent | `/plan`, `/commit`, `/tdd` |
-| 3. Experiment Analysis | `results-analysis` skill + `results-report` skill | `/analyze-results` |
-| 4. Paper Writing | `ml-paper-writing` skill + `paper-miner` agent | `/mine-writing-patterns` |
-| 5. Self-Review | `paper-self-review` skill | - |
-| 6. Submission & Rebuttal | `review-response` skill + `rebuttal-writer` agent | `/rebuttal` |
-| 7. Post-Acceptance | `post-acceptance` skill | `/presentation`, `/poster`, `/promote` |
+| 1. Ideation | `research-ideation` skill + `policy-analyst` agent | `/research-init` |
+| 2. Literature & Sources | `literature-reviewer` agent + `zotero-obsidian-bridge` + `government-source-finder` agent | `/zotero-review`, `/literature-synthesis` |
+| 3. Drafting | `op-ed-writing`, `policy-brief-writing`, `discussion-document-writing`, `grant-proposal-writing` skills | `/op-ed`, `/policy-brief`, `/grant-proposal` |
+| 4. Review | `paper-self-review` skill + `review-response` skill | `/rebuttal` |
+| 5. Dissemination | `post-acceptance` skill + `writing-anti-ai` skill | `/promote` |
 
 ### Supporting Workflows
 
-- **Automation**: 5 Hooks auto-trigger at session lifecycle stages (skill evaluation, env init, work summary, security check)
-- **Zotero Integration**: Automated paper import, collection management, full-text reading, and citation export via Zotero MCP
-- **Obsidian Knowledge Base**: Built-in filesystem-first project knowledge base for literature, plans, daily logs, experiments, results, writing, and archive management, with a compact vault structure and no MCP requirement
-- **Knowledge Extraction**: `paper-miner` and `kaggle-miner` agents continuously extract knowledge from papers and competitions
-- **Skill Evolution**: `skill-development` → `skill-quality-reviewer` → `skill-improver` three-step improvement loop
+- **Zotero Integration**: Automated import of papers, government reports, and think tank publications via Zotero MCP
+- **Obsidian Knowledge Base**: Filesystem-first project knowledge base for literature, policy notes, drafts, and institutional memory — no MCP required
+- **Google Docs Export**: Writing skills offer direct export to Google Docs for collaboration
+- **Skill Evolution**: `skill-development` → `skill-quality-reviewer` → `skill-improver` improvement loop
 
 ### Obsidian Project Knowledge Base Rule
 
-- If the current repository contains `.claude/project-memory/registry.yaml`, automatically activate `obsidian-project-memory` and treat Obsidian as the default project knowledge base for this repo.
-- If the repository is not yet bound but looks like a research project, automatically activate `obsidian-project-bootstrap` and import it into the vault.
-- On every substantial project turn, update at least the daily note and the repo-local project memory file; touch `00-Hub.md` only when top-level project status really changes.
-- Never require any extra Obsidian API configuration or API keys for this workflow.
+- If the current repository contains `.claude/project-memory/registry.yaml`, automatically activate `obsidian-project-memory` and treat Obsidian as the default project knowledge base.
+- If not yet bound but looks like a research project, activate `obsidian-project-bootstrap`.
+- On every substantial research turn, update the daily note and repo-local project memory file.
+- Never require Obsidian MCP or additional API keys.
 
 ---
 
-## Skills Directory (47 skills)
+## Skills Directory
 
-### 🔬 Research & Analysis (5 skills)
+### Research & Analysis
+- **research-ideation**: Research startup — gap analysis, research question formulation, Zotero integration
+- **literature-synthesis**: Cross-source synthesis from Zotero, web PDFs, and government reports
+- **citation-verification**: Multi-layer citation verification (format → source → content)
+- **daily-paper-generator**: Track new policy publications and reports
 
-- **research-ideation**: Research startup (5W1H, literature review, gap analysis, research question formulation, Zotero integration)
-- **results-analysis**: Strict experiment analysis (rigorous statistics, scientific figures, ablation studies)
-- **results-report**: Complete post-experiment summary reporting (retrospection, decision support, Obsidian results reports)
-- **citation-verification**: Citation verification (multi-layer: format→API→info→content)
-- **daily-paper-generator**: Daily paper generator for research tracking
-
-### 📝 Paper Writing & Publication (7 skills)
-
-- **ml-paper-writing**: ML/AI paper writing assistance
-  - Top conferences: NeurIPS, ICML, ICLR, ACL, AAAI, COLM
-  - Journals: Nature, Science, Cell, PNAS
-- **writing-anti-ai**: Remove AI writing patterns, bilingual (Chinese/English)
-- **paper-self-review**: Paper self-review (6-item quality checklist)
-- **review-response**: Systematic rebuttal writing
-- **post-acceptance**: Post-acceptance processing (presentation, poster, promotion)
+### Policy Writing
+- **policy-brief-writing**: Structured policy brief (Problem → Evidence → Options → Recommendation)
+- **op-ed-writing**: Newspaper op-ed in Pranay's voice — evidence-based, non-partisan, plain language
+- **discussion-document-writing**: Takshashila-style discussion documents
+- **grant-proposal-writing**: Grant proposals with theory of change, logframe, funder alignment
+- **writing-anti-ai**: Remove AI writing patterns; keep voice natural and expert
+- **paper-self-review**: Self-review checklist for any written output
+- **review-response**: Systematic response to reviewer/editor comments
+- **post-acceptance**: Post-publication: promotion materials, newsletter snippets, social posts
 - **doc-coauthoring**: Document co-authoring workflow
-- **latex-conference-template-organizer**: LaTeX conference template organization
 
-### 💻 Development Workflows (6 skills)
+### Obsidian Knowledge Base
+- **obsidian-project-memory**: Default Obsidian project-memory orchestrator
+- **obsidian-project-bootstrap**: Bootstrap or import a research project into the vault
+- **obsidian-research-log**: Daily notes, plans, hub updates, progress routing
+- **obsidian-link-graph**: Repair wikilinks across canonical notes
+- **obsidian-synthesis-map**: Higher-level synthesis notes and comparison summaries
+- **obsidian-project-lifecycle**: Detach, archive, purge, and note-level lifecycle
+- **zotero-obsidian-bridge**: Bridge Zotero collections into durable Obsidian paper notes
+- **obsidian-literature-workflow**: Paper-note normalization and literature review inside the vault
+- **obsidian-markdown**: Obsidian Flavored Markdown reference
+- **obsidian-cli**: Obsidian CLI reference
+- **obsidian-bases / json-canvas / defuddle**: Support for `.base`, `.canvas`, and web-to-markdown extraction
 
-- **daily-coding**: Daily coding checklist (minimal mode, auto-triggered)
-- **git-workflow**: Git workflow standards (Conventional Commits, branch management)
-- **code-review-excellence**: Code review best practices
-- **bug-detective**: Debugging and error investigation (Python, Bash/Zsh, JavaScript/TypeScript)
-- **architecture-design**: ML project code architecture and design patterns
-- **verification-loop**: Verification loops and testing
-
-### 🔌 Plugin Development (8 skills)
-
-- **skill-development**: Skill development guide
-- **skill-improver**: Skill improvement tool
-- **skill-quality-reviewer**: Skill quality review
-- **command-development**: Slash command development
-- **plugin-structure**: Plugin structure guide
-- **agent-identifier**: Agent development configuration
-- **hook-development**: Hook development and event handling
-- **mcp-integration**: MCP server integration
-
-### 🧪 Tools & Utilities (4 skills)
-
+### Utilities & Workflow
 - **planning-with-files**: Planning and progress tracking with Markdown files
-- **uv-package-manager**: uv package manager usage
-- **webapp-testing**: Local web application testing
-- **kaggle-learner**: Kaggle competition learning
-
-### 🧠 Obsidian Knowledge Base (11 skills)
-
-- **obsidian-project-memory**: Default Obsidian project-memory orchestrator for repo-bound research work
-- **obsidian-project-bootstrap**: Bootstrap or import a research repository into an Obsidian project knowledge base
-- **obsidian-research-log**: Daily notes, plans, hub updates, and durable progress routing
-- **obsidian-experiment-log**: Experiments, ablations, and result logging
-- **obsidian-link-graph**: Legacy compatibility helper for repairing wikilinks across canonical notes
-- **obsidian-synthesis-map**: Legacy compatibility helper for higher-level synthesis notes and comparison summaries
-- **obsidian-project-lifecycle**: Detach, archive, purge, and note-level lifecycle operations
-- **zotero-obsidian-bridge**: Bridge Zotero collections/full text into durable Obsidian paper notes and the default `Maps/literature.canvas`
-- **obsidian-literature-workflow**: Paper-note normalization and literature review inside the project vault
-- **obsidian-markdown**: Vendored official Obsidian Flavored Markdown skill
-- **obsidian-cli**: Vendored official Obsidian CLI skill
-- **obsidian-bases / json-canvas / defuddle**: Vendored official optional support for `.base`, `.canvas`, and clean web-to-markdown extraction
-
-### 🎨 Web Design (3 skills)
-
-- **frontend-design**: Create distinctive, production-grade frontend interfaces
-- **ui-ux-pro-max**: UI/UX design intelligence (50+ styles, 97 palettes, 57 font pairings, 9 stacks)
-- **web-design-reviewer**: Visual website inspection for responsive, accessibility, and layout issues
+- **git-workflow**: Git workflow standards
+- **verification-loop**: Verification and testing loops
+- **skill-development / skill-improver / skill-quality-reviewer**: Skill authoring and improvement
+- **command-development / plugin-structure / agent-identifier / hook-development / mcp-integration**: Extension development
 
 ---
 
-## Commands (50+ Commands)
+## Commands
 
 ### Research Workflow Commands
 
 | Command | Function |
 |---------|----------|
-| `/research-init` | Start Zotero-integrated research ideation workflow (auto-create collections, import papers, full-text analysis) |
-| `/zotero-review` | Read papers from Zotero collection, synthesize into Obsidian literature review and downstream project notes |
-| `/zotero-notes` | Batch read Zotero papers, create/update detailed Obsidian paper notes and refresh `Maps/literature.canvas` |
-| `/obsidian-init` | Bootstrap or import an Obsidian project knowledge base for the current research repository |
-| `/obsidian-ingest` | Ingest a new Markdown file or directory via classify -> promote / merge / stage-to-daily |
-| `/obsidian-review` | Generate project-linked literature synthesis from Obsidian paper notes |
-| `/obsidian-notes` | Normalize paper notes and connect them to project knowledge, experiments, and results |
-| `/obsidian-sync` | Force incremental or full repair sync between the repo, project memory, and Obsidian |
-| `/obsidian-link` | Repair or strengthen project wikilinks across canonical notes |
+| `/research-init` | Start a new policy research project (Obsidian setup, Zotero collection, research question) |
+| `/literature-synthesis` | Synthesize sources on a topic from Zotero + web into a structured review |
+| `/zotero-review` | Read papers from Zotero collection, synthesize into Obsidian literature review |
+| `/zotero-notes` | Batch create/update Obsidian notes from Zotero papers |
+| `/obsidian-init` | Bootstrap Obsidian project knowledge base for current research |
+| `/obsidian-ingest` | Ingest a new file or directory into the vault |
+| `/obsidian-review` | Generate project-linked literature synthesis from Obsidian notes |
+| `/obsidian-notes` | Normalize paper notes and connect to project knowledge |
+| `/obsidian-sync` | Force incremental or full repair sync |
+| `/obsidian-link` | Repair or strengthen project wikilinks |
 | `/obsidian-note` | Archive, purge, or rename a single canonical note |
 | `/obsidian-project` | Detach, archive, purge, or rebuild a project knowledge base |
-| `/obsidian-views` | Explicitly generate optional `.base` views and extra canvases |
-| `/analyze-results` | Analyze experiment results (statistical tests, visualization, ablation) |
-| `/rebuttal` | Generate systematic rebuttal document |
-| `/presentation` | Create conference presentation outline |
-| `/poster` | Generate academic poster design |
-| `/promote` | Generate promotion content (Twitter, LinkedIn, blog) |
+| `/obsidian-views` | Generate `.base` views and extra canvases |
 
-### Development Workflow Commands
+### Writing Commands
+
+| Command | Function |
+|---------|----------|
+| `/op-ed` | Draft newspaper op-ed from argument outline |
+| `/policy-brief` | Draft policy brief from notes/sources |
+| `/grant-proposal` | Scaffold grant proposal with theory of change |
+| `/rebuttal` | Generate response to reviewer/editor comments |
+| `/mine-writing-patterns` | Extract writing patterns from exemplar texts |
+| `/presentation` | Create presentation outline |
+| `/promote` | Generate promotion content (newsletter, social media, email) |
+
+### Project Management Commands
 
 | Command | Function |
 |---------|----------|
 | `/plan` | Create implementation plan |
-| `/commit` | Commit code (following Conventional Commits) |
+| `/commit` | Commit changes with Conventional Commits format |
 | `/update-github` | Commit and push to GitHub |
 | `/update-readme` | Update README documentation |
-| `/code-review` | Code review |
-| `/tdd` | Test-driven development workflow |
-| `/build-fix` | Fix build errors |
 | `/verify` | Verify changes |
 | `/checkpoint` | Create checkpoint |
-| `/refactor-clean` | Refactor and clean up |
-| `/learn` | Extract reusable patterns from code |
+| `/learn` | Extract reusable patterns |
 | `/create_project` | Create new project |
-| `/setup-pm` | Configure package manager (uv/pnpm) |
 | `/update-memory` | Check and update CLAUDE.md memory |
 
-### SuperClaude Command Suite (`/sc`)
+---
 
-- `/sc agent` - Agent dispatch
-- `/sc analyze` - Code analysis
-- `/sc brainstorm` - Interactive brainstorming
-- `/sc build` - Build project
-- `/sc business-panel` - Business panel
-- `/sc cleanup` - Code cleanup
-- `/sc design` - System design
-- `/sc document` - Generate documentation
-- `/sc estimate` - Effort estimation
-- `/sc explain` - Code explanation
-- `/sc git` - Git operations
-- `/sc help` - Help info
-- `/sc implement` - Feature implementation
-- `/sc improve` - Code improvement
-- `/sc index` - Project index
-- `/sc index-repo` - Repository index
-- `/sc load` - Load context
-- `/sc pm` - Package manager operations
-- `/sc recommend` - Recommend solutions
-- `/sc reflect` - Reflection summary
-- `/sc research` - Technical research
-- `/sc save` - Save context
-- `/sc select-tool` - Tool selection
-- `/sc spawn` - Spawn subtasks
-- `/sc spec-panel` - Spec panel
-- `/sc task` - Task management
-- `/sc test` - Test execution
-- `/sc troubleshoot` - Issue troubleshooting
-- `/sc workflow` - Workflow management
+## Agents
+
+### Research Agents
+- **policy-analyst** — Evidence gathering, stakeholder mapping, policy gap identification
+- **government-source-finder** — Search for government reports, ministry documents, committee reports, think tank PDFs
+- **literature-reviewer** — Systematic literature review with Zotero MCP integration
+- **literature-reviewer-obsidian** — Filesystem-first literature review from Obsidian vault
+- **research-knowledge-curator-obsidian** — Default curator for project plans, daily logs, literature, and writing in Obsidian
+- **paper-miner** — Extract writing knowledge and arguments from exemplar policy papers
+
+### Writing Agents
+- **grant-writer** — Structure and draft grant proposals; align with funder priorities
+- **rebuttal-writer** — Systematic rebuttal/response writing for peer review or editorial feedback
+
+### Planning Agents
+- **dev-planner** — Task planning and breakdown for complex research projects
 
 ---
 
-## Agents (16 Agents)
-
-### Research Workflow Agents
-
-- **literature-reviewer** - Literature search, classification, and trend analysis (Zotero MCP integration: auto-import, full-text reading)
-- **literature-reviewer-obsidian** - Filesystem-first literature review from the Obsidian project knowledge base
-- **research-knowledge-curator-obsidian** - Default curator for project plans, daily logs, literature, experiments, results, and writing in Obsidian
-- **rebuttal-writer** - Systematic rebuttal writing with tone optimization
-- **paper-miner** - Extract writing knowledge from successful papers
-
-### Development Workflow Agents
-
-- **architect** - System architecture design
-- **build-error-resolver** - Build error fixing
-- **bug-analyzer** - Deep code execution flow analysis and root cause investigation
-- **code-reviewer** - Code review
-- **dev-planner** - Development task planning and breakdown
-- **refactor-cleaner** - Code refactoring and cleanup
-- **tdd-guide** - TDD workflow guidance
-- **kaggle-miner** - Extract engineering practices from Kaggle solutions
-
-### Design & Content Agents
-
-- **ui-sketcher** - UI blueprint design and interaction specifications
-- **story-generator** - User story and requirement generation
-
----
-
-## Hooks (5 Hooks)
-
-Cross-platform Node.js hooks for automated workflow execution:
+## Hooks
 
 | Hook | Trigger | Function |
 |------|---------|----------|
 | `session-start.js` | Session start | Show Git status, todos, commands, and bound Obsidian project-memory status |
-| `skill-forced-eval.js` | Every user input | Force evaluate all available skills and hint bound-repo Obsidian curator flow on research turns |
-| `session-summary.js` | Session end | Generate work log, detect CLAUDE.md updates, and remind minimum Obsidian write-back for bound repos |
-| `stop-summary.js` | Session stop | Quick status check, temp file detection, and bound-repo Obsidian maintenance reminder |
+| `skill-forced-eval.js` | Every user input | Evaluate available skills; hint Obsidian curator flow on research turns |
+| `session-summary.js` | Session end | Generate work log; remind minimum Obsidian write-back |
+| `stop-summary.js` | Session stop | Quick status check, temp file detection |
 | `security-guard.js` | File operations | Security validation (key detection, dangerous command interception) |
 
 ---
 
-## Rules (4 Rules)
-
-Global constraints, always active:
+## Rules
 
 | Rule File | Purpose |
 |-----------|---------|
-| `coding-style.md` | ML project code standards: 200-400 line files, immutable config, type hints, Factory & Registry patterns |
-| `agents.md` | Agent orchestration: auto-invocation timing, parallel execution, multi-perspective analysis |
-| `security.md` | Security standards: key management, sensitive file protection, pre-commit security checks |
-| `experiment-reproducibility.md` | Experiment reproducibility: random seeds, config recording, environment recording, checkpoint management |
+| `policy-core.md` | Policy research standards: evidence-based, non-partisan, plain language, Indian context |
+| `grant-writing.md` | Grant proposal standards: theory of change, logframe, funder alignment |
+| `writing-style.md` | Pranay's voice: domain-expert confidence, fewer em dashes, no AI tells |
+| `agents.md` | Agent orchestration: auto-invocation timing, parallel execution |
+| `security.md` | Security standards: key management, sensitive file protection |
 
 ---
 
 ## Naming Conventions
 
 ### Skill Naming
-- Format: kebab-case (lowercase + hyphens)
-- Form: prefer gerund form (verb+ing)
-- Example: `scientific-writing`, `git-workflow`, `bug-detective`
+- Format: kebab-case
+- Prefer gerund form (verb+ing)
+- Example: `policy-brief-writing`, `grant-proposal-writing`
 
 ### Tags Naming
-- Format: Title Case
-- Abbreviations all caps: TDD, RLHF, NeurIPS, ICLR
-- Example: `[Writing, Research, Academic]`
-
-### Description Standards
-- Person: third person
-- Content: include purpose and use cases
-- Example: "Provides guidance for academic paper writing, covering top-venue submission requirements"
+- Title Case; abbreviations all caps
+- Example: `[Policy, India, Semiconductors]`
 
 ---
 
 ## Task Completion Summary
 
-After each task, proactively provide a brief summary:
+After each meaningful task, provide a brief summary:
 
 ```
 📋 Operation Review
@@ -328,7 +239,7 @@ After each task, proactively provide a brief summary:
 2. [Modified files]
 
 📊 Current Status
-• [Git/filesystem/runtime status]
+• [Git/filesystem status]
 
 💡 Next Steps
 1. [Targeted suggestions]
