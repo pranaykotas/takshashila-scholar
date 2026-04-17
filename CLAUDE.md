@@ -65,7 +65,7 @@ Ideation → Literature Review → Drafting → Review → Publication/Dissemina
 | 1. Ideation | `research-ideation` skill + `policy-analyst` agent | `/research-init` |
 | 2. Literature & Sources | `literature-reviewer` agent + `zotero-obsidian-bridge` + `government-source-finder` agent | `/zotero-review`, `/literature-synthesis` |
 | 3. Drafting | `op-ed-writing`, `policy-brief-writing`, `discussion-document-writing`, `grant-proposal-writing` skills | `/op-ed`, `/policy-brief`, `/grant-proposal` |
-| 4. Review | `paper-self-review` skill + `review-response` skill | `/rebuttal` |
+| 4. Review | `argument-critique` + `takshashila-values-review` + `causal-loop-analysis` + `paper-self-review` | `/draft-review` |
 | 5. Dissemination | `post-acceptance` skill + `writing-anti-ai` skill | `/promote` |
 
 ### Supporting Workflows
@@ -98,10 +98,15 @@ Ideation → Literature Review → Drafting → Review → Publication/Dissemina
 - **discussion-document-writing**: Takshashila-style discussion documents
 - **grant-proposal-writing**: Grant proposals with theory of change, logframe, funder alignment
 - **writing-anti-ai**: Remove AI writing patterns; keep voice natural and expert
-- **paper-self-review**: Self-review checklist for any written output
-- **review-response**: Systematic response to reviewer/editor comments
-- **post-acceptance**: Post-publication: promotion materials, newsletter snippets, social posts
 - **doc-coauthoring**: Document co-authoring workflow
+- **post-acceptance**: Post-publication: promotion materials, newsletter snippets, social posts
+
+### Pre-submission Review
+- **paper-self-review**: Structure and logic completeness check
+- **argument-critique**: Adversarial review — logical vulnerabilities, evidence gaps, missing counterarguments; every critique has a fix
+- **takshashila-values-review**: Review draft through Takshashila's 4 values (Freedom, Pluralism, Citizenship/Constitutional, Realism in IR) — surfaces tensions as questions, not verdicts
+- **causal-loop-analysis**: Extract implicit causal claims; render as Mermaid diagram; identify reinforcing/balancing loops, unsupported links, unintended consequences
+- **review-response**: Systematic response to reviewer/editor comments after submission
 
 ### Obsidian Knowledge Base
 - **obsidian-project-memory**: Default Obsidian project-memory orchestrator
@@ -152,6 +157,7 @@ Ideation → Literature Review → Drafting → Review → Publication/Dissemina
 | `/op-ed` | Draft newspaper op-ed from argument outline |
 | `/policy-brief` | Draft policy brief from notes/sources |
 | `/grant-proposal` | Scaffold grant proposal with theory of change |
+| `/draft-review` | Full pre-submission review: structure + argument critique + values + causal map |
 | `/rebuttal` | Generate response to reviewer/editor comments |
 | `/mine-writing-patterns` | Extract writing patterns from exemplar texts |
 | `/presentation` | Create presentation outline |
