@@ -54,19 +54,25 @@
 
 ## Core Workflows
 
-### Policy Research Lifecycle (5 Stages)
+### Policy Research Lifecycle (7 Stages)
+
+**Entry point for any researcher: `/scholar`** — routes you to the right stage based on where you are.
+**`/draft-review` is available at any stage** — not just after a complete draft.
 
 ```
-Ideation → Literature Review → Drafting → Review → Publication/Dissemination
+Hypothesis → Sources → Actor Mapping → Causal Analysis → Drafting → Review → Dissemination
 ```
 
-| Stage | Core Tools | Commands |
-|-------|-----------|----------|
-| 1. Ideation | `research-ideation` skill + `policy-analyst` agent | `/research-init` |
-| 2. Literature & Sources | `literature-reviewer` agent + `zotero-obsidian-bridge` + `government-source-finder` agent | `/zotero-review`, `/literature-synthesis` |
-| 3. Drafting | `op-ed-writing`, `policy-brief-writing`, `discussion-document-writing`, `grant-proposal-writing` skills | `/op-ed`, `/policy-brief`, `/grant-proposal` |
-| 4. Review | `argument-critique` + `takshashila-values-review` + `causal-loop-analysis` + `paper-self-review` | `/draft-review` |
-| 5. Dissemination | `post-acceptance` skill + `writing-anti-ai` skill | `/promote` |
+| Stage | Core Tools | Entry |
+|-------|-----------|-------|
+| H. Hypothesis | `hypothesis-development` skill | `/scholar` → Path A |
+| 1. Ideation (exploratory) | `research-ideation` skill + `policy-analyst` agent | `/research-init` |
+| 2. Sources | `government-source-finder` agent + parliamentwatch + Zotero | `/parliament-search`, `/zotero-review` |
+| 3. Actor Mapping | `stakeholder-analysis` skill | `stakeholder-analysis` |
+| 4. Causal Analysis | `causal-loop-analysis` skill (with leverage ranking) | `causal-loop-analysis` |
+| 5. Drafting | `op-ed-writing`, `policy-brief-writing`, `simulation-design`, `course-content-writing` | `/op-ed`, `/policy-brief`, `/grant-proposal` |
+| 6. Review | `argument-critique` + `takshashila-values-review` + `paper-self-review` | `/draft-review` |
+| 7. Dissemination | `post-acceptance` skill + `writing-anti-ai` skill | `/promote` |
 
 ### Supporting Workflows
 
@@ -87,7 +93,9 @@ Ideation → Literature Review → Drafting → Review → Publication/Dissemina
 ## Skills Directory
 
 ### Research & Analysis
+- **hypothesis-development**: Turn intuition into a testable claim — decomposes hypothesis into claim types, maps assumptions, generates evidence requirements, produces Research Brief that anchors the full project
 - **research-ideation**: Research startup — gap analysis, research question formulation, Zotero integration
+- **stakeholder-analysis**: Interest × Power matrix — map all actors, identify coalitions, veto players, and research implications
 - **literature-synthesis**: Cross-source synthesis from Zotero, web PDFs, and government reports
 - **citation-verification**: Multi-layer citation verification (format → source → content)
 - **daily-paper-generator**: Track new policy publications and reports
@@ -97,15 +105,17 @@ Ideation → Literature Review → Drafting → Review → Publication/Dissemina
 - **op-ed-writing**: Newspaper op-ed in Pranay's voice — evidence-based, non-partisan, plain language
 - **discussion-document-writing**: Takshashila-style discussion documents
 - **grant-proposal-writing**: Grant proposals with theory of change, logframe, funder alignment
+- **simulation-design**: Design complete policy simulations for adult learners — scenario brief, role cards, facilitator guide, debrief template; Takshashila-specific (GCPP/MIPP/executive education)
+- **course-content-writing**: Modular course content for adult learners — lecture outlines, reading guides, case studies, discussion questions, assessment rubrics; Indian policy context
 - **writing-anti-ai**: Remove AI writing patterns; keep voice natural and expert
 - **doc-coauthoring**: Document co-authoring workflow
 - **post-acceptance**: Post-publication: promotion materials, newsletter snippets, social posts
 
 ### Pre-submission Review
 - **paper-self-review**: Structure and logic completeness check
-- **argument-critique**: Adversarial review — logical vulnerabilities, evidence gaps, missing counterarguments; every critique has a fix
+- **argument-critique**: Adversarial review — explicit fallacy taxonomy, mandatory FLAW/FIX format, editorial summary at top; every critique is actionable
 - **takshashila-values-review**: Review draft through Takshashila's 4 values (Freedom, Pluralism, Citizenship/Constitutional, Realism in IR) — surfaces tensions as questions, not verdicts
-- **causal-loop-analysis**: Extract implicit causal claims; render as Mermaid diagram; identify reinforcing/balancing loops, unsupported links, unintended consequences
+- **causal-loop-analysis**: Extract implicit causal claims; render as Mermaid diagram; identify reinforcing/balancing loops, unsupported links; leverage point ranking + policy intervention menu
 - **review-response**: Systematic response to reviewer/editor comments after submission
 
 ### Obsidian Knowledge Base
@@ -136,7 +146,9 @@ Ideation → Literature Review → Drafting → Review → Publication/Dissemina
 
 | Command | Function |
 |---------|----------|
+| `/scholar` | **START HERE** — routes any researcher to the right stage based on topic and current progress |
 | `/research-init` | Start a new policy research project (Obsidian setup, Zotero collection, research question) |
+| `/parliament-search` | Search Indian parliamentary committee reports via local parliamentwatch project |
 | `/literature-synthesis` | Synthesize sources on a topic from Zotero + web into a structured review |
 | `/zotero-review` | Read papers from Zotero collection, synthesize into Obsidian literature review |
 | `/zotero-notes` | Batch create/update Obsidian notes from Zotero papers |

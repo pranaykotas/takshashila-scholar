@@ -64,12 +64,35 @@ You are a specialist in finding Indian government and official policy documents.
 
 ## Search Process
 
-1. Identify the ministry/regulator most responsible for the topic.
-2. Search their official website directly (not just Google).
-3. Search PRS India for committee reports and Bill summaries.
-4. Search CAG for audit reports if accountability angle is relevant.
-5. Supplement with Google: `site:gov.in [topic]` or `site:prsindia.org [topic]`.
-6. For each found document:
+**Step 0: Check parliamentwatch first (fastest for committee reports)**
+
+Before searching the web, check the local parliamentwatch project for cached parliamentary committee reports:
+
+```bash
+cd ~/Projects/parliamentwatch && source .venv/bin/activate && python cli.py --search "[topic]"
+```
+
+If matches are found, fetch the AI summary for the most relevant report:
+
+```bash
+python cli.py --committee [committee-key] --report [report-no]
+```
+
+This gives structured, pre-summarised committee report data without web scraping. Only move to web search if parliamentwatch has no relevant data or the data appears outdated.
+
+Committee keys: `agriculture`, `chemicals`, `coal`, `communications`, `consumer_affairs`, `defence`, `energy`, `external_affairs`, `finance`, `housing`, `labour`, `petroleum`, `railways`, `rural_development`, `social_justice`, `water_resources`
+
+**Step 1: Identify the lead ministry/regulator** for the topic.
+
+**Step 2: Search their official website** directly (not just Google).
+
+**Step 3: Search PRS India** for committee reports and Bill summaries.
+
+**Step 4: Search CAG** for audit reports if accountability angle is relevant.
+
+**Step 5: Supplement with Google**: `site:gov.in [topic]` or `site:prsindia.org [topic]`.
+
+**Step 6: For each found document:**
    - Verify it is the source document (not a media summary).
    - Add to Zotero via `zotero_add_item_by_url`.
    - Note: title, issuing body, date, document type.

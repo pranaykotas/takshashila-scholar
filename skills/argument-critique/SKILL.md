@@ -63,37 +63,76 @@ Every critique includes a one-line suggestion for addressing it. This is not dem
 
 ---
 
+## Logical Fallacy Taxonomy
+
+Systematically scan for these named fallacies. When found, name them explicitly — do not just describe the problem.
+
+| Fallacy | What to look for |
+|---------|-----------------|
+| **Circular reasoning** | Conclusion restated as a premise ("X is good policy because good policy has these features") |
+| **False dilemma** | Only two options presented when more exist ("Either we subsidise fabs or we fall behind") |
+| **Correlation-causation conflation** | Causal claim made from co-occurrence data alone |
+| **Hasty generalisation** | One case or country generalised to all; India treated as monolith |
+| **Appeal to authority** | Expert cited as evidence without engaging with the argument they made |
+| **Slippery slope** | Unwarranted chain of consequences ("if A, then inevitably B, then C, then catastrophe") |
+| **Strawmanning** | Counterargument engaged in weakened form |
+| **Loaded language / framing bias** | Emotionally charged or politically loaded terms doing argumentative work |
+| **Scope creep** | Conclusion is wider than the evidence ("this proves that X is always/never...") |
+| **Non sequitur** | Conclusion does not follow from premises even if premises are true |
+
+---
+
 ## Output Format
 
-Produce a structured critique:
+Produce a structured critique. **Always begin with the Editorial Summary.**
 
 ```
 ## Argument Critique
 
+### Editorial Summary
+VERDICT: [Accept as is / Accept with revisions / Major rework needed / Fundamental problem with argument]
+CORE ISSUE: [The single most important problem — one sentence]
+FIRST FIX: [The one thing to address before anything else]
+
+---
+
 ### Central Argument
 [State the thesis as you understood it in one sentence.]
-[If the thesis is unclear, flag that first.]
+[If the thesis is unclear, flag that first — unclear thesis is automatically a Major Gap.]
+
+### Logical Fallacies Detected
+[Scan systematically through the taxonomy above. Name each fallacy found.]
+
+FALLACY: [Name from taxonomy]
+WHERE: [Paragraph or section where it appears]
+FLAW: [What's wrong, one sentence]
+FIX: [Concrete rewrite or structural change — not just "remove this" but "rewrite as X" or "restructure paragraph Y to Z"]
+
+[Repeat for each fallacy found. If none found, state: "No named logical fallacies detected."]
 
 ### Fatal Flaws (if any)
 [Things that would cause a reviewer to reject or fundamentally question the piece.]
-[Fix: ...]
+FLAW: [What's wrong]
+FIX: [Concrete fix]
 
 ### Major Gaps
 [Significant weaknesses that need addressing before submission.]
-[For each: Fix: ...]
+FLAW: [What's wrong]
+FIX: [Concrete fix — specific enough that the author knows exactly what to write]
 
 ### Minor Issues
 [Things to tighten that won't cause rejection but will improve the piece.]
-[For each: Fix: ...]
+FLAW: [What's wrong]
+FIX: [Concrete fix]
 
 ### Strongest Points
 [What the piece does well — what a sympathetic reviewer would highlight.]
 
 ### Key Assumptions (explicit)
-[List the 2–4 assumptions the argument rests on. Author should check these are defensible.]
+[List the 2–4 assumptions the argument rests on. Author should verify these are defensible.]
 
 ### Unanswered Objection
-[The one objection a hostile reviewer is most likely to raise. Is it in the piece?]
+[The one objection a hostile reviewer is most likely to raise. Is it in the piece? If not, suggest where and how to address it.]
 ```
 
 ---

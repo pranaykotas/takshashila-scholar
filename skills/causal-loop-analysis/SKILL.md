@@ -88,6 +88,36 @@ Where in the causal map could intervention be most effective? (Meadows' hierarch
 - Reducing a balancing loop's resistance
 - Changing a key parameter in the chain
 
+Also identify **external leverage points** — constraints or actors outside the causal diagram that could shift the system (e.g., US export controls in a semiconductor analysis, an IMF condition in a fiscal analysis, a judicial ruling in a regulatory analysis).
+
+### Step 6b: Rank Leverage Points
+
+After identifying leverage points, rank each on two dimensions:
+
+**Magnitude** — how much does intervening here change system behaviour?
+- High: Breaking or strengthening this would fundamentally shift the outcome
+- Medium: Meaningful improvement but other constraining loops remain
+- Low: Marginal effect; other parts of the system absorb the change
+
+**Accessibility** — how feasible is intervention here given political, institutional, and technical constraints?
+- High: Within the mandate of a single actor; no major political barriers
+- Medium: Requires coordination across actors; politically contested but possible
+- Low: Requires overcoming deeply entrenched interests or changing parameters outside domestic control
+
+Plot each leverage point on a 2×2 (Magnitude × Accessibility). **Top-right quadrant (High × High) = priority interventions.**
+
+Note: High-magnitude but low-accessibility leverage points are worth naming even if not actionable — they clarify why easy interventions fail.
+
+### Step 7: Policy Intervention Menu
+
+Translate the ranked leverage points into concrete, actor-specific recommendations:
+
+For each priority leverage point:
+- "To break loop [R1]: [specific intervention] — who must act, what they must do"
+- "To strengthen loop [B1]: [specific intervention]"
+- Distinguish: **necessary conditions** (without which the outcome is impossible) from **sufficient conditions** (alone enough to achieve the outcome)
+- Note: interventions targeting contested causal links are risky leverage — flag if the link itself is unsupported
+
 ---
 
 ## Output Format
@@ -117,10 +147,37 @@ flowchart LR
 [What the argument doesn't trace that a reviewer might raise]
 
 ### Leverage Points
-[Where in this causal map is intervention most powerful]
+
+| Leverage Point | Loop Affected | Mechanism | Magnitude | Accessibility | Priority |
+|---------------|--------------|-----------|-----------|---------------|---------|
+| [Intervention] | R1 | [How it affects the loop] | High/Med/Low | High/Med/Low | 1/2/3 |
+
+**Priority matrix:**
+
+```
+              LOW ACCESSIBILITY    HIGH ACCESSIBILITY
+HIGH MAGNITUDE   Important but       Priority
+                 hard — name it      interventions
+                 anyway
+
+LOW MAGNITUDE    Deprioritise        Easy wins
+```
+
+### Policy Intervention Menu
+
+**Priority interventions (High magnitude × High accessibility):**
+- To [break/strengthen] loop [ID]: [Specific intervention] — Actor: [who] / Action: [what]
+  - Necessary condition? Yes / No
+  - Risk: [if this causal link is contested or unsupported]
+
+**Important but difficult (High magnitude × Low accessibility):**
+- [Intervention] — blocked by [constraint]. Worth naming to explain why easier interventions fail.
+
+**External leverage points:**
+- [Constraint or actor outside the causal diagram that shapes the system]
 
 ### Key Causal Vulnerabilities
-[1–3 links in the chain that, if broken, would undermine the central argument]
+[1–3 links in the chain that, if broken, would undermine the central argument — flag which of these are also contested/unsupported links]
 ```
 
 ---

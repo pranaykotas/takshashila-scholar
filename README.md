@@ -10,251 +10,361 @@
 
 </div>
 
-> Semi-automated research assistant for **public policy research**, built for the [Takshashila Institution](https://takshashila.org.in). Forked from [claude-scholar](https://github.com/Galaxy-Dawn/claude-scholar) and adapted for policy research workflows: literature synthesis, policy brief writing, op-ed drafting, grant proposals, and knowledge management.
+> A semi-automated research assistant for public policy researchers, built for the [Takshashila Institution](https://takshashila.org.in). Works as a [Claude Code](https://github.com/anthropics/claude-code) plugin. Turn an intuition into a rigorous argument — with stakeholder maps, causal analysis, and publication-ready drafts.
 
-Supports [Claude Code](https://github.com/anthropics/claude-code) with Zotero MCP and Obsidian integration.
+---
 
-## What This Does
+## Start here
 
-Takshashila Scholar supports the full policy research lifecycle:
+If you are a Takshashila researcher and this is your first time, run:
 
-| Stage | What it helps with |
-|---|---|
-| **Ideation** | Research question formulation, gap analysis, literature framing |
-| **Literature & Sources** | Systematic source collection (academic + government + think tank), Zotero integration, synthesis |
-| **Drafting** | Op-eds, policy briefs, discussion documents, grant proposals |
-| **Review** | Self-review checklist, argument critique, values alignment, causal loop analysis |
-| **Dissemination** | Promotion content, newsletter snippets, presentation outlines |
+```
+/scholar
+```
 
-## Quick Start
+It will ask you two questions — what you are working on, and where you are in the process — and route you to the right tool. You do not need to know all the commands listed below.
+
+---
+
+## What this does
+
+Takshashila Scholar supports the complete policy research lifecycle, from the first intuition to the published piece. It is designed for researchers who already have domain knowledge and need help making their arguments more rigorous, their evidence more systematic, and their writing cleaner.
+
+```
+[H]  HYPOTHESIS     Turn an intuition into a testable claim
+ ↓
+[2]  SOURCES        Find parliamentary committee reports, ministry documents, academic papers
+ ↓
+[3]  ACTORS         Map who has power, who has interest, who can block
+ ↓
+[4]  CAUSAL MAP     Make the argument's causal logic explicit; find leverage points
+ ↓
+[5]  DRAFT          Write the op-ed, policy brief, simulation, or course module
+ ↓
+[6]  REVIEW         ← Available at any stage, not just at the end
+ ↓
+[7]  DISSEMINATE    Social posts, newsletter, email pitch
+```
+
+**Two ways to start:**
+- **You already have a hypothesis** → run `hypothesis-development` skill first, then gather sources
+- **You are still exploring** → run `/research-init` first, gather sources, then crystallise your hypothesis
+
+`/draft-review` works at any stage. Use it on your hypothesis, a source synthesis, a causal map, or a finished draft.
+
+---
+
+## Installation
 
 ### Prerequisites
 - [Claude Code](https://github.com/anthropics/claude-code) installed
 - A local [Obsidian](https://obsidian.md) vault (recommended; not mandatory)
-- [Zotero](https://zotero.org) with the [Zotero MCP server](MCP_SETUP.md) (recommended for source management)
+- [Zotero](https://zotero.org) with the [Zotero MCP server](MCP_SETUP.md) (recommended)
 
-### Installation
+### Install
 
 ```bash
-# Clone this repo as your Claude Code plugin directory
+# As a global Claude Code plugin (applies to all your projects)
 git clone https://github.com/pranaykotas/takshashila-scholar ~/.claude/plugins/takshashila-scholar
 
-# Or add as a project-level plugin in your research project
+# Or as a project-level plugin (in a specific research project)
 git clone https://github.com/pranaykotas/takshashila-scholar .claude/plugins/takshashila-scholar
 ```
 
-Then follow [MCP_SETUP.md](MCP_SETUP.md) to configure Zotero integration.
+Set your Obsidian vault path (optional but recommended):
 
-Set environment variables:
 ```bash
 export OBSIDIAN_VAULT_PATH="/path/to/your/vault"
-export OBSIDIAN_VAULT_NAME="YourVaultName"  # optional
 ```
 
-### First Use
+Then open Claude Code in your research project directory and run `/scholar`.
 
-Start a new policy research project:
+For Zotero integration, see [MCP_SETUP.md](MCP_SETUP.md).
+For Obsidian setup, see [OBSIDIAN_SETUP.md](OBSIDIAN_SETUP.md).
+
+---
+
+## The research lifecycle in detail
+
+### Stage H: Hypothesis development
+
+Every piece of policy research rests on a hypothesis — an empirical or causal claim that can, in principle, be proved wrong. This skill turns a researcher's intuition into a rigorous, testable statement.
+
+**What it asks:**
+- State your hypothesis in one sentence
+- What would have to be true to prove you wrong?
+- Is this an empirical claim, a causal claim, or a normative claim?
+
+**What it produces — a Research Brief containing:**
+- The refined, falsifiable hypothesis
+- A decomposition into empirical, causal, and normative claims
+- A skeleton causal diagram
+- Key assumptions, ranked by fragility
+- Specific evidence requirements (what you must find to publish this argument)
+- The strongest competing hypothesis
+
+The Research Brief anchors every subsequent stage. The final draft should be consistent with it.
+
+**Trigger phrases:** "I have a hypothesis", "I want to argue that", "help me test my idea"
+
+---
+
+### Stage 2: Sources
+
+Three ways to find Indian policy evidence:
+
+| Tool | What it searches |
+|------|-----------------|
+| `/parliament-search [topic]` | All 16 Departmentally Related Standing Committees — finds committee reports on any policy topic |
+| `government-source-finder` agent | Ministry websites, CAG reports, regulatory consultations, PRS India |
+| `/zotero-review` | Your Zotero library |
+
+Parliamentary committee reports are primary sources — non-partisan, evidence-rich, and often overlooked. Search them first.
+
+---
+
+### Stage 3: Stakeholder analysis
+
+Maps the political economy of the policy problem. Uses the standard **interest × power matrix**.
+
+**What it produces:**
+- All actors plotted on a 2×2 grid (high/low power × high/low interest)
+- Coalition map: who supports, who opposes, who could swing
+- Veto player analysis: who must be on-side for the policy to pass
+- Research implications: whose objections the argument must pre-empt
+
+**Indian institutional patterns built in:** inter-ministerial turf, Centre-state federalism, parliamentary committee as stakeholder, industry association vs. individual firm interests.
+
+**Trigger phrases:** "stakeholder analysis", "who are the actors in", "who can block this"
+
+---
+
+### Stage 4: Causal loop analysis
+
+Makes the argument's implicit theory of change explicit — as a Mermaid diagram with feedback loops, unsupported links, and ranked leverage points.
+
+**What it produces:**
+- Causal map (Mermaid diagram, renders in Obsidian and GitHub)
+- Loop inventory: reinforcing loops (amplifiers) and balancing loops (constraints)
+- Unsupported links: which causal claims are cited vs. assumed
+- **Leverage point ranking** (new): each intervention ranked by magnitude × accessibility — priority interventions sit in the top-right quadrant
+- **Policy intervention menu** (new): concrete, actor-specific recommendations derived from the leverage points
+
+**Trigger phrases:** "causal analysis", "map the causal logic", "what are the leverage points"
+
+---
+
+### Stage 5: Drafting
+
+| Output | Command / Skill | Length / Format |
+|--------|----------------|-----------------|
+| Newspaper op-ed | `/op-ed` | 600–900 words; Indian outlets |
+| Policy brief | `/policy-brief` | 1500–3000 words; ministry/committee audience |
+| Discussion document | `discussion-document-writing` skill | 2000–6000 words; Takshashila format |
+| Grant proposal | `/grant-proposal` | Theory of change + logframe |
+| **Policy simulation** | `simulation-design` skill | Scenario brief + role cards + facilitator guide + debrief |
+| **Course content** | `course-content-writing` skill | Lecture outline, reading guide, case study, discussion questions, rubric |
+
+All drafts check against the Research Brief from Stage H.
+
+#### Simulations
+
+Takshashila simulations are for GCPP, MIPP, and executive education participants — working professionals, civil servants, journalists. They are built around genuine role tension (every actor faces a real trade-off), Indian institutional context (inter-ministerial committees, state-centre negotiations), and a debrief that connects to real policy history.
+
+The skill produces four documents: scenario brief (shared with all), role cards (confidential per actor), facilitator guide (instructor only), and debrief template.
+
+#### Course content
+
+Content is designed for adult learners — no oversimplification, Indian examples first, discussion questions that require analysis not recall. Modules can include any combination of: lecture outline, reading guide, case study, discussion questions, assessment rubric.
+
+---
+
+### Stage 6: Review
+
+`/draft-review` runs a full pre-submission check. It can be invoked at any stage — on a hypothesis, a source synthesis, a causal map, or a complete draft.
+
+**What it runs:**
+
+| Check | What it catches |
+|-------|----------------|
+| `paper-self-review` | Structure and completeness |
+| `argument-critique` | Logical flaws + concrete fixes (see below) |
+| `takshashila-values-review` | Alignment with Takshashila's four commitments |
+| `causal-loop-analysis` | Causal vulnerabilities |
+
+#### Argument critique (enhanced)
+
+The critique now scans explicitly for ten named logical fallacies:
+
+| Fallacy | Example |
+|---------|---------|
+| Circular reasoning | Conclusion restated as a premise |
+| False dilemma | Only two options when more exist |
+| Correlation-causation conflation | Association presented as mechanism |
+| Hasty generalisation | One case generalised; India as monolith |
+| Appeal to authority | Expert cited without engaging their argument |
+| Slippery slope | Unwarranted consequence chain |
+| Strawmanning | Counterargument addressed in weakened form |
+| Loaded language | Emotionally charged terms doing argumentative work |
+| Scope creep | Conclusion wider than evidence |
+| Non sequitur | Conclusion does not follow from premises |
+
+Every flaw found must include:
 ```
-/research-init
+FLAW: [what's wrong — one sentence]
+FIX: [concrete rewrite or structural change]
 ```
 
-Draft an op-ed:
+The output begins with an Editorial Summary:
 ```
-/op-ed
-```
-
-Draft a policy brief:
-```
-/policy-brief
+VERDICT: Accept / Accept with revisions / Major rework needed
+CORE ISSUE: [the single most important problem]
+FIRST FIX: [the one thing to address before anything else]
 ```
 
-Synthesize literature on a topic:
-```
-/literature-synthesis
-```
+---
+
+### Stage 7: Dissemination
+
+`/promote` generates social media posts, newsletter snippets, and email pitches after a piece is published.
 
 ---
 
 ## Commands
 
-### Research Workflow
+### Entry point
 
-| Command | Function |
-|---|---|
-| `/research-init` | Start a new policy research project (Obsidian + Zotero setup, research question) |
-| `/literature-synthesis` | Synthesize sources on a topic from Zotero + web into a structured review |
-| `/zotero-review` | Read papers from a Zotero collection; synthesize into Obsidian literature review |
-| `/zotero-notes` | Batch create/update Obsidian notes from Zotero papers |
+| Command | What it does |
+|---------|-------------|
+| `/scholar` | **Start here.** Routes you to the right stage based on your topic and where you are in the process. |
+
+### Research workflow
+
+| Command | What it does |
+|---------|-------------|
+| `/research-init` | Start a new research project (Obsidian setup, Zotero collection, research question) |
+| `/parliament-search [topic]` | Search 16 parliamentary committee reports by keyword; get AI summaries |
+| `/literature-synthesis` | Synthesize sources into a structured review |
+| `/zotero-review` | Read Zotero papers; synthesize into Obsidian literature review |
+| `/zotero-notes` | Batch create Obsidian notes from Zotero papers |
 
 ### Writing
 
-| Command | Function |
-|---|---|
-| `/op-ed` | Draft newspaper op-ed from argument outline |
-| `/policy-brief` | Draft structured policy brief from notes/sources |
-| `/grant-proposal` | Scaffold grant proposal with theory of change and logframe |
-| `/draft-review` | Full pre-submission review: structure + argument critique + values + causal map |
+| Command | What it does |
+|---------|-------------|
+| `/op-ed` | Draft a newspaper op-ed |
+| `/policy-brief` | Draft a policy brief |
+| `/grant-proposal` | Scaffold a grant proposal with theory of change |
+| `/draft-review` | Full pre-submission review (available at any stage) |
 | `/rebuttal` | Generate response to reviewer/editor comments |
-| `/mine-writing-patterns` | Extract writing patterns from exemplar texts |
-| `/presentation` | Create conference presentation outline |
-| `/poster` | Design academic poster |
-| `/promote` | Generate promotion content (newsletter, social media, email) |
+| `/promote` | Generate promotion content |
+| `/presentation` | Create presentation outline |
 
-### Obsidian Knowledge Base
+### Obsidian
 
-| Command | Function |
-|---|---|
-| `/obsidian-init` | Bootstrap Obsidian project knowledge base for current research |
-| `/obsidian-ingest` | Ingest a new file or directory into the vault |
-| `/obsidian-review` | Generate project-linked literature synthesis from Obsidian notes |
-| `/obsidian-notes` | Normalize paper notes and connect to project knowledge |
+| Command | What it does |
+|---------|-------------|
+| `/obsidian-init` | Bootstrap project knowledge base |
+| `/obsidian-ingest` | Ingest file or directory into vault |
+| `/obsidian-review` | Synthesize Obsidian notes into literature review |
 | `/obsidian-sync` | Force incremental or full repair sync |
-| `/obsidian-link` | Repair or strengthen project wikilinks |
-| `/obsidian-note` | Archive, purge, or rename a single canonical note |
-| `/obsidian-project` | Detach, archive, purge, or rebuild a project knowledge base |
-| `/obsidian-views` | Generate `.base` views and extra canvases |
-
-### Project Management
-
-| Command | Function |
-|---|---|
-| `/plan` | Create implementation plan |
-| `/checkpoint` | Save progress checkpoint |
-| `/learn` | Extract reusable patterns from session |
-| `/commit` | Commit changes with Conventional Commits format |
-| `/update-github` | Commit and push to GitHub |
-| `/update-readme` | Update README documentation |
-| `/update-memory` | Check and update CLAUDE.md memory |
-| `/verify` | Verify changes |
-| `/create_project` | Create new project from template |
+| `/obsidian-link` | Repair wikilinks |
+| `/obsidian-note` | Archive, purge, or rename a single note |
+| `/obsidian-project` | Detach, archive, or rebuild a project knowledge base |
 
 ---
 
 ## Skills
 
-### Policy Writing
+### Analysis
 
-| Skill | Purpose |
-|---|---|
-| `op-ed-writing` | Newspaper op-eds (600–900 words, Pranay's voice, target: The Hindu / IE / Mint) |
-| `policy-brief-writing` | Structured policy briefs (problem → evidence → options → recommendation) |
-| `discussion-document-writing` | Takshashila-style discussion documents (2000–6000 words) |
-| `grant-proposal-writing` | Grant proposals with theory of change and logframe |
-| `literature-synthesis` | Cross-source synthesis from Zotero, web PDFs, and government reports |
-| `doc-coauthoring` | Iterative co-authoring for proposals, specs, and decision documents |
-| `writing-anti-ai` | Remove AI writing patterns; keep prose natural and expert |
-| `post-acceptance` | Post-publication: promotion materials, newsletter snippets, social posts |
+| Skill | What it does |
+|-------|-------------|
+| `hypothesis-development` | Turns intuition into testable claim; produces Research Brief |
+| `stakeholder-analysis` | Interest × power matrix; coalition map; veto player analysis |
+| `causal-loop-analysis` | Causal diagram + loop inventory + leverage point ranking + intervention menu |
+| `research-ideation` | Exploratory research startup; gap analysis; Zotero integration |
+| `citation-verification` | Multi-layer citation check |
+| `daily-paper-generator` | Track new publications on a topic |
 
-### Pre-Submission Review
+### Writing
 
-| Skill | Purpose |
-|---|---|
-| `paper-self-review` | Completeness and structure check before submission |
-| `argument-critique` | Adversarial review — logical vulnerabilities, evidence gaps, missing counterarguments; every critique includes a fix |
-| `takshashila-values-review` | Review through Takshashila's four commitments (Freedom, Pluralism, Citizenship, Realism); surfaces tensions as questions |
-| `causal-loop-analysis` | Extract implicit causal claims; render as Mermaid diagram; identify reinforcing/balancing loops and unsupported links |
-| `review-response` | Systematic response to reviewer/editor comments after submission |
+| Skill | What it does |
+|-------|-------------|
+| `op-ed-writing` | Newspaper op-eds; Indian outlets; evidence-based voice |
+| `policy-brief-writing` | Structured briefs for ministry/committee audiences |
+| `discussion-document-writing` | Takshashila-format discussion documents |
+| `grant-proposal-writing` | Proposals with theory of change and logframe |
+| `simulation-design` | Complete policy simulations for adult learners |
+| `course-content-writing` | Lecture outlines, reading guides, case studies, discussion questions, rubrics |
+| `literature-synthesis` | Cross-source synthesis |
+| `writing-anti-ai` | Remove AI writing patterns; keep prose expert and natural |
+| `post-acceptance` | Post-publication promotion materials |
 
-### Literature & Sources
+### Review
 
-| Skill | Purpose |
-|---|---|
-| `research-ideation` | Research startup — gap analysis, research question formulation, Zotero integration |
-| `citation-verification` | Multi-layer citation verification (format → source → content) |
-| `zotero-obsidian-bridge` | Bridge Zotero collections into durable Obsidian paper notes |
-| `daily-paper-generator` | Track new policy publications and reports |
-| `publication-chart-skill` | Publication-quality figures and tables for research outputs |
-
-### Obsidian Knowledge Base
-
-| Skill | Purpose |
-|---|---|
-| `obsidian-project-memory` | Default orchestrator for Obsidian project knowledge base |
-| `obsidian-project-bootstrap` | Bootstrap or import a research project into the vault |
-| `obsidian-research-log` | Daily notes, plans, hub updates, progress routing |
-| `obsidian-literature-workflow` | Paper-note normalization and literature review inside the vault |
-| `obsidian-synthesis-map` | Higher-level synthesis notes and comparison summaries |
-| `obsidian-link-graph` | Repair wikilinks across canonical notes |
-| `obsidian-project-lifecycle` | Detach, archive, purge, and note-level lifecycle |
-| `obsidian-markdown` | Obsidian Flavored Markdown reference |
-| `obsidian-bases` | Create and edit Obsidian Bases (`.base` files) |
-| `obsidian-cli` | Obsidian CLI reference |
-| `json-canvas` | Create and edit JSON Canvas files |
-| `defuddle` | Extract clean markdown content from web pages |
-
-### Utilities & Extension Development
-
-| Skill | Purpose |
-|---|---|
-| `planning-with-files` | Planning and progress tracking with Markdown files |
-| `git-workflow` | Git workflow standards |
-| `verification-loop` | Verification and testing loops |
-| `skill-development` | Skill authoring — structure, triggers, prompts |
-| `skill-improver` | Iterative skill quality improvement |
-| `skill-quality-reviewer` | Review and grade skill quality |
-| `command-development` | Build new Claude Code slash commands |
-| `plugin-structure` | Claude Code plugin layout and conventions |
-| `agent-identifier` | Configure and identify Claude agents |
-| `hook-development` | Build Claude Code session hooks |
-| `mcp-integration` | Connect and use MCP servers |
-| `latex-conference-template-organizer` | Organize messy conference LaTeX templates |
+| Skill | What it does |
+|-------|-------------|
+| `argument-critique` | Fallacy taxonomy + FLAW/FIX format + editorial summary |
+| `takshashila-values-review` | Four-lens values review |
+| `paper-self-review` | Structure and completeness check |
+| `review-response` | Systematic rebuttal of reviewer comments |
 
 ---
 
 ## Agents
 
-| Agent | Purpose |
-|---|---|
-| `policy-analyst` | Evidence mapping, stakeholder analysis, policy gap identification |
+Agents handle multi-step research tasks that require coordinating several tools.
+
+| Agent | What it does |
+|-------|-------------|
+| `government-source-finder` | Finds Indian government documents — ministry websites, CAG, parliamentary committee reports, regulatory filings |
+| `policy-analyst` | Evidence mapping, policy gap identification |
+| `literature-reviewer` | Systematic literature review with Zotero MCP |
 | `grant-writer` | Full grant proposal drafting with funder alignment |
-| `government-source-finder` | Indian government documents, committee reports, CAG, regulatory filings |
-| `literature-reviewer` | Systematic literature review with Zotero MCP integration |
-| `literature-reviewer-obsidian` | Filesystem-first literature review from Obsidian vault |
-| `research-knowledge-curator-obsidian` | Default curator for project plans, daily logs, literature, and writing in Obsidian |
-| `paper-miner` | Extract writing knowledge and arguments from exemplar policy papers |
-| `rebuttal-writer` | Systematic rebuttal/response writing for peer review or editorial feedback |
-| `dev-planner` | Task planning and breakdown for complex research projects |
+| `rebuttal-writer` | Systematic rebuttal for peer review |
+| `paper-miner` | Extract writing patterns from exemplar policy papers |
+| `research-knowledge-curator-obsidian` | Maintain Obsidian vault alongside research work |
 
 ---
 
 ## Integrations
 
-### Zotero
-Zotero is the primary reference management system. Supports:
-- Import papers, government reports, think tank publications
-- Full-text reading via Zotero MCP
-- Organized collections per research project
-- BibTeX export
+### ParliamentWatch
 
-See [MCP_SETUP.md](MCP_SETUP.md) for configuration.
+If you have [parliamentwatch](https://github.com/pranaykotas/parliamentwatch) installed locally, `/parliament-search` will query it directly — no web scraping required. Searches all 16 Departmentally Related Standing Committees. Returns AI-summarized committee reports as Markdown.
+
+Setup: clone parliamentwatch to `~/Projects/parliamentwatch` and follow its README.
+
+### Zotero
+
+Import papers, government reports, and think tank publications. Read full text. Organize by project. Export BibTeX. See [MCP_SETUP.md](MCP_SETUP.md).
 
 ### Obsidian
-Obsidian is the default project knowledge base. Project structure:
 
-```
-Research/{project-slug}/
-  00-Hub.md
-  01-Plan.md
-  Sources/
-  GovernmentDocs/
-  PolicyBriefs/
-  OpEds/
-  GrantProposals/
-  Notes/
-  Daily/
-  Archive/
-```
-
-See [OBSIDIAN_SETUP.md](OBSIDIAN_SETUP.md) for configuration.
+Project knowledge base. Research notes, daily logs, literature notes, drafts, and institutional memory. See [OBSIDIAN_SETUP.md](OBSIDIAN_SETUP.md).
 
 ### Google Docs
-Writing skills offer direct export to Google Docs for collaboration. Requires Google Workspace MCP configured in your Claude Code settings.
+
+Writing skills can export directly to Google Docs for collaboration. Requires Google Workspace MCP configured in Claude Code settings.
 
 ---
 
-## Forked From
+## For Takshashila researchers
 
-This project is forked from [claude-scholar](https://github.com/Galaxy-Dawn/claude-scholar) by Galaxy-Dawn, licensed MIT. ML/CS-specific components have been replaced with policy research components. The Obsidian integration, Zotero MCP integration, and skill/agent/command architecture are retained and adapted.
+This tool is in active development for internal Takshashila use. A few things to know:
+
+- **Start with `/scholar`** — don't try to learn all the commands first
+- **The Research Brief is the key document** — everything else references it
+- **`/draft-review` can be used at any stage** — not just when you have a finished draft
+- **Indian context is built in** — committee reports, PLI schemes, Union Budget, DRSC structure, GST Council, Centre-state dynamics are all understood
+- If something doesn't work as expected, raise it with Pranay or open a GitHub issue
+
+---
+
+## Forked from
+
+Forked from [claude-scholar](https://github.com/Galaxy-Dawn/claude-scholar) by Galaxy-Dawn (MIT license). ML/CS-specific components replaced with policy research components. The Obsidian integration, Zotero MCP integration, and skill/agent/command architecture are retained and adapted.
 
 ## License
 
