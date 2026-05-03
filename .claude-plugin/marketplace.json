@@ -1,5 +1,5 @@
 {
-  "name": "claude-scholar",
+  "name": "takshashila-scholar",
   "owner": {
     "name": "Galaxy-Dawn"
   },
@@ -9,7 +9,7 @@
   },
   "plugins": [
     {
-      "name": "claude-scholar",
+      "name": "takshashila-scholar",
       "version": "1.0.0",
       "source": "./",
       "description": "Semi-automated research assistant with skills for literature review, experiments, analysis, writing, and project knowledge management"
