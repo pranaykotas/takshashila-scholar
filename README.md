@@ -36,7 +36,7 @@ Produces a Mermaid diagram with named feedback loops (R1 "ecosystem flywheel" et
 ```
 /parliament-search [topic]
 ```
-Searches all 16 DRSCs. Surfaces the most relevant reports immediately — not just a list, but "report #3 is most relevant because it contains data on X." Requires [parliamentwatch](https://github.com/pranaykotas/parliamentwatch) installed locally.
+Searches all 24 DRSCs (16 Lok Sabha + 8 Rajya Sabha). Surfaces the most relevant reports immediately — not just a list, but "report #3 is most relevant because it contains data on X." Requires [parliamentwatch](https://github.com/pranaykotas/parliamentwatch) installed locally.
 
 ---
 
@@ -148,7 +148,7 @@ Makes the theory of change in any policy argument fully explicit:
 
 ### Parliament search
 
-`/parliament-search [topic]` searches all 16 Departmentally Related Standing Committees and immediately surfaces the most relevant reports — not just a count, but "report #3 is most relevant because it contains X." Requires [parliamentwatch](https://github.com/pranaykotas/parliamentwatch).
+`/parliament-search [topic]` searches all 24 Departmentally Related Standing Committees (16 Lok Sabha + 8 Rajya Sabha) and immediately surfaces the most relevant reports — not just a count, but "report #3 is most relevant because it contains X." Requires [parliamentwatch](https://github.com/pranaykotas/parliamentwatch).
 
 ---
 
@@ -159,7 +159,7 @@ Makes the theory of change in any policy argument fully explicit:
 | `/scholar` | Routes you to the right tool based on topic and stage |
 | `/draft-review` | Full pre-submission review — use at any stage |
 | `/policy-analysis` | Bardach 8-step analysis → Policy Analysis Memo |
-| `/parliament-search [topic]` | Search 16 committee reports; surfaces top hits |
+| `/parliament-search [topic]` | Search 24 committee reports (LS + RS); surfaces top hits |
 | `/op-ed` | Draft op-ed with voice calibration |
 | `/policy-brief` | Draft policy brief with causal chain box |
 | `/grant-proposal` | Scaffold grant proposal with theory of change |

@@ -1,6 +1,6 @@
 ---
 name: parliament-search
-description: Search Indian parliamentary committee reports using the local parliamentwatch project. Runs a keyword search across all 16 Departmentally Related Standing Committees (DRSCs), formats matching reports as a Markdown table, and offers to fetch AI summaries or import findings to Obsidian as evidence notes.
+description: Search Indian parliamentary committee reports using the local parliamentwatch project. Runs a keyword search across all 24 Departmentally Related Standing Committees (DRSCs — 16 Lok Sabha + 8 Rajya Sabha), formats matching reports as a Markdown table, and offers to fetch AI summaries or import findings to Obsidian as evidence notes.
 ---
 
 # /parliament-search
@@ -77,7 +77,12 @@ Requires the `parliamentwatch` project to be installed locally at `~/Projects/pa
 ## Committee Keys (for CLI)
 
 Use these with `--committee`:
+
+**Lok Sabha (16):**
 `agriculture`, `chemicals`, `coal`, `communications`, `consumer_affairs`, `defence`, `energy`, `external_affairs`, `finance`, `housing`, `labour`, `petroleum`, `railways`, `rural_development`, `social_justice`, `water_resources`
+
+**Rajya Sabha (8):**
+`commerce`, `education`, `health`, `home_affairs`, `industry`, `it`, `science_technology`, `transport`
 
 ## Citation Format
 
