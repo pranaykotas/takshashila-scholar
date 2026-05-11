@@ -1,9 +1,3 @@
-<div align="center">
-
-  <img src="LOGO.png" alt="Takshashila Scholar Logo" width="60%"/>
-
-</div>
-
 # Takshashila Scholar — For Students and Policy Enthusiasts
 
 > A structured way to think about Indian policy problems — using the same analytical tools as researchers at the [Takshashila Institution](https://takshashila.org.in). Works as a plugin for Claude Code, Anthropic's free AI assistant.

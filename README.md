@@ -1,14 +1,9 @@
-<div align="center">
+<p>
+  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"/>
+  <img src="https://img.shields.io/badge/Claude_Code-Compatible-blueviolet?style=flat-square" alt="Claude Code"/>
+</p>
 
-  <img src="LOGO.png" alt="Takshashila Scholar Logo" width="60%"/>
-
-  <p>
-    <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License"/>
-    <img src="https://img.shields.io/badge/Claude_Code-Compatible-blueviolet?style=flat-square" alt="Claude Code"/>
-    <img src="https://img.shields.io/badge/Forked_from-claude--scholar-blue?style=flat-square" alt="Forked from claude-scholar"/>
-  </p>
-
-</div>
+# Takshashila Scholar
 
 > Structured policy reasoning tools for Takshashila researchers. Works as a [Claude Code](https://github.com/anthropics/claude-code) plugin. Embeds Bardach's 8-step analysis, causal loop diagrams, stakeholder mapping, and draft review — with India's institutional context built in at every step.
 
