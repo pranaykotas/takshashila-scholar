@@ -10,47 +10,80 @@
 
 </div>
 
-> A semi-automated research assistant for public policy researchers, built for the [Takshashila Institution](https://takshashila.org.in). Works as a [Claude Code](https://github.com/anthropics/claude-code) plugin. Turn an intuition into a rigorous argument — with stakeholder maps, causal analysis, and publication-ready drafts.
+> A structured policy reasoning toolkit for Takshashila researchers and students. Works as a [Claude Code](https://github.com/anthropics/claude-code) plugin. Combines Bardach's 8-step policy analysis methodology, stakeholder mapping, causal loop analysis, and publication-ready writing tools — all grounded in India's institutional context.
 
 ---
 
-## Start here
+## Who is this for?
 
-If you are a Takshashila researcher and this is your first time, run:
+**If you are a student or first-time user:**
+```
+/student-start
+```
+This will orient you in 2 minutes and suggest a first exercise.
 
+**If you are a researcher:**
 ```
 /scholar
 ```
+It asks two questions — what you are working on, and where you are in the process — and routes you to the right tool.
 
-It will ask you two questions — what you are working on, and where you are in the process — and route you to the right tool. You do not need to know all the commands listed below.
+**If you have a specific policy problem to analyse:**
+```
+/policy-analysis [describe your problem]
+```
+Walks you through Bardach's 8 steps with India-specific guidance. Produces a Policy Analysis Memo.
 
 ---
 
 ## What this does
 
-Takshashila Scholar supports the complete policy research lifecycle, from the first intuition to the published piece. It is designed for researchers who already have domain knowledge and need help making their arguments more rigorous, their evidence more systematic, and their writing cleaner.
+Takshashila Scholar supports three kinds of users at different stages:
+
+### For students
+- **Analyse a policy problem** systematically using Bardach's 8-step framework (`/policy-analysis`)
+- **Find a framework** from Takshashila's 99-framework library (`find a framework for...`)
+- **Critique an argument** — find logical flaws, unsupported claims, missing evidence (`/draft-review`)
+- Learn the analytical vocabulary at [frameworks.pranaykotas.com](https://frameworks.pranaykotas.com)
+
+### For researchers
+The complete policy research lifecycle:
 
 ```
-[H]  HYPOTHESIS     Turn an intuition into a testable claim
+[H]  HYPOTHESIS     Turn an intuition into a testable, falsifiable claim
  ↓
-[2]  SOURCES        Find parliamentary committee reports, ministry documents, academic papers
+[2]  SOURCES        Parliamentary committee reports, ministry documents, Zotero
  ↓
-[3]  ACTORS         Map who has power, who has interest, who can block
+[3]  ACTORS         Interest × power matrix; veto players; coalition map
  ↓
-[4]  CAUSAL MAP     Make the argument's causal logic explicit; find leverage points
+[4]  CAUSAL MAP     Named loops, cross-connections, layer models, leverage points
  ↓
-[5]  DRAFT          Write the op-ed, policy brief, simulation, or course module
+[5]  DRAFT          Op-ed, policy brief, discussion document, simulation, course module
  ↓
 [6]  REVIEW         ← Available at any stage, not just at the end
  ↓
-[7]  DISSEMINATE    Social posts, newsletter, email pitch
+[7]  DISSEMINATE    Social posts, newsletter snippet, email pitch
 ```
 
-**Two ways to start:**
-- **You already have a hypothesis** → run `hypothesis-development` skill first, then gather sources
-- **You are still exploring** → run `/research-init` first, gather sources, then crystallise your hypothesis
+`/draft-review` works at any stage — on a hypothesis, a source synthesis, a causal map, or a finished draft.
 
-`/draft-review` works at any stage. Use it on your hypothesis, a source synthesis, a causal map, or a finished draft.
+### For educators
+- **Simulation design**: Complete policy simulations — scenario brief, role cards, facilitator guide, debrief (`simulation-design` skill)
+- **Course content**: Lecture outlines, reading guides, case studies, discussion questions, rubrics (`course-content-writing` skill)
+- **Frameworks library**: 99 frameworks in plain language for building vocabulary ([frameworks.pranaykotas.com](https://frameworks.pranaykotas.com))
+
+---
+
+## Intellectual tradition
+
+Takshashila Scholar is built on the four commitments of the [Takshashila Institution](https://takshashila.org.in):
+
+- **Freedom**: Support for individual liberty and limits on arbitrary state power
+- **Pluralism**: Recognition of India's diversity and the legitimacy of multiple value systems
+- **Citizenship**: Obligations of civic participation, accountability, and constitutional fidelity
+- **Realism in international relations**: Foreign policy assessed by interests and power, not ideology
+
+These commitments are embedded in every skill. The `takshashila-values-review` skill reviews drafts through these four lenses. They are made explicit so any researcher — not just those at the institution — understands the intellectual tradition they are working within.
 
 ---
 
@@ -77,227 +110,132 @@ Set your Obsidian vault path (optional but recommended):
 export OBSIDIAN_VAULT_PATH="/path/to/your/vault"
 ```
 
-Then open Claude Code in your research project directory and run `/scholar`.
+Set path to frameworks.json (optional — enables local framework search):
+
+```bash
+export FRAMEWORKS_PATH="/path/to/frameworks/frameworks.json"
+# Or clone the frameworks repo as a sibling: ../frameworks/frameworks.json
+```
+
+Then open Claude Code in your research project directory and run `/scholar` or `/student-start`.
 
 For Zotero integration, see [MCP_SETUP.md](MCP_SETUP.md).
 For Obsidian setup, see [OBSIDIAN_SETUP.md](OBSIDIAN_SETUP.md).
 
 ---
 
-## The research lifecycle in detail
+## Core tools
 
-### Stage H: Hypothesis development
+### Policy analysis (Bardach 8-step)
 
-Every piece of policy research rests on a hypothesis — an empirical or causal claim that can, in principle, be proved wrong. This skill turns a researcher's intuition into a rigorous, testable statement.
+Systematic policy analysis using Bardach's *A Practical Guide for Policy Analysis* with Takshashila's India-specific lenses at each step.
 
-**What it asks:**
-- State your hypothesis in one sentence
-- What would have to be true to prove you wrong?
-- Is this an empirical claim, a causal claim, or a normative claim?
-
-**What it produces — a Research Brief containing:**
-- The refined, falsifiable hypothesis
-- A decomposition into empirical, causal, and normative claims
-- A skeleton causal diagram
-- Key assumptions, ranked by fragility
-- Specific evidence requirements (what you must find to publish this argument)
-- The strongest competing hypothesis
-
-The Research Brief anchors every subsequent stage. The final draft should be consistent with it.
-
-**Trigger phrases:** "I have a hypothesis", "I want to argue that", "help me test my idea"
-
----
-
-### Stage 2: Sources
-
-Three ways to find Indian policy evidence:
-
-| Tool | What it searches |
-|------|-----------------|
-| `/parliament-search [topic]` | All 16 Departmentally Related Standing Committees — finds committee reports on any policy topic |
-| `government-source-finder` agent | Ministry websites, CAG reports, regulatory consultations, PRS India |
-| `/zotero-review` | Your Zotero library |
-
-Parliamentary committee reports are primary sources — non-partisan, evidence-rich, and often overlooked. Search them first.
-
----
-
-### Stage 3: Stakeholder analysis
-
-Maps the political economy of the policy problem. Uses the standard **interest × power matrix**.
-
-**What it produces:**
-- All actors plotted on a 2×2 grid (high/low power × high/low interest)
-- Coalition map: who supports, who opposes, who could swing
-- Veto player analysis: who must be on-side for the policy to pass
-- Research implications: whose objections the argument must pre-empt
-
-**Indian institutional patterns built in:** inter-ministerial turf, Centre-state federalism, parliamentary committee as stakeholder, industry association vs. individual firm interests.
-
-**Trigger phrases:** "stakeholder analysis", "who are the actors in", "who can block this"
-
----
-
-### Stage 4: Causal loop analysis
-
-Makes the argument's implicit theory of change explicit — as a Mermaid diagram with feedback loops, unsupported links, and ranked leverage points.
-
-**What it produces:**
-- Causal map (Mermaid diagram, renders in Obsidian and GitHub)
-- Loop inventory: reinforcing loops (amplifiers) and balancing loops (constraints)
-- Unsupported links: which causal claims are cited vs. assumed
-- **Leverage point ranking** (new): each intervention ranked by magnitude × accessibility — priority interventions sit in the top-right quadrant
-- **Policy intervention menu** (new): concrete, actor-specific recommendations derived from the leverage points
-
-**Trigger phrases:** "causal analysis", "map the causal logic", "what are the leverage points"
-
----
-
-### Stage 5: Drafting
-
-| Output | Command / Skill | Length / Format |
-|--------|----------------|-----------------|
-| Newspaper op-ed | `/op-ed` | 600–900 words; Indian outlets |
-| Policy brief | `/policy-brief` | 1500–3000 words; ministry/committee audience |
-| Discussion document | `discussion-document-writing` skill | 2000–6000 words; Takshashila format |
-| Grant proposal | `/grant-proposal` | Theory of change + logframe |
-| **Policy simulation** | `simulation-design` skill | Scenario brief + role cards + facilitator guide + debrief |
-| **Course content** | `course-content-writing` skill | Lecture outline, reading guide, case study, discussion questions, rubric |
-
-All drafts check against the Research Brief from Stage H.
-
-#### Simulations
-
-Takshashila simulations are for GCPP, MIPP, and executive education participants — working professionals, civil servants, journalists. They are built around genuine role tension (every actor faces a real trade-off), Indian institutional context (inter-ministerial committees, state-centre negotiations), and a debrief that connects to real policy history.
-
-The skill produces four documents: scenario brief (shared with all), role cards (confidential per actor), facilitator guide (instructor only), and debrief template.
-
-#### Course content
-
-Content is designed for adult learners — no oversimplification, Indian examples first, discussion questions that require analysis not recall. Modules can include any combination of: lecture outline, reading guide, case study, discussion questions, assessment rubric.
-
----
-
-### Stage 6: Review
-
-`/draft-review` runs a full pre-submission check. It can be invoked at any stage — on a hypothesis, a source synthesis, a causal map, or a complete draft.
-
-**What it runs:**
-
-| Check | What it catches |
-|-------|----------------|
-| `paper-self-review` | Structure and completeness |
-| `argument-critique` | Logical flaws + concrete fixes (see below) |
-| `takshashila-values-review` | Alignment with Takshashila's four commitments |
-| `causal-loop-analysis` | Causal vulnerabilities |
-
-#### Argument critique (enhanced)
-
-The critique now scans explicitly for ten named logical fallacies:
-
-| Fallacy | Example |
-|---------|---------|
-| Circular reasoning | Conclusion restated as a premise |
-| False dilemma | Only two options when more exist |
-| Correlation-causation conflation | Association presented as mechanism |
-| Hasty generalisation | One case generalised; India as monolith |
-| Appeal to authority | Expert cited without engaging their argument |
-| Slippery slope | Unwarranted consequence chain |
-| Strawmanning | Counterargument addressed in weakened form |
-| Loaded language | Emotionally charged terms doing argumentative work |
-| Scope creep | Conclusion wider than evidence |
-| Non sequitur | Conclusion does not follow from premises |
-
-Every flaw found must include:
 ```
-FLAW: [what's wrong — one sentence]
-FIX: [concrete rewrite or structural change]
+/policy-analysis [problem description]
 ```
 
-The output begins with an Editorial Summary:
-```
-VERDICT: Accept / Accept with revisions / Major rework needed
-CORE ISSUE: [the single most important problem]
-FIRST FIX: [the one thing to address before anything else]
-```
+| Bardach Step | Takshashila Layer |
+|---|---|
+| 1. Define the problem | State capacity: spending / size / capability / ambition |
+| 2. Assemble evidence | Parliament search, CAG reports, Union / State / Concurrent jurisdiction |
+| 3. Construct alternatives | Markets, governments, societies — all can fail |
+| 4. Select criteria | Better-or-worse not good-or-bad; political feasibility counts |
+| 5. Project outcomes | Causal loop analysis; second-order effects |
+| 6. Confront trade-offs | Implementation leakage; good intentions ≠ good outcomes |
+| 7. Decide | Implementation capacity check; name the decision-maker |
+| 8. Tell your story | Indian register; Takshashila language standards |
+
+Produces a **Policy Analysis Memo**.
+
+### Causal loop analysis
+
+Makes the implicit theory of change in any policy argument explicit — as a Mermaid diagram with named feedback loops, cross-connections between loops, layer models for stacked interdependencies, and ranked leverage points.
+
+Trigger: "causal analysis", "map the causal logic", "make my argument's theory of change explicit"
+
+**Output includes:**
+- Core causal chain as a single sentence ("X → Y → Z")
+- Named reinforcing loops (R1 "ecosystem flywheel") and balancing loops (B1 "budget constraint")
+- Cross-connections: where one loop undermines or amplifies another
+- Layer model: which layer the intervention targets and what adaptation pressure it creates
+- Structural actor positions in the causal map
+- Leverage point ranking (magnitude × accessibility) → priority interventions
+
+### Framework finder
+
+Search 99 Takshashila policy frameworks by describing your problem.
+
+Trigger: "find a framework for [problem]", "which framework applies to [topic]"
+
+Matches against framework use cases and tags. Returns top 3–5 with one-sentence why-it-applies and links to [frameworks.pranaykotas.com](https://frameworks.pranaykotas.com).
+
+### Stakeholder analysis
+
+Interest × power matrix for any policy problem.
+
+Trigger: "stakeholder analysis", "who are the actors in [topic]", "who can block this"
+
+Produces: actor map, coalition analysis, veto player list, research implications.
 
 ---
 
-### Stage 7: Dissemination
+## Commands reference
 
-`/promote` generates social media posts, newsletter snippets, and email pitches after a piece is published.
-
----
-
-## Commands
-
-### Entry point
+### Entry points
 
 | Command | What it does |
 |---------|-------------|
-| `/scholar` | **Start here.** Routes you to the right stage based on your topic and where you are in the process. |
+| `/scholar` | Routes you to the right tool based on your topic and stage |
+| `/student-start` | First-session orientation for students and first-time users |
+| `/policy-analysis` | Bardach 8-step policy analysis → Policy Analysis Memo |
 
-### Research workflow
+### Research
 
 | Command | What it does |
 |---------|-------------|
-| `/research-init` | Start a new research project (Obsidian setup, Zotero collection, research question) |
-| `/parliament-search [topic]` | Search 16 parliamentary committee reports by keyword; get AI summaries |
+| `/research-init` | Start a new research project |
+| `/parliament-search [topic]` | Search 16 parliamentary committee reports by keyword |
 | `/literature-synthesis` | Synthesize sources into a structured review |
-| `/zotero-review` | Read Zotero papers; synthesize into Obsidian literature review |
+| `/zotero-review` | Synthesize Zotero papers into Obsidian literature review |
 | `/zotero-notes` | Batch create Obsidian notes from Zotero papers |
 
 ### Writing
 
 | Command | What it does |
 |---------|-------------|
-| `/op-ed` | Draft a newspaper op-ed |
-| `/policy-brief` | Draft a policy brief |
-| `/grant-proposal` | Scaffold a grant proposal with theory of change |
-| `/draft-review` | Full pre-submission review (available at any stage) |
-| `/rebuttal` | Generate response to reviewer/editor comments |
-| `/promote` | Generate promotion content |
-| `/presentation` | Create presentation outline |
-
-### Obsidian
-
-| Command | What it does |
-|---------|-------------|
-| `/obsidian-init` | Bootstrap project knowledge base |
-| `/obsidian-ingest` | Ingest file or directory into vault |
-| `/obsidian-review` | Synthesize Obsidian notes into literature review |
-| `/obsidian-sync` | Force incremental or full repair sync |
-| `/obsidian-link` | Repair wikilinks |
-| `/obsidian-note` | Archive, purge, or rename a single note |
-| `/obsidian-project` | Detach, archive, or rebuild a project knowledge base |
+| `/op-ed` | Draft newspaper op-ed (600–900 words, Indian outlets) |
+| `/policy-brief` | Draft policy brief for ministry/committee audience |
+| `/grant-proposal` | Scaffold grant proposal with theory of change |
+| `/draft-review` | Full pre-submission review (any stage) |
+| `/rebuttal` | Response to reviewer/editor comments |
+| `/promote` | Post-publication: social posts, newsletter, email pitch |
 
 ---
 
-## Skills
+## Skills reference
 
 ### Analysis
 
 | Skill | What it does |
 |-------|-------------|
+| `bardach-policy-analysis` | 8-step policy analysis with India-specific lenses |
+| `find-framework` | Search 99 frameworks by problem description |
 | `hypothesis-development` | Turns intuition into testable claim; produces Research Brief |
 | `stakeholder-analysis` | Interest × power matrix; coalition map; veto player analysis |
-| `causal-loop-analysis` | Causal diagram + loop inventory + leverage point ranking + intervention menu |
-| `research-ideation` | Exploratory research startup; gap analysis; Zotero integration |
+| `causal-loop-analysis` | Named loops, cross-connections, layer models, leverage points |
+| `research-ideation` | Exploratory research startup |
 | `citation-verification` | Multi-layer citation check |
-| `daily-paper-generator` | Track new publications on a topic |
 
 ### Writing
 
 | Skill | What it does |
 |-------|-------------|
-| `op-ed-writing` | Newspaper op-eds; Indian outlets; evidence-based voice |
+| `op-ed-writing` | Newspaper op-eds in Takshashila researcher voice |
 | `policy-brief-writing` | Structured briefs for ministry/committee audiences |
 | `discussion-document-writing` | Takshashila-format discussion documents |
 | `grant-proposal-writing` | Proposals with theory of change and logframe |
 | `simulation-design` | Complete policy simulations for adult learners |
-| `course-content-writing` | Lecture outlines, reading guides, case studies, discussion questions, rubrics |
-| `literature-synthesis` | Cross-source synthesis |
+| `course-content-writing` | Lecture outlines, reading guides, case studies, rubrics |
 | `writing-anti-ai` | Remove AI writing patterns; keep prose expert and natural |
 | `post-acceptance` | Post-publication promotion materials |
 
@@ -306,25 +244,9 @@ FIRST FIX: [the one thing to address before anything else]
 | Skill | What it does |
 |-------|-------------|
 | `argument-critique` | Fallacy taxonomy + FLAW/FIX format + editorial summary |
-| `takshashila-values-review` | Four-lens values review |
+| `takshashila-values-review` | Four-lens values review (Freedom, Pluralism, Citizenship, Realism) |
 | `paper-self-review` | Structure and completeness check |
 | `review-response` | Systematic rebuttal of reviewer comments |
-
----
-
-## Agents
-
-Agents handle multi-step research tasks that require coordinating several tools.
-
-| Agent | What it does |
-|-------|-------------|
-| `government-source-finder` | Finds Indian government documents — ministry websites, CAG, parliamentary committee reports, regulatory filings |
-| `policy-analyst` | Evidence mapping, policy gap identification |
-| `literature-reviewer` | Systematic literature review with Zotero MCP |
-| `grant-writer` | Full grant proposal drafting with funder alignment |
-| `rebuttal-writer` | Systematic rebuttal for peer review |
-| `paper-miner` | Extract writing patterns from exemplar policy papers |
-| `research-knowledge-curator-obsidian` | Maintain Obsidian vault alongside research work |
 
 ---
 
@@ -332,33 +254,31 @@ Agents handle multi-step research tasks that require coordinating several tools.
 
 ### ParliamentWatch
 
-If you have [parliamentwatch](https://github.com/pranaykotas/parliamentwatch) installed locally, `/parliament-search` will query it directly — no web scraping required. Searches all 16 Departmentally Related Standing Committees. Returns AI-summarized committee reports as Markdown.
+If you have [parliamentwatch](https://github.com/pranaykotas/parliamentwatch) installed locally, `/parliament-search` queries it directly. Covers all 16 Departmentally Related Standing Committees. Returns AI-summarised committee reports.
 
-Setup: clone parliamentwatch to `~/Projects/parliamentwatch` and follow its README.
+Setup: clone parliamentwatch to `~/Projects/parliamentwatch`.
+
+### Frameworks library
+
+[frameworks.pranaykotas.com](https://frameworks.pranaykotas.com) — 99 policy frameworks explained in plain language with use cases and tags. Clone the repo as `../frameworks/` to enable local search via the `find-framework` skill.
 
 ### Zotero
 
-Import papers, government reports, and think tank publications. Read full text. Organize by project. Export BibTeX. See [MCP_SETUP.md](MCP_SETUP.md).
+Import papers, government reports, and think tank publications. Read full text. Organize by project. See [MCP_SETUP.md](MCP_SETUP.md).
 
 ### Obsidian
 
-Project knowledge base. Research notes, daily logs, literature notes, drafts, and institutional memory. See [OBSIDIAN_SETUP.md](OBSIDIAN_SETUP.md).
+Project knowledge base for research notes, daily logs, literature notes, drafts. See [OBSIDIAN_SETUP.md](OBSIDIAN_SETUP.md).
 
 ### Google Docs
 
-Writing skills can export directly to Google Docs for collaboration. Requires Google Workspace MCP configured in Claude Code settings.
+Writing skills export directly to Google Docs for collaboration. Requires Google Workspace MCP.
 
 ---
 
-## For Takshashila researchers
+## Contributing
 
-This tool is in active development for internal Takshashila use. A few things to know:
-
-- **Start with `/scholar`** — don't try to learn all the commands first
-- **The Research Brief is the key document** — everything else references it
-- **`/draft-review` can be used at any stage** — not just when you have a finished draft
-- **Indian context is built in** — committee reports, PLI schemes, Union Budget, DRSC structure, GST Council, Centre-state dynamics are all understood
-- If something doesn't work as expected, raise it with Pranay or open a GitHub issue
+See [CONTRIBUTING.md](CONTRIBUTING.md) to add new skills, extend existing ones, or adapt this plugin for other South Asian institutional contexts.
 
 ---
 

@@ -8,13 +8,33 @@
 
 ---
 
-## User Background
+## Intellectual Tradition
 
-### Research Profile
-- **Role**: Public policy researcher and educator at the Takshashila Institution (takshashila.org.in)
-- **Domains**: Technology policy, semiconductor geopolitics, public finance, foreign policy, economics
-- **Outputs**: Op-eds (Indian newspapers), policy briefs, discussion documents, grant proposals, newsletters, course content
-- **Target outlets**: The Hindu, Indian Express, Mint, ORF, Observer Research Foundation, SSRN
+Takshashila Scholar is built on the intellectual commitments of the Takshashila Institution (takshashila.org.in). These are not style preferences — they are the analytical positions that shape every skill and output in this plugin:
+
+- **Freedom**: Support for individual liberty, limited arbitrary state power, and constitutional constraints
+- **Pluralism**: Recognition of India's diversity and the legitimacy of multiple value systems
+- **Citizenship**: Obligations of civic participation, accountability, and constitutional fidelity
+- **Realism in international relations**: India's foreign policy assessed by interests and power, not by ideology or wishful thinking
+
+These four commitments are made explicit so any researcher using this plugin understands the intellectual tradition they are working within. The `takshashila-values-review` skill reviews drafts through these four lenses.
+
+**If you are a student or first-time user:** Run `/student-start` to get oriented, or go straight to `/policy-analysis [your problem]`.
+
+---
+
+## Researcher Profile
+
+Takshashila Scholar is designed for:
+- **Researchers and fellows** at the Takshashila Institution and affiliated think tanks
+- **Students** in the GCPP, MIPP, and other Takshashila programmes
+- **Policy practitioners** who want structured analytical tools rooted in the Indian context
+
+**Typical domains**: Technology policy, semiconductor geopolitics, public finance, foreign policy, economics, education, health, urban policy
+
+**Typical outputs**: Op-eds (Indian newspapers), policy briefs, discussion documents, grant proposals, newsletters, course content, simulation exercises
+
+**Target outlets**: The Hindu, Indian Express, Mint, ORF, ThePrint, Observer Research Foundation, SSRN
 
 ### Tool Stack
 
@@ -98,11 +118,12 @@ Hypothesis → Sources → Actor Mapping → Causal Analysis → Drafting → Re
 - **stakeholder-analysis**: Interest × Power matrix — map all actors, identify coalitions, veto players, and research implications
 - **literature-synthesis**: Cross-source synthesis from Zotero, web PDFs, and government reports
 - **citation-verification**: Multi-layer citation verification (format → source → content)
-- **daily-paper-generator**: Track new policy publications and reports
+- **bardach-policy-analysis**: Systematic 8-step policy analysis using Bardach's methodology with Takshashila's India-specific lenses — produces Policy Analysis Memo
+- **find-framework**: Surface relevant frameworks from Takshashila's 99-framework library by matching a policy problem description — integrates with frameworks.pranaykotas.com
 
 ### Policy Writing
 - **policy-brief-writing**: Structured policy brief (Problem → Evidence → Options → Recommendation)
-- **op-ed-writing**: Newspaper op-ed in Pranay's voice — evidence-based, non-partisan, plain language
+- **op-ed-writing**: Newspaper op-ed in Takshashila researcher voice — evidence-based, non-partisan, domain-expert confidence, Indian English
 - **discussion-document-writing**: Takshashila-style discussion documents
 - **grant-proposal-writing**: Grant proposals with theory of change, logframe, funder alignment
 - **simulation-design**: Design complete policy simulations for adult learners — scenario brief, role cards, facilitator guide, debrief template; Takshashila-specific (GCPP/MIPP/executive education)
@@ -115,7 +136,7 @@ Hypothesis → Sources → Actor Mapping → Causal Analysis → Drafting → Re
 - **paper-self-review**: Structure and logic completeness check
 - **argument-critique**: Adversarial review — explicit fallacy taxonomy, mandatory FLAW/FIX format, editorial summary at top; every critique is actionable
 - **takshashila-values-review**: Review draft through Takshashila's 4 values (Freedom, Pluralism, Citizenship/Constitutional, Realism in IR) — surfaces tensions as questions, not verdicts
-- **causal-loop-analysis**: Extract implicit causal claims; render as Mermaid diagram; identify reinforcing/balancing loops, unsupported links; leverage point ranking + policy intervention menu
+- **causal-loop-analysis**: Extract implicit causal claims; named reinforcing/balancing loops with cross-connections; layer model for stacked interdependencies; structural actor positions; leverage point ranking + policy intervention menu. Takshashila publication standard.
 - **review-response**: Systematic response to reviewer/editor comments after submission
 
 ### Obsidian Knowledge Base
@@ -132,7 +153,6 @@ Hypothesis → Sources → Actor Mapping → Causal Analysis → Drafting → Re
 - **obsidian-bases / json-canvas / defuddle**: Support for `.base`, `.canvas`, and web-to-markdown extraction
 
 ### Utilities & Workflow
-- **planning-with-files**: Planning and progress tracking with Markdown files
 - **git-workflow**: Git workflow standards
 - **verification-loop**: Verification and testing loops
 - **skill-development / skill-improver / skill-quality-reviewer**: Skill authoring and improvement
@@ -146,7 +166,9 @@ Hypothesis → Sources → Actor Mapping → Causal Analysis → Drafting → Re
 
 | Command | Function |
 |---------|----------|
-| `/scholar` | **START HERE** — routes any researcher to the right stage based on topic and current progress |
+| `/scholar` | **START HERE** — routes any researcher to the right stage; includes student/first-time user path |
+| `/student-start` | First-session orientation for students and first-time users |
+| `/policy-analysis` | Systematic Bardach 8-step policy analysis with India-specific lenses; produces Policy Analysis Memo |
 | `/research-init` | Start a new policy research project (Obsidian setup, Zotero collection, research question) |
 | `/parliament-search` | Search Indian parliamentary committee reports via local parliamentwatch project |
 | `/literature-synthesis` | Synthesize sources on a topic from Zotero + web into a structured review |
@@ -228,7 +250,8 @@ Hypothesis → Sources → Actor Mapping → Causal Analysis → Drafting → Re
 |-----------|---------|
 | `policy-core.md` | Policy research standards: evidence-based, non-partisan, plain language, Indian context |
 | `grant-writing.md` | Grant proposal standards: theory of change, logframe, funder alignment |
-| `writing-style.md` | Pranay's voice: domain-expert confidence, fewer em dashes, no AI tells |
+| `writing-style.md` | Takshashila researcher voice: domain-expert confidence, fewer em dashes, no AI tells |
+| `takshashila-language.md` | Vocabulary and framing standards: Indian subcontinent not South Asia, West Asia not Middle East, no jargon; always active |
 | `agents.md` | Agent orchestration: auto-invocation timing, parallel execution |
 | `security.md` | Security standards: key management, sensitive file protection |
 

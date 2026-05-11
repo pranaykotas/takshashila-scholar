@@ -1,13 +1,13 @@
 ---
 name: causal-loop-analysis
-description: Use this skill when the user asks to "map the causal logic", "show the causal loops", "make my argument's theory of change explicit", "causal analysis", or as part of pre-submission review. Extracts implicit causal claims from a policy argument, renders them as a Mermaid diagram, identifies feedback loops, flags unsupported links, and surfaces unintended consequences.
-version: 1.0.0
+description: Use this skill when the user asks to "map the causal logic", "show the causal loops", "make my argument's theory of change explicit", "causal analysis", or as part of pre-submission review. Extracts implicit causal claims from a policy argument, renders them as a Mermaid diagram with named loops, cross-connections between loops, layer models, and structural actor positions. Flags unsupported links and surfaces unintended consequences. Matches Takshashila publication standard.
+version: 2.0.0
 tags: [Analysis, CausalLoops, SystemsThinking, PolicyAnalysis]
 ---
 
 # Causal Loop Analysis
 
-Extract the implicit causal claims in a policy argument and make them explicit: a Mermaid diagram showing how the argument works, what feedback loops it contains, which links are unsupported, and what second-order effects it ignores.
+Extract the implicit causal claims in a policy argument and make them fully explicit — as a named-loop Mermaid diagram with cross-connections, a layer model where applicable, structural actor positions, and a ranked leverage point menu. This is the Takshashila publication standard for causal analysis.
 
 ## Why This Matters
 
@@ -39,6 +39,17 @@ Making causal structure explicit forces the author to:
 
 ## Process
 
+### Step 0: State the Core Causal Chain
+
+Before drawing loops, state the argument's central causal logic as a single sentence chain:
+
+> "deny X → deny Y → deny Z"
+> "subsidise A → attract B → generate C → reduce D"
+
+Then ask: **which link is the weakest?** Which link, if broken, would collapse the entire argument?
+
+This step forces clarity before complexity. Do not skip it.
+
 ### Step 1: Extract Causal Claims
 Read the piece and list every causal claim, explicit or implicit.
 - Explicit: "PLI subsidies will attract foreign investment"
@@ -62,12 +73,39 @@ flowchart LR
 
 Keep node labels short and concrete. Avoid abstractions as node names.
 
-### Step 3: Identify Loops
-Walk through the diagram and identify:
-- **Reinforcing loops (R)**: Where does a causal chain circle back and amplify the original node?
-- **Balancing loops (B)**: Where does a causal chain circle back and dampen the original node?
+### Step 3: Identify and Name Loops
 
-Label each loop: R1, R2, B1, B2 etc. Describe what each loop means in plain language.
+Walk through the diagram and identify all feedback loops. For each:
+- **Type**: Reinforcing (R) or Balancing (B)
+- **Label**: R1, R2, B1, B2 etc.
+- **Descriptive name**: Give each loop a plain-language name that captures its character. Not just "R1" — name it (e.g. "indigenous acceleration loop", "ecosystem flywheel", "debt-trap spiral", "talent exodus cycle"). The name should be memorable and explain what the loop does.
+- **One-sentence description**: What does this loop do, and what would break it?
+
+Example:
+- **R1 "Indigenous Acceleration Loop"**: China's substitution efforts increase AI output on own hardware, which validates further substitution investment, which increases output again. Breaking this loop would require showing that domestic hardware cannot scale.
+- **R2 "Ecosystem Flywheel"**: US chip exports to China feed industry revenue, which funds R&D, which produces better chips, which attract more exports. Cross-connection: China's R1 output directly undermines this by eroding US market share.
+
+### Step 3b: Map Cross-Connections Between Loops
+
+The most analytically important insight is often where one loop undermines or amplifies another.
+
+For each pair of loops, ask:
+- Does output from Loop A feed into Loop B (amplification)?
+- Does output from Loop A undercut a node in Loop B (erosion)?
+
+State cross-connections explicitly:
+> "China's domestic AI output (R1) directly erodes US chip industry revenue — a key node in R2's ecosystem flywheel. This cross-connection means that R1 and R2 are structurally antagonistic: the stronger R1 gets, the weaker R2 becomes."
+
+Cross-connections are the strategic insight. Surface them prominently.
+
+### Step 3c: Layer Model (if applicable)
+
+If the system has stacked interdependencies — where one layer must exist before the next can function — name the layers and show which layer the intervention targets.
+
+Example (AI compute):
+> Layer 1: Energy → Layer 2: Chips → Layer 3: Infrastructure → Layer 4: Models → Layer 5: Applications
+
+Show: Which layer does this intervention target? What adaptation pressure does it create on other layers? Can actors substitute within a layer or must they build the whole stack?
 
 ### Step 4: Flag Unsupported Links
 For each causal link in the diagram:
@@ -125,6 +163,13 @@ For each priority leverage point:
 ```
 ## Causal Loop Analysis
 
+### Core Causal Chain
+
+[State the argument's central logic as a single sentence chain]
+> "X → Y → Z"
+
+**Weakest link:** [Which link, if broken, collapses the argument?]
+
 ### Causal Map
 
 ```mermaid
@@ -133,17 +178,40 @@ flowchart LR
 ```
 
 ### Loop Inventory
-| ID | Type | Nodes | Plain language description |
-|----|------|-------|---------------------------|
-| R1 | Reinforcing | A → B → A | [what this cycle means] |
-| B1 | Balancing | A → C → -A | [what this constrains] |
+
+| ID | Name | Type | Nodes | What sustains it | What breaks it |
+|----|------|------|-------|-----------------|----------------|
+| R1 | "[Descriptive name]" | Reinforcing | A → B → A | [driver] | [breaking condition] |
+| R2 | "[Descriptive name]" | Reinforcing | B → C → B | [driver] | [breaking condition] |
+| B1 | "[Descriptive name]" | Balancing | A → C → -A | [what it constrains] | [what overwhelms it] |
+
+### Cross-Connections Between Loops
+
+[For each pair of interacting loops:]
+> "Loop R1's output [node X] directly [undermines/amplifies] a key node in Loop R2. This means R1 and R2 are structurally [antagonistic/synergistic]: the stronger R1 gets, the [weaker/stronger] R2 becomes."
+
+### Layer Model (if applicable)
+
+> Layer 1: [foundation] → Layer 2: [next] → Layer 3: [next] → Layer 4: [output layer]
+
+- Which layer does this intervention target?
+- What adaptation pressure does it create on adjacent layers?
+- Can actors substitute within a layer, or must they build the whole stack?
+
+### Structural Actor Positions
+
+[Where does each key actor sit in the causal map?]
+- Actor A: [position, e.g. "consumer-integrator — benefits from Layer 4 outputs but does not control Layers 1–2"]
+- Actor B: [position]
 
 ### Unsupported Links
+
 | Link | Issue | Recommendation |
 |------|-------|---------------|
 | A → B | Assumed; no citation | Cite [source type] or qualify with "may" |
 
 ### Missing Second-Order Effects
+
 [What the argument doesn't trace that a reviewer might raise]
 
 ### Leverage Points
@@ -166,7 +234,7 @@ LOW MAGNITUDE    Deprioritise        Easy wins
 ### Policy Intervention Menu
 
 **Priority interventions (High magnitude × High accessibility):**
-- To [break/strengthen] loop [ID]: [Specific intervention] — Actor: [who] / Action: [what]
+- To [break/strengthen] loop [ID] ("[loop name]"): [Specific intervention] — Actor: [who] / Action: [what]
   - Necessary condition? Yes / No
   - Risk: [if this causal link is contested or unsupported]
 
@@ -177,6 +245,7 @@ LOW MAGNITUDE    Deprioritise        Easy wins
 - [Constraint or actor outside the causal diagram that shapes the system]
 
 ### Key Causal Vulnerabilities
+
 [1–3 links in the chain that, if broken, would undermine the central argument — flag which of these are also contested/unsupported links]
 ```
 
@@ -195,6 +264,14 @@ LOW MAGNITUDE    Deprioritise        Easy wins
 
 Argument: "India's PLI scheme for semiconductors will attract fab investment, which will create skilled jobs, develop supplier ecosystems, and ultimately reduce import dependence."
 
+### Core Causal Chain
+
+> "PLI subsidies → fab investment → domestic capacity → reduced import dependence"
+
+**Weakest link:** PLI subsidies → fab investment. Subsidy alone does not overcome India's infrastructure and ecosystem gaps; this is the most contested step.
+
+### Causal Map
+
 ```mermaid
 flowchart LR
   A[PLI Subsidies] -->|+| B[Foreign/Domestic Fab Investment]
@@ -209,9 +286,44 @@ flowchart LR
   I -->|+| B
 ```
 
-**R1** (Reinforcing): PLI → Investment → Ecosystem → Cost reduction → Investment. Virtuous cycle — but takes 5–10 years to materialize.
-**R2** (Reinforcing): Investment → Talent pool → Investment. Slower cycle; depends on education pipeline.
+### Loop Inventory
 
-**Unsupported link**: B → C assumes subsidy is sufficient to overcome India's infrastructure and ecosystem gaps. This is the most contested link in the literature.
+| ID | Name | Type | Nodes | What sustains it | What breaks it |
+|----|------|------|-------|-----------------|----------------|
+| R1 | "Ecosystem Flywheel" | Reinforcing | Investment → Ecosystem → Cost Reduction → Investment | Domestic supplier density | Persistent infrastructure gaps that keep input costs high despite ecosystem growth |
+| R2 | "Talent Accumulation Loop" | Reinforcing | Investment → Talent Pool → Investment | Education pipeline depth | Brain drain; failure to retain talent domestically |
 
-**Missing effect**: What happens to existing chip design firms if fab costs remain uncompetitive despite PLI? Import substitution for fabs may not reduce design-side import dependence.
+### Cross-Connections Between Loops
+
+R1 and R2 share the Investment node — both loops strengthen when investment rises. However, R2 runs on a slower clock than R1: the education pipeline takes 8–12 years. This timing mismatch means R1 can stall before R2 provides enough talent to reinforce it, creating a window of fragility where neither loop is self-sustaining.
+
+### Layer Model
+
+> Layer 1: Land/Power → Layer 2: Equipment Supply → Layer 3: Fab Capacity → Layer 4: Chip Output → Layer 5: Design Applications
+
+PLI targets Layer 3 directly. Adaptation pressure falls on Layers 1–2 (India's infrastructure deficit) and Layer 5 (existing chip design firms may not benefit from fab-side import substitution). Actors cannot easily substitute within Layer 2 — equipment is controlled by a small number of US/Dutch/Japanese suppliers.
+
+### Structural Actor Positions
+
+- **India**: Positioned at Layer 5 (design/applications) with aspiration to build Layer 3. Does not yet control Layers 1–2.
+- **Foreign fabs (TSMC, Micron)**: Gatekeepers of Layer 3; their investment decisions determine whether the R1 loop fires at all.
+- **Equipment suppliers (ASML, Applied Materials)**: Structural chokepoint at Layer 2; outside India's direct policy reach.
+
+### Unsupported Links
+
+| Link | Issue | Recommendation |
+|------|-------|---------------|
+| PLI subsidies → Fab investment | Assumes subsidy overcomes infrastructure/ecosystem gaps | Cite comparative PLI evidence from Vietnam/Malaysia fabs or qualify with "contingent on infrastructure co-investment" |
+| Fab capacity → Supplier ecosystem | Assumes local supplier density will emerge; may not if global supply chains remain cheaper | Cite component localisation data from existing Indian electronics PLI |
+
+### Missing Second-Order Effects
+
+- Chip design firms may not benefit from fab-side import substitution — design-side import dependence persists.
+- If fabs remain uncompetitive on cost after PLI, the R1 loop stalls but government subsidy commitment continues (fiscal drain without strategic gain).
+- Talent trained for semiconductor fabs may emigrate, weakening R2.
+
+### Key Causal Vulnerabilities
+
+1. **PLI subsidies → Fab investment** (weakest link; contested): If foreign fabs judge India's infrastructure inadequate, the entire chain fails at step one.
+2. **Fab capacity → Supplier ecosystem** (assumed; slow): Supplier ecosystems take 15+ years in comparable cases; the PLI timeline may be too short for this link to fire.
+3. **Talent Pool → Investment** (delayed): R2 depends on an education pipeline that does not yet exist at scale for advanced semiconductor manufacturing.

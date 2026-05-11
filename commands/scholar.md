@@ -20,7 +20,10 @@ The front door to Takshashila Scholar. Use this when starting a new research pro
    > (B) I have a hypothesis or argument I want to test
    > (C) I've done some reading and have sources
    > (D) I have a draft I want to review
-   > (E) I'm ready to submit and want final checks"
+   > (E) I'm ready to submit and want final checks
+   > (F) I have a specific policy problem I want to analyse systematically
+   > (G) I want to find a framework that applies to my problem
+   > (H) I am a student or first-time user — I want to get oriented"
 
 3. **Route to the right starting point** based on their answer:
 
@@ -32,6 +35,9 @@ The front door to Takshashila Scholar. Use this when starting a new research pro
    | C — Has sources and a hypothesis | `stakeholder-analysis` or `causal-loop-analysis` depending on what they need next |
    | D — Has a draft | `/draft-review` command |
    | E — Ready to submit | `/draft-review` then `takshashila-values-review` skill |
+   | F — Has a policy problem to analyse | `/policy-analysis` command → `bardach-policy-analysis` skill |
+   | G — Wants a framework | `find-framework` skill → search 99 frameworks by problem description |
+   | H — Student / first-time user | `/student-start` command — orientation and first exercise |
 
 4. **After routing, show the full lifecycle map** so the researcher knows what comes next:
 
@@ -91,9 +97,19 @@ What it produces: Research Brief — a structured document with the hypothesis, 
 Trigger phrase: "stakeholder analysis" or "who are the actors in [topic]"
 What it produces: Interest × Power matrix, coalition map, veto player list, research implications.
 
+### Policy analysis (Bardach 8-step)
+Trigger phrase: "analyse this policy", "apply Bardach", "systematic policy analysis"
+What it produces: Policy Analysis Memo — problem definition, alternatives, criteria, projected outcomes, trade-offs, recommendation, narrative framing.
+Command: `/policy-analysis`
+
+### Find framework
+Trigger phrase: "find a framework for", "which framework applies", "what frameworks exist"
+What it produces: Top 3–5 matching frameworks from the 99-framework library with why-it-applies and links.
+Skill: `find-framework`
+
 ### Causal loop analysis
 Trigger phrase: "causal analysis" or "map the causal logic"
-What it produces: Mermaid causal diagram, loop inventory, leverage point ranking, policy intervention menu.
+What it produces: Mermaid causal diagram with named loops, cross-connections between loops, layer model (if applicable), structural actor positions, leverage point ranking, policy intervention menu.
 
 ### Drafting
 - `/op-ed` — newspaper op-ed (600–900 words, Indian outlets)

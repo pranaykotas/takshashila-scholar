@@ -1,13 +1,13 @@
 ---
 name: op-ed-writing
-description: Use this skill when the user asks to "write an op-ed", "draft a newspaper article", "write a column", or needs a 600–900 word opinion piece for Indian newspapers or think tank platforms. Applies Pranay's writing style — domain-expert voice, direct argument, concrete hook.
+description: Use this skill when the user asks to "write an op-ed", "draft a newspaper article", "write a column", or needs a 600–900 word opinion piece for Indian newspapers or think tank platforms. Applies Takshashila researcher voice — domain-expert confidence, direct argument, concrete hook, Indian English, no AI tells.
 version: 1.0.0
 tags: [Writing, Op-Ed, India, Policy]
 ---
 
 # Op-Ed Writing
 
-Drafts newspaper op-eds and opinion columns for Indian policy audiences. Applies Pranay Kotasthane's established voice: domain-expert confidence, direct argument, plain language, concrete evidence.
+Drafts newspaper op-eds and opinion columns for Indian policy audiences. Applies the Takshashila researcher voice: domain-expert confidence, direct argument, plain language, concrete evidence, Indian English. Sceptical of government promises; precise about what is known versus uncertain.
 
 ## Target Outlets
 - The Hindu, Indian Express, Mint, Business Standard (formal register)

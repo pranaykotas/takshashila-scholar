@@ -31,6 +31,15 @@ A Takshashila-style policy brief follows this structure:
 - Existing policies or interventions — and why they are insufficient.
 - 200–400 words.
 
+### 3b. Causal Chain (compact)
+A brief causal analysis box (not a full diagram — use `causal-loop-analysis` skill if depth is needed):
+
+> **Causal logic:** [X → Y → Z — the theory of change in one sentence]
+> **Key loop:** [Name one dominant reinforcing or balancing loop, e.g. R1 "debt-trap spiral"]
+> **Weakest link:** [The step most likely to fail, and why]
+
+This box should appear immediately before the policy options so decision-makers can see the causal assumptions the options rest on.
+
 ### 4. Policy Options
 Present 2–4 options (not just "do nothing vs. ideal solution"). For each:
 - Description (what would actually change)

@@ -41,6 +41,16 @@ Discussion documents differ from policy briefs in that they:
 - Draw on evidence: data, case studies, comparative examples.
 - 800–1500 words.
 
+### 3b. Causal Analysis (mandatory)
+- State the central causal chain as a single sentence: "X → Y → Z"
+- Identify the weakest link — the one step that, if broken, collapses the argument.
+- Name the key reinforcing and balancing loops (e.g., R1 "ecosystem flywheel", B1 "budget constraint").
+- Map cross-connections between loops: where does one loop undermine or amplify another?
+- If the system has stacked interdependencies, name the layers and show which layer the intervention targets.
+- Flag unsupported causal links explicitly.
+- Use `causal-loop-analysis` skill to produce a Mermaid diagram and full loop inventory.
+- 200–400 words of prose + diagram.
+
 ### 4. Policy Options / Debate
 - Present the main positions or approaches in the literature/debate.
 - For each: evidence base, assumptions, trade-offs, feasibility.
@@ -74,6 +84,9 @@ Discussion documents differ from policy briefs in that they:
 ## Quality Checklist
 - [ ] Abstract can stand alone
 - [ ] Problem clearly framed with evidence
+- [ ] Causal chain stated explicitly; weakest link identified
+- [ ] Key loops named with descriptive names (not just R1/R2 labels)
+- [ ] Cross-connections between loops noted where they exist
 - [ ] Multiple perspectives fairly represented
 - [ ] Trade-offs explicit
 - [ ] Evidence cited throughout

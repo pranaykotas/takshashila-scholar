@@ -7,7 +7,9 @@ tags: [Review, Values, Takshashila, Editorial]
 
 # Takshashila Values Review
 
-Read a draft through the lens of Takshashila Institution's four intellectual commitments and surface tensions, questions, or framings that may sit uneasily with the institution's identity.
+These are Takshashila Institution's four commitments, made explicit so any researcher using this plugin understands the intellectual tradition they are working within.
+
+Read a draft through the lens of these four intellectual commitments and surface tensions, questions, or framings that may sit uneasily with the institution's identity.
 
 ## What This Is Not
 
