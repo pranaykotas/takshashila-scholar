@@ -82,7 +82,7 @@ Use these with `--committee`:
 `agriculture`, `chemicals`, `coal`, `communications`, `consumer_affairs`, `defence`, `energy`, `external_affairs`, `finance`, `housing`, `labour`, `petroleum`, `railways`, `rural_development`, `social_justice`, `water_resources`
 
 **Rajya Sabha (8):**
-`commerce`, `education`, `health`, `home_affairs`, `industry`, `it`, `science_technology`, `transport`
+`commerce`, `education`, `health`, `home_affairs`, `industry`, `personnel`, `science`, `transport`
 
 ## Citation Format
 
