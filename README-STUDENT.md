@@ -127,10 +127,42 @@ This will show which of Takshashila's 99 analytical frameworks apply to your pro
 
 ---
 
+## Two starting points — which one is right for you?
+
+**"I have an argument I want to make"**
+You already have a view. You want to test it, defend it, find the evidence for it.
+```
+hypothesis-development
+```
+Trigger: say "I have a hypothesis: [your argument]"
+
+This walks you through: Is the claim falsifiable? What's the causal mechanism? What assumptions does it rest on? What evidence would disprove it? Produces a Research Brief that anchors everything you write next.
+
+---
+
+**"I have a question I need to think through"**
+You don't have a view yet. You need to work through the options systematically.
+```
+/policy-analysis [describe the question]
+```
+This walks you through Bardach's 8 steps: define the problem, gather evidence, consider alternatives, evaluate trade-offs, make a recommendation. Produces a Policy Analysis Memo.
+
+---
+
+**Not sure which?** Ask yourself: "Can I state my argument in one sentence?"
+- Yes → `hypothesis-development`
+- Not yet → `/policy-analysis`
+
+Or just run `/scholar` — it asks you this question and routes you.
+
+---
+
 ## What else can it do?
 
 | Task | How to trigger |
 |------|---------------|
+| Test a hypothesis or argument | "I have a hypothesis: [your argument]" |
+| Analyse a policy problem systematically | `/policy-analysis [problem]` |
 | Find a policy framework for a problem | "find a framework for [problem]" |
 | Critique the logic of an argument | "critique this argument: [paste text]" |
 | Map all the actors in a policy area | "stakeholder analysis for [topic]" |

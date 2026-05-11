@@ -42,23 +42,41 @@ Searches all 24 DRSCs (16 Lok Sabha + 8 Rajya Sabha). Surfaces the most relevant
 
 ## The full research lifecycle
 
+**Path A — You have a hypothesis (something you want to argue):**
 ```
-[H]  HYPOTHESIS     hypothesis-development skill → Research Brief
+[H]  hypothesis-development   → Research Brief: falsifiable claim,
+                                 causal skeleton, assumption map,
+                                 evidence requirements
  ↓
-[2]  SOURCES        /parliament-search + government-source-finder agent + /zotero-review
+[2]  SOURCES        /parliament-search + government-source-finder + /zotero-review
  ↓
-[3]  ACTORS         stakeholder-analysis skill → Interest × power matrix
+[3]  ACTORS         stakeholder-analysis → Interest × power matrix
  ↓
-[4]  CAUSAL MAP     causal-loop-analysis skill → named loops, cross-connections, leverage points
+[4]  CAUSAL MAP     causal-loop-analysis → named loops, cross-connections, leverage points
  ↓
-[5]  DRAFT          /op-ed  /policy-brief  discussion-document-writing  /grant-proposal
+[5]  DRAFT          /op-ed  /policy-brief  /grant-proposal  discussion-document-writing
  ↓
-[6]  REVIEW         /draft-review ← available at any stage, not just at the end
+[6]  REVIEW         /draft-review ← available at any stage
  ↓
 [7]  DISSEMINATE    /promote
 ```
 
-`/draft-review` and `/scholar` work at any stage — on a hypothesis, a source synthesis, a causal map, or a finished draft.
+**Path B — You have a policy problem (still working out what you think):**
+```
+[P]  /policy-analysis         → Policy Analysis Memo: alternatives,
+                                 criteria, trade-offs, recommendation
+ ↓
+[H]  hypothesis-development   ← CONVERGENCE POINT
+     Crystallise the recommendation into a testable claim before drafting
+ ↓
+     [3] → [4] → [5] → [6] → [7]  same as Path A
+```
+
+**The key question:** "Can you state your argument in one sentence?"
+- Yes → Path A (`hypothesis-development`)
+- Not yet → Path B (`/policy-analysis`)
+
+`/scholar` asks this and routes you. `/draft-review` works at any stage.
 
 ---
 
