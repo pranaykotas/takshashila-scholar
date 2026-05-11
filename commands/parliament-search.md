@@ -27,21 +27,28 @@ Requires the `parliamentwatch` project to be installed locally at `~/Projects/pa
 
    ```
    ## Parliamentary Committee Reports: "[query]"
+   Found [N] reports across [M] committees.
 
    | # | Report Title | Committee | Date | LS | Summary available? |
    |---|-------------|-----------|------|----|--------------------|
    | 1 | [title] | [committee] | [date] | [LS no.] | Yes / No |
    ```
 
+   If N > 0: immediately surface the **top 2 most relevant hits** with a one-line reason why they are relevant. Do not make the researcher hunt. Example:
+   > Most relevant:
+   > **#3** — Standing Committee on Finance, *PLI Scheme Review*, 2023 — directly examines subsidy effectiveness and absorption rates
+   > **#7** — Standing Committee on Commerce, *Electronics Manufacturing*, 2022 — contains rare data on domestic component sourcing
+
    If no results: "No committee reports found for '[query]'. Try a broader term or check if parliamentwatch data has been fetched (`python cli.py --scrape`)."
 
 4. **Offer follow-up actions:**
 
-   > "Found [N] reports. What would you like to do next?
-   > (A) Get the AI summary for a specific report — tell me the number
-   > (B) Search within a specific committee — which one?
-   > (C) Add key findings to an Obsidian evidence note
-   > (D) Use these as sources in my current research — which claim do they support?"
+   > "Found [N] reports. Most relevant: #[X] and #[Y] (see above). What next?
+   > (A) Get the AI summary for report #[X] — most relevant
+   > (B) Get summaries for all [N] reports
+   > (C) Search within a specific committee — which one?
+   > (D) Add key findings to an Obsidian evidence note
+   > (E) Map these reports to claims in my current research"
 
 5. **For option A (get summary):**
 
@@ -82,7 +89,7 @@ Example:
 
 ## Notes
 
-- parliamentwatch path is assumed to be `~/Projects/parliamentwatch`. If Pranay moves the project, update this command.
+- parliamentwatch path is assumed to be `~/Projects/parliamentwatch`. Update this if your installation path differs.
 - Data must be fetched first with `python cli.py --scrape` before search works. If search returns nothing, the data directory may be empty.
 - AI summaries require an API key configured in parliamentwatch's `.env` file (`ANTHROPIC_API_KEY` or equivalent).
 - Search is title-based by default; full-text search requires extracted PDFs (run `--extract` for a committee first).

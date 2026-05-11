@@ -50,11 +50,12 @@ State the central argument clearly. The reader should know what the piece argues
 
 1. Ask the user: what is the central argument, and what is the news peg (if any)?
 2. Ask: target outlet?
-3. Draft the hook and thesis paragraph first — confirm with user before proceeding.
-4. Draft full piece.
-5. Run `writing-anti-ai` pass.
-6. Check word count: 600–900 words for most outlets.
-7. Offer to export to Google Docs.
+3. **Voice calibration (optional but recommended):** Ask: "Paste 2–3 paragraphs from a piece you have already published. This helps me match your register." If provided, read for: sentence length, hedging vs. assertion ratio, use of examples, opening style, how they handle numbers. Apply these patterns throughout. If not provided, use the default Takshashila researcher voice.
+4. Draft the hook and thesis paragraph first — confirm with user before proceeding.
+5. Draft full piece.
+6. Run `writing-anti-ai` pass.
+7. Check word count: 600–900 words for most outlets.
+8. Offer to export to Google Docs.
 
 ## Quality Checklist
 - [ ] Hook is concrete and specific (not a historical preamble)

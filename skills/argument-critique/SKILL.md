@@ -1,13 +1,19 @@
 ---
 name: argument-critique
-description: Use this skill when the user asks to "critique this argument", "poke holes in this", "play devil's advocate", "hostile review", or as part of pre-submission review. Adversarially reviews a draft — identifies logical vulnerabilities, factual gaps, unstated assumptions, and missing counterarguments. Every critique comes with a path to fix it.
-version: 1.0.0
+description: Use this skill when the user asks to "critique this argument", "poke holes in this", "play devil's advocate", "hostile review", or as part of pre-submission review. Adversarially reviews a draft — identifies logical vulnerabilities, factual gaps, unstated assumptions, and missing counterarguments. Every critique comes with a path to fix it. Use mode:expert for experienced researchers (skips taxonomy explanations, goes straight to FLAW/FIX).
+version: 1.1.0
 tags: [Review, Critique, Arguments, Pre-submission]
 ---
 
 # Argument Critique
 
 Adversarial pre-submission review. Play the hostile reviewer: find the gaps, challenge the evidence, stress-test the logic. The goal is to surface weaknesses the author can address before external reviewers do.
+
+## Modes
+
+**Default mode** — Full output including fallacy taxonomy table and explanations. Use for students or anyone who wants to understand *why* something is a problem.
+
+**Expert mode** (`mode:expert`) — Skip the taxonomy explanations. Go straight to the Editorial Summary and FLAW/FIX pairs. Assume the author knows what circular reasoning is. Use for experienced researchers who want the findings without the lesson. Trigger: user says "expert critique", "critique for researcher", or "mode:expert".
 
 ## Principle
 
@@ -83,6 +89,34 @@ Systematically scan for these named fallacies. When found, name them explicitly 
 ---
 
 ## Output Format
+
+### Expert mode output (`mode:expert`)
+
+Skip the taxonomy table. No explanations of what fallacies mean. Produce only:
+
+```
+## Argument Critique [Expert]
+
+VERDICT: [Accept as is / Accept with revisions / Major rework needed / Fundamental problem]
+CORE ISSUE: [One sentence]
+FIRST FIX: [One sentence]
+
+---
+
+[FLAW: one sentence. FIX: concrete rewrite or structural change.]
+[FLAW: one sentence. FIX: concrete rewrite or structural change.]
+[...repeat for every issue found, severity unlabelled — researcher can judge]
+
+KEY ASSUMPTIONS: [2–4 bullet points — what must be true for the argument to hold]
+UNANSWERED OBJECTION: [The one thing a hostile reviewer will raise that isn't in the piece]
+STRONGEST POINTS: [1–3 bullet points — what a sympathetic reviewer would highlight]
+```
+
+No section headers for "Fatal Flaws / Major Gaps / Minor Issues." Just a ranked list — the most important FLAW first.
+
+---
+
+### Default mode output
 
 Produce a structured critique. **Always begin with the Editorial Summary.**
 
