@@ -66,7 +66,7 @@ From the causal claims extracted in Step 2, construct the implied causal chain:
 
 > "Your hypothesis implies: [Node A] → [Node B] → [Node C], with [Condition X] and [Condition Y] as necessary conditions for each link to hold."
 
-Generate a skeleton Mermaid diagram showing the key causal path (this feeds directly into `/causal-loop-analysis`):
+Generate a skeleton Mermaid diagram showing the key causal path (this feeds directly into `causal-loop-analysis`):
 
 ```mermaid
 flowchart LR
@@ -74,7 +74,9 @@ flowchart LR
   B -->|mechanism| C[Outcome claimed]
 ```
 
-Note: this is a *skeleton*, not a complete causal map. The full map is developed in `causal-loop-analysis`.
+Also state the core causal chain as a single sentence in the "deny X → deny Y → deny Z" format — this is the input `causal-loop-analysis` needs to identify named loops and cross-connections.
+
+Note: this is a *skeleton*, not a complete causal map. The full map — with named reinforcing/balancing loops, cross-connections, and leverage points — is developed in `causal-loop-analysis`.
 
 ### Step 4: Map Assumptions and Falsification
 
@@ -176,8 +178,9 @@ Produce a structured 1-page Research Brief that anchors the entire research proj
 ### Next Steps
 - [ ] Run `/parliament-search [topic]` for [specific claims]
 - [ ] Run `stakeholder-analysis` for full actor mapping
-- [ ] Run `causal-loop-analysis` using the skeleton causal model above
+- [ ] Run `causal-loop-analysis` using the skeleton causal model above — produces named loops, cross-connections, leverage points
 - [ ] Run `/zotero-review` for [specific academic literature]
+- [ ] **Alternative:** Run `/policy-analysis` to work through the full Bardach 8-step frame — useful if the problem definition or alternatives need more development before drafting
 ```
 
 ---
