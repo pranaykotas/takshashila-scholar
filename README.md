@@ -10,7 +10,37 @@
 
 </div>
 
-> A structured policy reasoning toolkit for Takshashila researchers and students. Works as a [Claude Code](https://github.com/anthropics/claude-code) plugin. Combines Bardach's 8-step policy analysis methodology, stakeholder mapping, causal loop analysis, and publication-ready writing tools — all grounded in India's institutional context.
+> A structured policy reasoning toolkit for Takshashila researchers and students. Works as a plugin for [Claude Code](https://github.com/anthropics/claude-code) — Anthropic's free AI assistant for your terminal. Combines Bardach's 8-step policy analysis, stakeholder mapping, causal loop analysis, and publication-ready writing tools — all grounded in India's institutional context.
+
+---
+
+## What does this actually look like?
+
+You type a policy problem in plain English. The tool walks you through it step by step and produces a structured output.
+
+**Example:**
+
+```
+/policy-analysis India's semiconductor import dependence makes supply chains
+vulnerable. Should the government expand the PLI scheme to include chip design?
+```
+
+The tool asks you questions at each of Bardach's 8 steps — define the problem precisely, what evidence exists, what are the genuine alternatives, who are the actors, what does the causal chain look like — and at the end produces a **Policy Analysis Memo** with your problem definition, alternatives compared, trade-offs confronted, and a recommendation addressed to a specific decision-maker.
+
+Every step includes India-specific guidance: federal jurisdiction check, state capacity diagnosis, CAG and parliamentary committee sources, Takshashila language standards.
+
+---
+
+## Intellectual tradition
+
+Built on the four commitments of the [Takshashila Institution](https://takshashila.org.in):
+
+- **Freedom** — individual liberty, limits on arbitrary state power
+- **Pluralism** — India's diversity, legitimacy of multiple value systems
+- **Citizenship** — civic participation, accountability, constitutional fidelity
+- **Realism in international relations** — foreign policy by interests and power, not ideology
+
+These commitments are embedded in every skill. The `takshashila-values-review` skill checks any draft against all four. They are stated explicitly so any researcher using this plugin knows the intellectual tradition they are working within.
 
 ---
 
@@ -90,9 +120,18 @@ These commitments are embedded in every skill. The `takshashila-values-review` s
 ## Installation
 
 ### Prerequisites
-- [Claude Code](https://github.com/anthropics/claude-code) installed
-- A local [Obsidian](https://obsidian.md) vault (recommended; not mandatory)
-- [Zotero](https://zotero.org) with the [Zotero MCP server](MCP_SETUP.md) (recommended)
+
+**Claude Code** is Anthropic's free AI assistant that runs in your terminal. Think of it as Claude with access to your files and a structured way to give it persistent instructions. Install it first:
+
+```bash
+npm install -g @anthropic/claude-code
+```
+
+You will need an [Anthropic account](https://console.anthropic.com) — the free tier works for most research tasks.
+
+Other tools (optional but recommended):
+- A local [Obsidian](https://obsidian.md) vault — for a persistent research knowledge base
+- [Zotero](https://zotero.org) with the [Zotero MCP server](MCP_SETUP.md) — for paper and source management
 
 ### Install
 
