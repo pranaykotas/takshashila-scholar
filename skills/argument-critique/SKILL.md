@@ -21,6 +21,32 @@ Every critique includes a one-line suggestion for addressing it. This is not dem
 
 ---
 
+## Takshashila Critical Thinking Standards
+
+Apply these institutional standards before the detailed review. They are prior checks — upstream of the fallacy taxonomy.
+
+### Baloney Detection (Shermer)
+
+Before accepting any claim in the draft as established:
+- Is the source reliable and independent of the conclusion?
+- Has the claim been independently verified, or does it rely on a single source?
+- Is the claim consistent with what is otherwise known about the domain?
+- Does the evidence support this claim over plausible alternatives?
+
+Flag any claim that fails these tests in the Evidence Quality section below.
+
+### Sagan's Method
+
+Apply to the central argument:
+- Are multiple competing hypotheses entertained, or does the piece assume its preferred explanation?
+- Are causal claims quantified wherever possible? (Vague: "significantly increased". Better: "grew 40% between 2019–2023")
+- Does the author appear attached to the hypothesis — ignoring evidence that would weaken it?
+- Is every link in the argument chain independently sound, or does the argument rely on a weak link being overlooked?
+- Is Occam's Razor applied? If a simpler explanation accounts for the same evidence, is it addressed?
+- Is the central claim falsifiable? Could any possible finding disprove it?
+
+---
+
 ## Review Dimensions
 
 ### 1. Central Argument Clarity

@@ -66,6 +66,29 @@ In foreign policy and IR, Takshashila applies a realist lens: states pursue inte
 - Does it mistake alignment of interests for shared values?
 - Is India's national interest clearly distinguished from broader normative preferences?
 
+### 5. 21st Century Realities
+
+**Mandatory** for: conference papers, policy briefs, working papers, discussion documents.
+**Optional** for: op-eds, newsletters, blog posts.
+
+All Takshashila policy analysis must be grounded in the four defining realities of this century. This lens asks whether the piece accounts for any of these that are relevant to the argument.
+
+**The four realities:**
+
+**Climate Change** — Does the policy analysis account for climate implications? Does a recommendation accelerate or mitigate emissions? Is climate adaptation relevant to the affected population? Does it treat climate as a constraint or an opportunity?
+
+**Energy Transition** — Is the analysis sensitive to the ongoing shift from fossil fuels to renewables? Does the recommendation assume an energy mix that may be outdated within the policy's own time horizon?
+
+**Information Age (RNS/AI)** — Does the piece account for how digital networks, AI, and the collapse of information asymmetries change the dynamics of the problem? Does it treat information flows and AI adoption as static when they are changing rapidly?
+
+**Complexity** — Does the piece acknowledge that policy operates in complex adaptive systems? Does it assume linear causation where feedback loops and emergent effects are more likely? Does it account for unintended consequences?
+
+**Review questions:**
+- Which of the four realities are materially relevant to this piece?
+- For each relevant reality: does the piece address it, ignore it, or acknowledge it as outside scope?
+- Would incorporating one of these realities change the recommendation?
+- Is the piece's time horizon consistent with how rapidly these realities are changing?
+
 ---
 
 ## Review Process
@@ -107,6 +130,15 @@ Produce a values review memo:
 ### 4. Realism in IR
 [Applicable / Not applicable]
 [If applicable: tension found / no tension found + question]
+
+### 5. 21st Century Realities
+[Mandatory for this output type: Yes / No]
+[Which of the four realities are materially relevant?]
+[Climate: Addressed / Ignored / Not relevant]
+[Energy Transition: Addressed / Ignored / Not relevant]
+[Information Age/AI: Addressed / Ignored / Not relevant]
+[Complexity: Addressed / Ignored / Not relevant]
+[If any are ignored but relevant: specific gap + suggested addition]
 
 ### Overall Framing
 [Does this feel like a Takshashila piece? Any register concerns?]

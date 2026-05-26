@@ -78,6 +78,14 @@ Also state the core causal chain as a single sentence in the "deny X → deny Y 
 
 Note: this is a *skeleton*, not a complete causal map. The full map — with named reinforcing/balancing loops, cross-connections, and leverage points — is developed in `causal-loop-analysis`.
 
+### Interlude: Sagan's Discipline
+
+Before proceeding to assumption mapping, apply three checks that Takshashila treats as mandatory intellectual hygiene:
+
+1. **Don't get attached.** At this stage the hypothesis is a tool, not a conclusion. If evidence gathered in Steps 5–6 contradicts it, the hypothesis should be updated — not the evidence.
+2. **Occam's Razor.** Is there a simpler explanation that accounts for the same facts? If yes, the more complex hypothesis must justify its added complexity with additional predictive power.
+3. **Quantify.** If any claim in the hypothesis can be expressed with a number, express it. "Semiconductor imports grew substantially" → "Semiconductor imports grew X% between Y and Z." Quantification makes falsification possible.
+
 ### Step 4: Map Assumptions and Falsification
 
 For each causal link in the skeleton model:
