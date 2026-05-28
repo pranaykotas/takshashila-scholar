@@ -81,9 +81,7 @@ A browser version of this toolkit is available at **[takshashilainst.github.io/s
 
 It covers the core research lifecycle (13 of the workflows above) plus one tool that is web-only for now:
 
-| Web-only tool | What it does |
-|---------------|-------------|
-| **Budget Analysis** | Guides analysts through Indian Union and State budget data — document guidance, Excel/PDF upload, ratio computation (BE vs Actuals, YoY growth, % of GDP), chart specs, and story angles. Covers all four analytical frames: time series, component breakdown, scheme tracking, cross-state comparison. |
+It covers the core research lifecycle (13 of the workflows above). Budget Analysis is available in both — the CLI version adds parliament search for CAG/PAC reports, direct URL fetching via `defuddle`, and Zotero integration.
 
 The CLI plugin has deeper capabilities (parliament search, Zotero/Obsidian integration, voice calibration, grant scaffolding). The web app is for researchers and students who do not work in a terminal.
 
@@ -196,6 +194,7 @@ Makes the theory of change in any policy argument fully explicit:
 | `/rebuttal` | Response to reviewer/editor comments |
 | `/promote` | Post-publication: social posts, newsletter, email pitch |
 | `/student-start` | First-session orientation for students |
+| `budget-analysis` | Guide a Union or State budget analysis — document guidance, ratio computation, chart specs, story angles |
 
 ---
 
