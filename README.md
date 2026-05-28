@@ -75,6 +75,20 @@ Searches all 24 DRSCs (16 Lok Sabha + 8 Rajya Sabha). Surfaces the most relevant
 
 ---
 
+## Web app companion
+
+A browser version of this toolkit is available at **[takshashilainst.github.io/scholar-web](https://takshashilainst.github.io/scholar-web/)** — no terminal, no install, just an API key.
+
+It covers the core research lifecycle (13 of the workflows above) plus one tool that is web-only for now:
+
+| Web-only tool | What it does |
+|---------------|-------------|
+| **Budget Analysis** | Guides analysts through Indian Union and State budget data — document guidance, Excel/PDF upload, ratio computation (BE vs Actuals, YoY growth, % of GDP), chart specs, and story angles. Covers all four analytical frames: time series, component breakdown, scheme tracking, cross-state comparison. |
+
+The CLI plugin has deeper capabilities (parliament search, Zotero/Obsidian integration, voice calibration, grant scaffolding). The web app is for researchers and students who do not work in a terminal.
+
+---
+
 ## Intellectual tradition
 
 Takshashila Scholar is built on the four commitments of the [Takshashila Institution](https://takshashila.org.in):
